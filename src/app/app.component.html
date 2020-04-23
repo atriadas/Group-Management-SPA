@@ -24,7 +24,7 @@
 
   <!-- API BUTTON -->
 
-  <!-- <button type="button" (click)='mockfunction()'>api</button> -->
+  <button type="button" (click)='mockfunction()'>api</button>
   <!-- <br> -->
   <!-- <div *ngFor='let item of dataArray'>
     <div>{{item.firstname}} {{item.lastname}}</div>
@@ -116,7 +116,7 @@
 
                 <!-- GROUPS BUTTONS -->
 
-                <div ><button *ngFor='let item of dataArray' (click)="showdata(item.GroupId)" style="font-size: 10pt;" id="leftList">
+                <div ><button *ngFor='let item of dataArray' (click)="showdata(item.GroupId)||saveUpdate=true" style="font-size: 10pt;" id="leftList">
                   {{item.Groupname}}</button>
                 </div>
                 
@@ -502,7 +502,7 @@
 
           <!-- SAVE BUTTON -->
 
-          <button type="button"  style="font-size: 10pt;" class="btn btn-primary"
+          <button type="button" *ngIf="saveUpdate==false" style="font-size: 10pt;" class="btn btn-primary"
             (click)="startTimer(60)">Save</button>
           <div class="modal fade" id="loader" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="staticBackdropLabel" aria-hidden="true"
@@ -533,6 +533,8 @@
               </div>
             </div>
           </div>
+          <button type="button" *ngIf="saveUpdate==true"  style="font-size: 10pt;" class="btn btn-primary"
+          (click)="updateSave(60)">Save</button>
         </div>
 
 

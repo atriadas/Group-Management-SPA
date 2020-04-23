@@ -32,17 +32,24 @@ export class AppComponent implements OnInit {
   numberManager: number = 0;
   customerArray: string[] = []
   customerArray2: string[] = []
+  groupUuid:string;
  
   addgroupbutton:boolean=false;
   addFlag: number = 1;
   noGroupFlag: number = 0;
   isOn: boolean = false
   added: boolean = false;
+  saveUpdate:boolean=false;
 
   selectedPersons: string; //manager
   selectedPersons1: string; // members
   selectedPersonsArr: any;
   selectedPersonsArr1: any;
+  previousMemberUuid:string[]=[];
+  previousManagerUuid:string[]=[];
+  newMemberUuid:string[]=[];
+  newManagerUuid:string[]=[];
+
 
   term: string = null;
   term2: string = null;
@@ -136,6 +143,7 @@ export class AppComponent implements OnInit {
 
   }
   startTimer(seconds: number) { // ON SAVE
+    console.log("save")
     this.isOn = false;
     this.loaderOpen = true
     const timer$ = interval(20);
@@ -163,6 +171,46 @@ export class AppComponent implements OnInit {
 
   }
 
+  updateSave(seconds: number){
+    console.log('update');
+    this.isOn = false;
+    this.loaderOpen = true
+    const timer$ = interval(20);
+    const sub = timer$.subscribe((sec) => {
+      this.progressbarValue = 100 - sec * 100 / seconds;
+      if (this.progressbarValue == 0) {
+        this.loaderOpen = false
+        this.alert1Open = true
+        console.log(this.groupName)
+        setTimeout(() => { this.alert1Open = false }, 2000);
+        var postGroup2: any = {}
+        postGroup2['Groupname'] = this.groupName
+        postGroup2["Prev_Members_uuid"] = this.previousMemberUuid
+        postGroup2["Prev_Manager_uuid"] = this.previousManagerUuid
+
+        for(var i in this.selectedPersonsArr1){
+          this.newMemberUuid.push(this.selectedPersonsArr1[i][3])
+           }
+           for(var i in this.selectedPersonsArr){
+            this.newManagerUuid.push(this.selectedPersonsArr[i][3])
+             }
+
+        postGroup2["New_Members_uuid"] = this.newMemberUuid
+        postGroup2["New_Manager_uuid"] = this.newManagerUuid
+        
+
+       this.dataService.postUpdatedData(JSON.stringify(postGroup2),this.groupUuid);
+        sub.unsubscribe();
+        this.addgroupbutton=false;
+       
+       
+      }
+    });
+    setTimeout(() => {   this.getdbdata();}, 3000);
+    
+
+  }
+
 
   OnAdd() {  //When Item is added in members
 
@@ -172,7 +220,7 @@ export class AppComponent implements OnInit {
       if (this.selectedPersons1 != null) {
        
       
-        this.selectedPersonsArr1[this.numberMember] = ([this.selectedPersons1['first_name'], this.selectedPersons1['last_name'], this.selectedPersons1['user_guiname']]);
+        this.selectedPersonsArr1[this.numberMember] = ([this.selectedPersons1['first_name'], this.selectedPersons1['last_name'], this.selectedPersons1['user_guiname'], this.selectedPersons1['user_uuid']]);
        
         this.numberMember = this.numberMember + 1;
         this.customerArray.push(this.selectedPersons1['user_uuid'])
@@ -209,7 +257,7 @@ export class AppComponent implements OnInit {
     if (this.selectedPersons != null) {
      
 
-      this.selectedPersonsArr[this.numberManager] = ([this.selectedPersons['first_name'], this.selectedPersons['last_name'], this.selectedPersons['user_guiname']]);
+      this.selectedPersonsArr[this.numberManager] = ([this.selectedPersons['first_name'], this.selectedPersons['last_name'], this.selectedPersons['user_guiname'],this.selectedPersons['user_uuid']]);
  
     
       this.numberManager = this.numberManager + 1;
@@ -253,19 +301,31 @@ export class AppComponent implements OnInit {
     this.numberManager = 0
     this.groupName = 'New Group'
     this.addFlag = 1;
+    this.saveUpdate=false;
     
 
   }
 
-  // mockfunction() {
-  //  
-  // }
+  mockfunction() {
+    console.log(this.groupName)
+    console.log(this.previousMemberUuid)
+    for(var i in this.selectedPersonsArr1){
+   this.newMemberUuid.push(this.selectedPersonsArr1[i][3])
+    }
+   console.log(this.newMemberUuid)
+    
+
+  
+   
+   }
 
 
   showdata(grpId: string) {
-
+    this.groupUuid=grpId;
     const data = this.dataService.getGroupInfo(grpId);
     this.addgroupbutton=true;
+    this.selectedPersonsArr1 = []
+    this.selectedPersonsArr = []
     data.subscribe(x=>{
     this.selectedPersonsArr1 = []
     this.selectedPersonsArr = []
@@ -280,16 +340,21 @@ export class AppComponent implements OnInit {
     
 
     for (var i in arr1) {
-      this.selectedPersonsArr1[i]=[arr1[i]['first_name'], arr1[i]['last_name'], arr1[i]['user_guiname']];
+      this.selectedPersonsArr1[i]=[arr1[i]['first_name'], arr1[i]['last_name'], arr1[i]['user_guiname'] ,arr1[i]['user_uuid']];
+      this.previousMemberUuid[i]=arr1[i]['user_uuid'];
+      console.log(arr1[i]['user_uuid'])
     }
     console.log(this.selectedPersonsArr1)
+    console.log(this.previousMemberUuid)
     this.numberMember = this.selectedPersonsArr1.length
    
 
     for (var i in arr2) {
       this.selectedPersonsArr[i]=[arr2[i]['first_name'], arr2[i]['last_name'], arr2[i]['user_guiname']];
+      this.previousManagerUuid[i]=arr2[i]['user_uuid'];
     }
       console.log(this.selectedPersonsArr)
+      console.log(this.previousManagerUuid)
       this.numberManager = this.selectedPersonsArr.length
     
 
