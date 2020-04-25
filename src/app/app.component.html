@@ -116,7 +116,7 @@
 
                 <!-- GROUPS BUTTONS -->
 
-                <div ><button *ngFor='let item of dataArray' (click)="showdata(item.GroupId)||saveUpdate=true" style="font-size: 10pt;" id="leftList">
+                <div ><button *ngFor='let item of dataArray | groupFilter:term3' (click)="showdata(item.GroupId)||saveUpdate=true" style="font-size: 10pt;" id="leftList">
                   {{item.Groupname}}</button>
                 </div>
                 
@@ -233,7 +233,7 @@
                         <!-- SELECTED MEMBERS TABLE -->
 
                         <table id="myTable">
-                          <tr *ngFor="let item of selectedPersonsArr1 | paginate: config ,let i=index">
+                          <tr *ngFor="let item of selectedPersonsArr1 |mfilter:term2| paginate: config ,let i=index">
 
                             <td> {{item[0]}} {{item[1]}}</td>
                             <td style="text-align: right; color: gray;">{{item[2]}}</td>
@@ -352,7 +352,7 @@
                         <!-- TABLE FOR SELECTED MANGERS -->
 
                         <table id="myTable">
-                          <tr *ngFor="let item of selectedPersonsArr | paginate: config1 ,let i=index">
+                          <tr *ngFor="let item of selectedPersonsArr | mfilter:term| paginate: config1 ,let i=index">
                             <td> {{item[0]}} {{item[1]}}</td>
                             <td style="text-align: right; color: gray;">{{item[2]}}</td>
 

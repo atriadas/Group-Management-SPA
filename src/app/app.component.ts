@@ -5,7 +5,6 @@ import { concat, Observable, of, Subject, interval, Subscription, from } from 'r
 import { DataService, HttpData } from './data.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
-import { CustomerList } from './models/customerList-model'
 import { ApiService } from './api.service';
 
 
@@ -32,23 +31,23 @@ export class AppComponent implements OnInit {
   numberManager: number = 0;
   customerArray: string[] = []
   customerArray2: string[] = []
-  groupUuid:string;
- 
-  addgroupbutton:boolean=false;
+  groupUuid: string;
+
+  addgroupbutton: boolean = false;
   addFlag: number = 1;
   noGroupFlag: number = 0;
   isOn: boolean = false
   added: boolean = false;
-  saveUpdate:boolean=false;
+  saveUpdate: boolean = false;
 
   selectedPersons: string; //manager
   selectedPersons1: string; // members
   selectedPersonsArr: any;
   selectedPersonsArr1: any;
-  previousMemberUuid:string[]=[];
-  previousManagerUuid:string[]=[];
-  newMemberUuid:string[]=[];
-  newManagerUuid:string[]=[];
+  previousMemberUuid: string[] = [];
+  previousManagerUuid: string[] = [];
+  newMemberUuid: string[] = [];
+  newManagerUuid: string[] = [];
 
 
   term: string = null;
@@ -56,8 +55,8 @@ export class AppComponent implements OnInit {
   term3: string = null;
 
   dataArray: any = [];
- 
- 
+
+
 
 
   constructor(private dataService: DataService, private api: ApiService) {
@@ -101,30 +100,29 @@ export class AppComponent implements OnInit {
     this.exampleModal1Open = true
   }
   closeCanModal() {
-    this.addgroupbutton=false;
-    this.exampleModal1Open = false
-    
-  }
-  closeCanModalOnCancel(){
+    this.addgroupbutton = false;
     this.exampleModal1Open = false
 
   }
-
-  CloseModalOnCross()
-  {
-    
-    this.addgroupbutton=false;
-      
+  closeCanModalOnCancel() {
+    this.exampleModal1Open = false
 
   }
-  
+
+  CloseModalOnCross() {
+
+    this.addgroupbutton = false;
+
+
+  }
+
 
   getdbdata() { // TO GET ALL THE GROUPS
     this.dataArray = [];
     this.dataService.getAllGroupsData()
       .subscribe(x => {
-        if (x!= null) {
-          
+        if (x != null) {
+
           for (const i of (x as any)) {
             this.dataArray.push({
               Groupname: i.group_name,
@@ -160,18 +158,18 @@ export class AppComponent implements OnInit {
         postGroup2['Members_uuid'] = this.customerArray
         this.dataService.postData(JSON.stringify(postGroup2));
         sub.unsubscribe();
-        this.addgroupbutton=false;
-       
-       
+        this.addgroupbutton = false;
+
+
       }
     });
-    setTimeout(() => {   this.getdbdata();}, 3000);
-    
-   
+    setTimeout(() => { this.getdbdata(); }, 3000);
+
+
 
   }
 
-  updateSave(seconds: number){
+  updateSave(seconds: number) {
     console.log('update');
     this.isOn = false;
     this.loaderOpen = true
@@ -188,50 +186,79 @@ export class AppComponent implements OnInit {
         postGroup2["Prev_Members_uuid"] = this.previousMemberUuid
         postGroup2["Prev_Manager_uuid"] = this.previousManagerUuid
 
-        for(var i in this.selectedPersonsArr1){
+        for (var i in this.selectedPersonsArr1) {
           this.newMemberUuid.push(this.selectedPersonsArr1[i][3])
-           }
-           for(var i in this.selectedPersonsArr){
-            this.newManagerUuid.push(this.selectedPersonsArr[i][3])
-             }
+        }
+        for (var i in this.selectedPersonsArr) {
+          this.newManagerUuid.push(this.selectedPersonsArr[i][3])
+        }
 
         postGroup2["New_Members_uuid"] = this.newMemberUuid
         postGroup2["New_Manager_uuid"] = this.newManagerUuid
-        
 
-       this.dataService.postUpdatedData(JSON.stringify(postGroup2),this.groupUuid);
+
+        this.dataService.postUpdatedData(JSON.stringify(postGroup2), this.groupUuid);
         sub.unsubscribe();
-        this.addgroupbutton=false;
-       
-       
+        this.addgroupbutton = false;
+
+
       }
     });
-    setTimeout(() => {   this.getdbdata();}, 3000);
-    
+    setTimeout(() => { this.getdbdata(); }, 3000);
+
+
+  }
+  compare(arr1, arr2) {
+
+    if (!arr1 || !arr2) return
+
+    let result: boolean;
+
+    arr1.forEach((elem1, index) => {elem1;
+      arr2.forEach((elem2, index) => {elem2;
+        if(elem1.someProp=== elem2.someProp)
+        {
+         result=true;//--If elem1 equal elem2
+        }
+      });
+    });
+
+    return result
 
   }
 
 
   OnAdd() {  //When Item is added in members
 
-    if (this.selectedPersonsArr1.indexOf([this.selectedPersons1['first_name'], this.selectedPersons1['last_name'], this.selectedPersons1['user_guiname']]) === -1) {
+    if (this.selectedPersons1 != null) {
+      // console.log(this.selectedPersonsArr1.filter(item => item[3].indexOf(this.selectedPersons1['user_uuid']) > -1))
 
+      if (this.compare([this.selectedPersons1['first_name'], this.selectedPersons1['last_name'], this.selectedPersons1['user_guiname'], this.selectedPersons1['user_uuid']],this.selectedPersonsArr1.filter(item => item[3].indexOf(this.selectedPersons1['user_uuid']) > -1))) {
 
-      if (this.selectedPersons1 != null) {
-       
-      
-        this.selectedPersonsArr1[this.numberMember] = ([this.selectedPersons1['first_name'], this.selectedPersons1['last_name'], this.selectedPersons1['user_guiname'], this.selectedPersons1['user_uuid']]);
-       
-        this.numberMember = this.numberMember + 1;
-        this.customerArray.push(this.selectedPersons1['user_uuid'])
-        
-       
-        console.log("New Member added")
-        console.log(this.customerArray)
-
+        console.log("Member Already exists!!")
 
       }
+
+
+
+      else {
+        this.selectedPersonsArr1[this.numberMember] = ([this.selectedPersons1['first_name'], this.selectedPersons1['last_name'], this.selectedPersons1['user_guiname'], this.selectedPersons1['user_uuid']]);
+
+
+        this.numberMember = this.numberMember + 1;
+        this.customerArray.push(this.selectedPersons1['user_uuid'])
+
+
+        console.log("New Member added")
+        console.log(this.selectedPersonsArr1)
+      }
+
+
+
+
+
     }
+
   }
 
   removeFromList(item, flag) { //When Item is removed in members
@@ -255,16 +282,25 @@ export class AppComponent implements OnInit {
   OnAdd1()  //When Item is added in managers
   {
     if (this.selectedPersons != null) {
-     
 
-      this.selectedPersonsArr[this.numberManager] = ([this.selectedPersons['first_name'], this.selectedPersons['last_name'], this.selectedPersons['user_guiname'],this.selectedPersons['user_uuid']]);
- 
-    
+      if (this.compare([this.selectedPersons['first_name'], this.selectedPersons['last_name'], this.selectedPersons['user_guiname'], this.selectedPersons['user_uuid']],this.selectedPersonsArr.filter(item => item[3].indexOf(this.selectedPersons['user_uuid']) > -1))) {
+
+        console.log("Manager Already exists!!")
+
+      }
+
+      else{
+
+
+      this.selectedPersonsArr[this.numberManager] = ([this.selectedPersons['first_name'], this.selectedPersons['last_name'], this.selectedPersons['user_guiname'], this.selectedPersons['user_uuid']]);
+
+
       this.numberManager = this.numberManager + 1;
-       this.customerArray2.push(this.selectedPersons['user_uuid'])
-     
+      this.customerArray2.push(this.selectedPersons['user_uuid'])
+
       console.log("New Manager added")
       console.log(this.customerArray2)
+      }
 
     }
   }
@@ -301,62 +337,60 @@ export class AppComponent implements OnInit {
     this.numberManager = 0
     this.groupName = 'New Group'
     this.addFlag = 1;
-    this.saveUpdate=false;
-    
+    this.saveUpdate = false;
+
 
   }
 
   mockfunction() {
     console.log(this.groupName)
     console.log(this.previousMemberUuid)
-    for(var i in this.selectedPersonsArr1){
-   this.newMemberUuid.push(this.selectedPersonsArr1[i][3])
+    for (var i in this.selectedPersonsArr1) {
+      this.newMemberUuid.push(this.selectedPersonsArr1[i][3])
     }
-   console.log(this.newMemberUuid)
-    
+    console.log(this.newMemberUuid)
 
-  
-   
-   }
+
+
+
+  }
 
 
   showdata(grpId: string) {
-    this.groupUuid=grpId;
+    this.groupUuid = grpId;
     const data = this.dataService.getGroupInfo(grpId);
-    this.addgroupbutton=true;
+    this.addgroupbutton = true;
     this.selectedPersonsArr1 = []
     this.selectedPersonsArr = []
-    data.subscribe(x=>{
-    this.selectedPersonsArr1 = []
-    this.selectedPersonsArr = []
-    this.groupName = x["group_name"];
-    console.log(this.groupName)
+    data.subscribe(x => {
+      this.selectedPersonsArr1 = []
+      this.selectedPersonsArr = []
+      this.groupName = x["group_name"];
+      console.log(this.groupName)
 
-    var arr1:any=[];
-    arr1=x['members'];
-    
-    var arr2:any=[];
-    arr2=x['supervisor'];
-    
+      var arr1: any = [];
+      arr1 = x['members'];
 
-    for (var i in arr1) {
-      this.selectedPersonsArr1[i]=[arr1[i]['first_name'], arr1[i]['last_name'], arr1[i]['user_guiname'] ,arr1[i]['user_uuid']];
-      this.previousMemberUuid[i]=arr1[i]['user_uuid'];
-      console.log(arr1[i]['user_uuid'])
-    }
-    console.log(this.selectedPersonsArr1)
-    console.log(this.previousMemberUuid)
-    this.numberMember = this.selectedPersonsArr1.length
-   
+      var arr2: any = [];
+      arr2 = x['supervisor'];
 
-    for (var i in arr2) {
-      this.selectedPersonsArr[i]=[arr2[i]['first_name'], arr2[i]['last_name'], arr2[i]['user_guiname']];
-      this.previousManagerUuid[i]=arr2[i]['user_uuid'];
-    }
+
+      for (var i in arr1) {
+        this.selectedPersonsArr1[i] = [arr1[i]['first_name'], arr1[i]['last_name'], arr1[i]['user_guiname'], arr1[i]['user_uuid']];
+        this.previousMemberUuid[i] = arr1[i]['user_uuid'];
+
+      }
+      console.log(this.selectedPersonsArr1)
+      this.numberMember = this.selectedPersonsArr1.length
+
+
+      for (var i in arr2) {
+        this.selectedPersonsArr[i] = [arr2[i]['first_name'], arr2[i]['last_name'], arr2[i]['user_guiname'], arr2[i]['user_uuid']];
+        this.previousManagerUuid[i] = arr2[i]['user_uuid'];
+      }
       console.log(this.selectedPersonsArr)
-      console.log(this.previousManagerUuid)
       this.numberManager = this.selectedPersonsArr.length
-    
+
 
     }
     )
