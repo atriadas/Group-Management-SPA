@@ -24,7 +24,7 @@
 
   <!-- API BUTTON -->
 
-  <button type="button" (click)='mockfunction()'>api</button>
+   <button type="button" (click)='mockfunction()'>api</button> 
   <!-- <br> -->
   <!-- <div *ngFor='let item of dataArray'>
     <div>{{item.firstname}} {{item.lastname}}</div>
@@ -139,7 +139,7 @@
               <div class="col-md-8" *ngIf="addgroupbutton==true" style="height: 7.45in;padding-right:20px;">
                 <label>Name</label>
                 <input class="form-control" [(ngModel)]="groupName" type="text" placeholder="Enter Name"
-                  aria-label="name" style="height:5.5%;">
+                  aria-label="name" style="height:5.5%;" (change)="OnGroupNameChange()">
                 <br>
 
                 <!-- NAV TABS -->
@@ -179,7 +179,8 @@
                         <ng-select class="customSelect" #eleme2 [items]="item$| async" bindLabel="first_name"
                           [minTermLength]="2" typeToSearchText="Please enter 3 or more characters" notFoundText=""
                           [typeahead]="peopleInput$" [(ngModel)]="selectedPersons1"
-                          placeholder="Start typing a username" appendTo="body" [ngModelOptions]="{standalone: true}">
+                          placeholder="Start typing a username" appendTo="body" [ngModelOptions]="{standalone: true}"
+                          >
                           <!-- <ng-template ng-label-tmp let-item="item">
                              <table>
                                 <tr>
@@ -454,7 +455,7 @@
 
                 <div class="modal-footer">
 
-                  <button type="button" class="btn btn-secondary">Confirm Deletion</button>
+                  <button type="button" class="btn btn-secondary" (click)="deleteGroup()">Confirm Deletion</button>
                   <button type="button" class="btn btn-primary" (click)="closeDeleteModal()">Cancel</button>
                 </div>
               </div>
@@ -502,7 +503,7 @@
 
           <!-- SAVE BUTTON -->
 
-          <button type="button" *ngIf="saveUpdate==false" style="font-size: 10pt;" class="btn btn-primary"
+          <button type="button" *ngIf="saveUpdate==false" [disabled]="SaveDisable" style="font-size: 10pt;" class="btn btn-primary"
             (click)="startTimer(60)">Save</button>
           <div class="modal fade" id="loader" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="staticBackdropLabel" aria-hidden="true"
@@ -533,7 +534,7 @@
               </div>
             </div>
           </div>
-          <button type="button" *ngIf="saveUpdate==true"  style="font-size: 10pt;" class="btn btn-primary"
+          <button type="button" *ngIf="saveUpdate==true"  [disabled]="SaveDisable" style="font-size: 10pt;" class="btn btn-primary"
           (click)="updateSave(60)">Save</button>
         </div>
 

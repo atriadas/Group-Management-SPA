@@ -55,21 +55,21 @@ export class DataService{
   constructor(public http: HttpClient) { }
   
 
-  getPeople(term: string = null): Observable<HttpData[]> {
+  getPeople(term: string = null,tid): Observable<HttpData[]> {
     
-    this.getHttpData(term).subscribe(items=>this.items=items);
+    this.getHttpData(term,tid).subscribe(items=>this.items=items);
     return of(this.items).pipe(delay(100));
   }
 
 
   
-  getHttpData(term: string = null) { //Http Call for users
+  getHttpData(term: string = null,tid) { //Http Call for users
     
     
   
     if (term) 
     {
-      const item = this.http.get<HttpData[]>('http://localhost:8089/FindUser?tid=1&user='+term)
+      const item = this.http.get<HttpData[]>('http://localhost:8089/FindUser?tid='+tid+'&user='+term)
       
       return item
     }
@@ -81,10 +81,10 @@ export class DataService{
 
   }
  
-  getAllGroupsData() //http call for groups
+  getAllGroupsData(tid) //http call for groups
   {
     console.log("get all groups api")
-  const data =this.http.get<GroupsData[]>(' http://localhost:8089/Group/AllGroups?tid=2')
+  const data =this.http.get<GroupsData[]>(' http://localhost:8089/Group/AllGroups?tid='+tid)
   
   return data;
 
@@ -99,9 +99,9 @@ export class DataService{
 
   }
 
-  postHTTPData(data){ //Http Post in DB
+  postHTTPData(data,tid){ //Http Post in DB
     console.log("Posting data to DB")
-    return this.http.post('http://localhost:8089/createGroup?tid=2',data).subscribe(res=>this.Success(res),res=>{
+    return this.http.post('http://localhost:8089/createGroup?tid='+tid,data).subscribe(res=>this.Success(res),res=>{
       return this.Error(res);
   });
   }  
@@ -114,18 +114,26 @@ export class DataService{
   console.log("Successfully Posted");
   } 
 
-  postData(Data: string){
-    this.postHTTPData(Data);
+  postData(Data: string,tid){
+    this.postHTTPData(Data,tid);
   }
 
 
   postUpdatedData(data:string,grpID:string){ //Http Post in DB
+    
     console.log("Updating data in the DB")
-    return this.http.post('http://localhost:8089/Group/UpdateGroup?grp_id='+grpID,data).subscribe(res=>this.Success(res),res=>{
+    return this.http.put('http://localhost:8089/Group/UpdateGroup?grp_id='+grpID,data).subscribe(res=>this.Success(res),res=>{
       return this.Error(res);
   });
   }  
+  deleteGroupDb(grpID:string)
+  { console.log("Group Deleted"+ grpID)
+   return this.http.delete('http://localhost:8089/Group/DeleteGroup?group_uuid='+ grpID.toString()).subscribe(res=>this.Success(res),res=>{
+    return this.Error(res);
+});
+ 
+  }
+ 
 
 }
-
 
