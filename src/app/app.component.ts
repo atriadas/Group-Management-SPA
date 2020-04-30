@@ -530,8 +530,7 @@ export class AppComponent implements OnInit {
   {
     this.dataService.deleteGroupDb(this.groupUuid)
     this.closeDeleteModal();
-    this.addgroupbutton = false;
-    this.getdbdata();
+    setTimeout(() => { this.getdbdata(); this.addgroupbutton = false;}, 1000);
   }
 
   private loadPeople() {

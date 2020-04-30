@@ -1,7 +1,7 @@
 import { Injectable} from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay} from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { delay, catchError} from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -120,20 +120,44 @@ export class DataService{
 
 
   postUpdatedData(data:string,grpID:string){ //Http Post in DB
-    
+    var errorMessage;
+      var successMessage;
     console.log("Updating data in the DB")
-    return this.http.put('http://localhost:8089/Group/UpdateGroup?grp_id='+grpID,data).subscribe(res=>this.Success(res),res=>{
-      return this.Error(res);
-  });
+    return this.http.put('http://localhost:8089/Group/UpdateGroup?grp_id='+grpID,data)
+    .subscribe(
+      (response) => {                           //Next callback
+       // console.log('Success:200 OK')
+        successMessage=response
+        console.log(successMessage)
+      },
+      (error) => {                              //Error callback
+       // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
+        errorMessage = error;
+        console.error(errorMessage)
+      }
+    )
   }  
+  
   deleteGroupDb(grpID:string)
-  { console.log("Group Deleted"+ grpID)
-   return this.http.delete('http://localhost:8089/Group/DeleteGroup?group_uuid='+ grpID.toString()).subscribe(res=>this.Success(res),res=>{
-    return this.Error(res);
-});
- 
-  }
- 
+  { 
+     var errorMessage;
+      var successMessage;
+    console.log("Group Deleted"+ grpID)
+   return this.http.delete('http://localhost:8089/Group/DeleteGroup?group_uuid='+ grpID)
+   .subscribe(
+    (response) => {                           //Next callback
+     // console.log('Success:200 OK')
+      successMessage=response
+      console.log(successMessage)
+    },
+    (error) => {                              //Error callback
+     // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
+      errorMessage = error;
+      console.error(errorMessage)
+    }
+  )
+   };  
+  
 
 }
 
