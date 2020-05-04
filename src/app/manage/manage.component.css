@@ -1,0 +1,15 @@
+#exampleFormControlSelect1{
+    background-image: linear-gradient(to right,rgb(241, 235, 235),rgb(255, 255, 255),rgb(241, 235, 235));
+    border-radius:2pt ;
+}
+.popover-body{
+    background-color:rgb(43, 41, 41); 
+}
+.ng-select .ng-clear-wrapper .ng-clear {
+    bottom: 0mm;
+    
+}
+
+.popover.arrow{
+    background-color: black;
+}
