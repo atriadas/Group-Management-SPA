@@ -130,7 +130,7 @@ table {
 
   }
   #loader{
-      margin-top: 4in;
+      margin-top: 28px;
       width: 1.2in;
       margin-left: 10in;
 
@@ -143,6 +143,9 @@ table {
     background-color: rgb(208, 252, 208);
     border: 1px solid rgb(66, 201, 111);
     
+}
+#exampleModalCenterTitle{
+    margin-top: 28px;
 }
 .MainModal{
     margin-top: 28px;

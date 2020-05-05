@@ -9,15 +9,26 @@
     bottom: 0mm;
     
 }
+.modal .modal-dialog { width: 600px; max-width:100%; }
 
 .popover.arrow{
     background-color: black;
 }
+#staticBackdrop{
+ 
+    background-color:rgba(0,0,0,0.6);
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    }
+
 
 #leftList{
-    width: 100%;
+    
     border: none;
-    text-align: left;
+   
     padding: 8px;
     background-color: white;  
 }
@@ -25,5 +36,10 @@
 #leftList:focus{
     color: rgb(0, 89, 255);
     background-color: rgb(229, 242, 245);
+    outline: none;
+}
+#leftList:target{
+    color: rgb(0, 89, 255);
+    background-color: rgb(229, 239, 245);
     outline: none;
 }

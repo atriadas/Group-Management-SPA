@@ -35,19 +35,19 @@
   <div class="MainModal">
   <div class="backdrop" [ngStyle]="{'display':mainModalOpen}"></div>
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" data-backdrop='static'
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngStyle]="{'display': mainModalOpen ? 'block' : 'none', 'opacity': 1} ">
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngStyle]="{'display': mainModalOpen ? 'block' : 'none', 'opacity': 1, 'margin-top':'28px'} ">
     <div class="modal-dialog modal-lg modal-dialog-centerd ">
 
-      <div class="modal-content" style="height:850px; ">
+      <div class="modal-content" style="height:890px; ">
 
 
 
 
-        <!-- MAIN MODAL HEADER (click)="CanOpen()" -->
+        <!-- MAIN MODAL HEADER (click)="CanOpen()"  data-dismiss="modal"  [routerLink]="['']"(click)="CloseModalOnCross()" -->
 
         <div class="modal-header" style="border-bottom:0 none;margin-top: -10px;margin-left: -10px;">
           <p class="modal-title" id="exampleModalCenterTitle"><b>Call Recording Settings</b></p>
-          <button type="button"data-dismiss="modal" (click)="CloseModalOnCross()" class="close" aria-label="Close">
+          <button style="margin-top: 10px;" (click)="CloseModalOnCross()" type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -472,7 +472,8 @@
             data-backdrop='static'>Cancel</button>
           <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true" [ngStyle]="{'display': exampleModal1Open ? 'block' : 'none', 'opacity': 1}">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog " role="document">
+        
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Discard Changes?</h5>
@@ -509,7 +510,7 @@
           <div class="modal fade" id="loader" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="staticBackdropLabel" aria-hidden="true"
             [ngStyle]="{'display': loaderOpen ? 'block' : 'none', 'opacity': 1}">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centerd" role="document">
               <div class="modal-content">
 
                 <div class="modal-body">
@@ -525,7 +526,7 @@
           <div id="alertSuc">
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
               [ngStyle]="{'display': alert1Open ? 'block' : 'none', 'opacity': 1}">
-              <div class="modal-dialog" role="document">
+              <div class="modal-dialog modal-dialog-centerd" role="document">
                 <div class="modal-content" id="alertBox">
 
                   <div class="modal-body">
@@ -544,7 +545,7 @@
     </div>
   </div>
   </div>
-  
+
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

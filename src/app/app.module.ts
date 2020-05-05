@@ -13,6 +13,8 @@ import { MfilterPipe } from './mfilter.pipe';
 import {GroupFilterPipe} from './groupFilter.pipe';
 import { SettingsComponent } from './settings/settings.component';
 import { ManageComponent } from './manage/manage.component';
+import { StartComponent } from './start/start.component';
+
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { ManageComponent } from './manage/manage.component';
     MfilterPipe,
     GroupFilterPipe,
     SettingsComponent,
-    ManageComponent
+    ManageComponent,
+    StartComponent
+   
   ],
   imports: [
     

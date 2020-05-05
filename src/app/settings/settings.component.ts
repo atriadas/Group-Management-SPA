@@ -4,6 +4,7 @@ import { concat, Observable, of, Subject, interval, Subscription, from } from 'r
 import { DataService, HttpData } from '../data.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
+import { RouterEvent, Router } from '@angular/router';
 //import { ApiService } from '../api.service';
 
 @Component({
@@ -60,7 +61,7 @@ export class SettingsComponent implements OnInit {
 
  // , private api: ApiService
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private router:Router) {
 
     this.selectedPersonsArr1 = ['members']
     this.selectedPersonsArr = ['managers']
@@ -126,6 +127,7 @@ export class SettingsComponent implements OnInit {
   CloseModalOnCross() {
 
     this.addgroupbutton = false;
+    this.router.navigateByUrl('');
 
 
   }
@@ -170,7 +172,7 @@ export class SettingsComponent implements OnInit {
         postGroup2['Groupname'] = this.groupName
         postGroup2['Manager_uuid'] = this.customerArray2
         postGroup2['Members_uuid'] = this.customerArray
-        this.dataService.postData(JSON.stringify(postGroup2),2);
+        //this.dataService.postData(JSON.stringify(postGroup2),2);
         sub.unsubscribe();
         setTimeout(() => {this.addgroupbutton = false; }, 2000);
         
@@ -330,6 +332,7 @@ export class SettingsComponent implements OnInit {
       this.numberMember = this.numberMember - 1;
       console.log(this.selectedPersonsArr1==this.previousMemberUuid)
       console.log(this.compare(this.selectedPersonsArr1,this.previousMemberUuid))
+      this.SaveDisable=false
       //if(this.compare(this.selectedPersonsArr1,this.previousMemberUuid))
       // {
         
@@ -351,6 +354,7 @@ export class SettingsComponent implements OnInit {
       console.log(this.ManDeleteArray)
       this.selectedPersonsArr.splice(i, 1);
       this.numberManager = this.numberManager - 1;
+      this.SaveDisable=false
       // if(this.selectedPersonsArr==this.previousManagerUuid)
       // {
       //   console.log('save is disabled')

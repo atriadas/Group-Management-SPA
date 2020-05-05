@@ -40,7 +40,7 @@ export class ManageComponent implements OnInit {
   ngOnInit() { 
 
     this.loadPeople();
-    
+    this.Manage()
 
   }
 
@@ -59,10 +59,16 @@ export class ManageComponent implements OnInit {
     )
     console.log(this.userArray)
   }
-showModal(id:string)
+showModal()
+{
+  
+  this.modalOpen=true;
+  console.log(this.userId)
+}
+userSelected(id:string)
 {
   this.userId=id;
-  this.modalOpen=true;
+  
 }
 modalClose()
 {

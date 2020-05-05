@@ -12,9 +12,8 @@
 
 
 <body>
-
-    <button type="button"(click)=Manage()><i
-        class="fa fa-wrench"></i>Manage</button>
+    <br>
+    <button type="button" (click)="showModal()">Call Recording Setting</button>
     <br>
     
    
@@ -28,10 +27,16 @@
      <br>
 
      
-     <div class="col-md-2">
-        <button id="leftList" *ngFor='let item of userArray' (click)=showModal(item.UserId)>
-            {{item.Firstname}}</button>
-     </div>
+         <table >
+             <tr *ngFor='let item of userArray' style="width: 200px;">
+                    <button id="leftList" style="width: 100%;" (click)=userSelected(item.UserId)>
+                        <td style="width: 100px;text-align: left;">{{item.Firstname}} {{item.Lastname}}</td>
+                        <td style="padding-left: 20px;text-align: right;width: 100px;">{{item.UserId}}</td>
+                    </button>
+             </tr> 
+         </table>
+
+        
          
      
       
@@ -40,7 +45,7 @@
     <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
         aria-labelledby="staticBackdropLabel" aria-hidden="true"[ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
 
-        <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-dialog modal-dialog-centered  " role="document" >
 
             <div class="modal-content" style="height: 7in; width: 10in;">
 
