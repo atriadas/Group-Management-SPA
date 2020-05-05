@@ -22,6 +22,8 @@ export class ManageComponent implements OnInit {
   groupMemberId:string[];
   role_id:number
   userArray:any=[];
+  userId:string
+  modalOpen:boolean=false
  
 
 
@@ -57,6 +59,15 @@ export class ManageComponent implements OnInit {
     )
     console.log(this.userArray)
   }
+showModal(id:string)
+{
+  this.userId=id;
+  this.modalOpen=true;
+}
+modalClose()
+{
+  this.modalOpen=false;
+}
 
   OnAddGroupManager(){  //When Item is added
     console.log("item added")
@@ -112,8 +123,9 @@ export class ManageComponent implements OnInit {
     userdto["Group_Members_uuid"] = this.selectedPersons1;
     userdto["Group_Supervisors_uuid"] = this.selectedPersons;
     var stringData = JSON.stringify(userdto);
-    console.log(stringData)
-    this.dataService.postData(stringData,'x_1111')
+    console.log(stringData,this.userId)
+    //this.dataService.postData(stringData,this.userId)
+    
   }
   
  

@@ -17,14 +17,14 @@
 
   <!-- MAIN MODAL SETTINGS BUTTON  (click)="noGroupFlag=0"-->
 
-  <button type="button" data-toggle="modal" data-target="#exampleModalCenter" (click)='getdbdata()'  ><i
+  <!-- <button type="button" data-toggle="modal" data-target="#exampleModalCenter" (click)='getdbdata()'  ><i
       class="fa fa-wrench"></i>
     Settings
-  </button>
+  </button> -->
 
   <!-- API BUTTON -->
 
-   <button type="button" (click)='mockfunction()'>api</button> 
+   <!-- <button type="button" (click)='mockfunction()'>api</button>  -->
   <!-- <br> -->
   <!-- <div *ngFor='let item of dataArray'>
     <div>{{item.firstname}} {{item.lastname}}</div>
@@ -32,9 +32,10 @@
 
 
   <!-- MAIN MODAL   modal-lg modal-dialog-centered-->
-
+  <div class="MainModal">
+  <div class="backdrop" [ngStyle]="{'display':mainModalOpen}"></div>
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" data-backdrop='static'
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngStyle]="{'display': mainModalOpen ? 'block' : 'none', 'opacity': 1} ">
     <div class="modal-dialog modal-lg modal-dialog-centerd ">
 
       <div class="modal-content" style="height:850px; ">
@@ -542,6 +543,8 @@
       </div>
     </div>
   </div>
+  </div>
+  
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

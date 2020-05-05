@@ -13,3 +13,17 @@
 .popover.arrow{
     background-color: black;
 }
+
+#leftList{
+    width: 100%;
+    border: none;
+    text-align: left;
+    padding: 8px;
+    background-color: white;  
+}
+
+#leftList:focus{
+    color: rgb(0, 89, 255);
+    background-color: rgb(229, 242, 245);
+    outline: none;
+}

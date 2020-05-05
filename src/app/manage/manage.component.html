@@ -13,36 +13,41 @@
 
 <body>
 
-    <button type="button"style="margin-left:10pt;" (click)=Manage()>Manage</button>
+    <button type="button"(click)=Manage()><i
+        class="fa fa-wrench"></i>Manage</button>
+    <br>
     
    
 
  <!-- Button trigger modal -->
 
-    <button type="button"  data-toggle="modal" data-target="#staticBackdrop"
+    <!-- <button type="button"  data-toggle="modal" data-target="#staticBackdrop"
         style="margin-left:10pt;"><i class="fa fa-gear fa-spin" style="font-size:17px"></i>
         Settings
-     </button>
+     </button> -->
      <br>
 
-     <tr>
-         <td><button *ngFor='let item of userArray' >
-            {{item.Firstname}}</button></td>
-     </tr>
+     
+     <div class="col-md-2">
+        <button id="leftList" *ngFor='let item of userArray' (click)=showModal(item.UserId)>
+            {{item.Firstname}}</button>
+     </div>
+         
+     
       
 
  <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        aria-labelledby="staticBackdropLabel" aria-hidden="true"[ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
 
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered " role="document">
 
-            <div class="modal-content">
+            <div class="modal-content" style="height: 7in; width: 10in;">
 
                 <!-- Modal Heading -->
                 <div class="modal-header">
                     <h6 class="modal-title" id="staticBackdropLabel">Change Settings for Call Recordings</h6>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" (click)=modalClose() aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -50,7 +55,7 @@
                 <form (ngSubmit)="UserDetails()">
 
                 <!-- Modal Body -->
-                <div class="modal-body" style="margin-left: 15pt;margin-right: 15pt;">
+                <div class="modal-body" style="margin-left: 15pt;margin-right: 15pt;height: 5.5in;">
                         
                     <!-- Role Dropdown -->
                     <label >Record Management Access <ng-template #popContent  >
@@ -66,7 +71,7 @@
                     </div>
                         </ng-template>
                         
-                         <img src="./assets/img/infocircle.png" height="22" width="22" placement="right" conatiner="body" [ngbPopover]="popContent" popoverClass="my-custom-class"> 
+                         <img src="./assets/infocircle.png" height="22" width="22" placement="right" conatiner="body" [ngbPopover]="popContent" popoverClass="my-custom-class"> 
                     </label>
 
                     <div class="form-group">
@@ -146,7 +151,7 @@
 
                 <!-- Modal Footer-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" (click)=modalClose() >Close</button>
                     <button type="submit" class="btn btn-primary" > Save</button>
                 </div>
                 </form>

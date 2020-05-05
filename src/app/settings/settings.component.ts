@@ -4,7 +4,7 @@ import { concat, Observable, of, Subject, interval, Subscription, from } from 'r
 import { DataService, HttpData } from '../data.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
-import { ApiService } from '../api.service';
+//import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-settings',
@@ -37,6 +37,7 @@ export class SettingsComponent implements OnInit {
   added: boolean = false;
   saveUpdate: boolean = false;
   SaveDisable = true;
+  mainModalOpen:boolean
 
   selectedPersons: string; //manager
   selectedPersons1: string; // members
@@ -57,9 +58,9 @@ export class SettingsComponent implements OnInit {
   MemDeleteArray:any = [];
   ManDeleteArray:any = [];
 
+ // , private api: ApiService
 
-
-  constructor(private dataService: DataService, private api: ApiService) {
+  constructor(private dataService: DataService) {
 
     this.selectedPersonsArr1 = ['members']
     this.selectedPersonsArr = ['managers']
@@ -76,6 +77,9 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
 
     this.loadPeople();
+    this.mainModalOpen=true;
+    this.getdbdata();
+
 
   }
 
