@@ -130,7 +130,7 @@ modalClose()
     userdto["Group_Supervisors_uuid"] = this.selectedPersons;
     var stringData = JSON.stringify(userdto);
     console.log(stringData,this.userId)
-    //this.dataService.postData(stringData,this.userId)
+    this.dataService.postData(stringData,this.userId)
     
   }
   

@@ -9,7 +9,8 @@
     bottom: 0mm;
     
 }
-.modal .modal-dialog { width: 600px; max-width:100%; }
+
+/* .modal .modal-dialog { width: 600px; max-width:100%; } */
 
 .popover.arrow{
     background-color: black;

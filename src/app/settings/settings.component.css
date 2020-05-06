@@ -27,6 +27,7 @@
     color: white!important;
   
 }
+/* #exampleModalCenter{ width: 800px; max-width:100%; } */
 
 
 /* .project-tab .nav-link {
@@ -119,23 +120,26 @@ table {
   }  */
   
   #exampleModal{
-      margin-top: 3in;
+      margin-top: 3.3in;
       border-radius: 30%;
       
 
   }
 
   #exampleModal1{
-    margin-top: 3in;
+    margin-top: 3.3in;
 
   }
   #loader{
-      margin-top: 28px;
+      margin-top: 445px;
       width: 1.2in;
-      margin-left: 10in;
+      margin-left: 3.9in;
 
       
       
+  }
+  .ng-dropdown-panel{
+    left: 509.297px !important;
   }
 
 #alertBox{

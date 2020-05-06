@@ -122,6 +122,8 @@ export class DataService{
   postUpdatedData(data:string,grpID:string){ //Http Post in DB
     var errorMessage;
       var successMessage;
+      console.log(data)
+      console.log(grpID)
     console.log("Updating data in the DB")
     return this.http.put('http://localhost:8089/Group/UpdateGroup?grp_id='+grpID,data)
     .subscribe(

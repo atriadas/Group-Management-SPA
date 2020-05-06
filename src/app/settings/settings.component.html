@@ -32,11 +32,11 @@
 
 
   <!-- MAIN MODAL   modal-lg modal-dialog-centered-->
-  <div class="MainModal">
+ 
   <div class="backdrop" [ngStyle]="{'display':mainModalOpen}"></div>
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" data-backdrop='static'
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true" [ngStyle]="{'display': mainModalOpen ? 'block' : 'none', 'opacity': 1, 'margin-top':'28px'} ">
-    <div class="modal-dialog modal-lg modal-dialog-centerd ">
+    <div class="modal-dialog modal-lg modal-dialog-centerd " id="exampleModalCenter">
 
       <div class="modal-content" style="height:890px; ">
 
@@ -430,7 +430,7 @@
             aria-hidden="true" [ngStyle]="{'display': exampleModalOpen ? 'block' : 'none', 'opacity': 1}">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="margin-top: 32px;">
                   <h5 class="modal-title" id="exampleModalLabel">Delete Group?</h5>
                   <button type="button" class="close" (click)="closeDeleteModal()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -475,7 +475,7 @@
             <div class="modal-dialog " role="document">
         
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header"  style="margin-top: 32px;">
                   <h5 class="modal-title" id="exampleModalLabel">Discard Changes?</h5>
                   <button type="button" class="close" (click)="closeCanModalOnCancel()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -511,9 +511,10 @@
             aria-labelledby="staticBackdropLabel" aria-hidden="true"
             [ngStyle]="{'display': loaderOpen ? 'block' : 'none', 'opacity': 1}">
             <div class="modal-dialog modal-dialog-centerd" role="document">
-              <div class="modal-content">
+              <div class="modal-content" >
 
-                <div class="modal-body">
+                <div class="modal-body"  style="margin-top: 32px;">
+                  
                   <p style="text-align: center;">Saving...</p>
                   <div style="margin-left: 20px; " class="spinner-border text-secondary" role="status">
                     <span class="sr-only">Loading...</span>
@@ -527,9 +528,9 @@
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
               [ngStyle]="{'display': alert1Open ? 'block' : 'none', 'opacity': 1}">
               <div class="modal-dialog modal-dialog-centerd" role="document">
-                <div class="modal-content" id="alertBox">
+                <div class="modal-content"  style="margin-top: 32px;"id="alertBox">
 
-                  <div class="modal-body">
+                  <div class="modal-body" style="margin-top: 34px;">
                     Successfully saved the "{{groupName}}" group </div>
 
                 </div>
@@ -544,7 +545,7 @@
       </div>
     </div>
   </div>
-  </div>
+
 
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

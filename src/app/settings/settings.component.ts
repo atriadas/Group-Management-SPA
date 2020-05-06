@@ -78,9 +78,8 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
 
     this.loadPeople();
-    this.mainModalOpen=true;
-    this.getdbdata();
-
+    
+    this.openMainModal(true);
 
   }
 
@@ -90,6 +89,10 @@ export class SettingsComponent implements OnInit {
   exampleModalOpen = false;
   exampleModal1Open = false;
 
+  openMainModal(open:boolean){
+    this.mainModalOpen = open;
+    this.getdbdata();
+  }
   OnGroupNameChange(){
     if(this.groupName!=this.oldGroupName)
     {
@@ -172,7 +175,7 @@ export class SettingsComponent implements OnInit {
         postGroup2['Groupname'] = this.groupName
         postGroup2['Manager_uuid'] = this.customerArray2
         postGroup2['Members_uuid'] = this.customerArray
-        //this.dataService.postData(JSON.stringify(postGroup2),2);
+        this.dataService.postData(JSON.stringify(postGroup2),2);
         sub.unsubscribe();
         setTimeout(() => {this.addgroupbutton = false; }, 2000);
         
@@ -219,7 +222,8 @@ export class SettingsComponent implements OnInit {
 
 
         this.dataService.postUpdatedData(JSON.stringify(postGroup2), this.groupUuid);
-        console.log(JSON.stringify(postGroup2));
+        //console.log(this.groupUuid)
+       // console.log(JSON.stringify(postGroup2));
         sub.unsubscribe();
         //setTimeout(() => { }, 2000);
 
