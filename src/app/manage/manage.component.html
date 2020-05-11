@@ -87,8 +87,9 @@
                         
                     </div>
 
-                    <!-- Group Manger -->
-                    <label>Group Manager</label>
+                    <!-- Group Manger *ngIf="role!='Group Recordings'" -->
+                    <div >
+                    <label >Group Manager</label>
 
                         <ng-select #elem [items]="item$ | async" 
                         [typeahead]="peopleInput$"  
@@ -103,7 +104,8 @@
                         notFoundText = ""
                         appendTo="body"
                         id="groupManager"
-                        (add)="OnAddGroupManager()">
+                        (add)="OnAddGroupManager()"
+                        [disabled]="flag">
 
                         <!--    [closeOnSelect]="true" [hideSelected]="true" (remove)="OnRemove()"(add)="OnAdd()"  (blur) = "OnBlur()"  id="groupManager" (change)="GetManagerValue($event)" -->
 
@@ -116,6 +118,8 @@
 
                         <p><small>The user can manage recordings for any members of listed groups</small>
                         </p>
+
+                    </div>
 
 
 

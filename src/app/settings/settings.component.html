@@ -85,7 +85,7 @@
                 style="padding: 0px 20px 0px 10px;height: 8in;border-right: 1px solid rgb(231, 231, 231);">
                 <h5>Groups</h5>
                 <button id="buttonstyle" style="float: right;margin-left:5px;margin-bottom: 10px;margin-right: 2px;"
-                  (click)="addgroup()||addgroupbutton=true">Add</button>
+                  (click)="addgroup()">Add</button>
 
                 <input class="form-control mr-sm-2" id="myInput2" type="text" [(ngModel)]="term3" placeholder="Search"
                   aria-label="Search">
@@ -117,7 +117,7 @@
 
                 <!-- GROUPS BUTTONS -->
 
-                <div ><button *ngFor='let item of dataArray | groupFilter:term3' (click)="showdata(item.GroupId)||saveUpdate=true" style="font-size: 10pt;" id="leftList">
+                <div ><button *ngFor='let item of dataArray | groupFilter:term3' (click)="showdata(item.GroupId)" style="font-size: 10pt;" id="leftList">
                   {{item.Groupname}}</button>
                 </div>
                 
@@ -135,12 +135,12 @@
 
               <!-- RIGHT COLUMN CODE -->
 
-              <!-- GROUPNAME -->
+              <!-- GROUPNAME (change)="OnGroupNameChange()" -->
   
               <div class="col-md-8" *ngIf="addgroupbutton==true" style="height: 7.45in;padding-right:20px;">
                 <label>Name</label>
                 <input class="form-control" [(ngModel)]="groupName" type="text" placeholder="Enter Name"
-                  aria-label="name" style="height:5.5%;" (change)="OnGroupNameChange()">
+                  aria-label="name" style="height:5.5%;"  (change)="OnGroupNameChange()">
                 <br>
 
                 <!-- NAV TABS -->

@@ -94,6 +94,7 @@ export class SettingsComponent implements OnInit {
     this.getdbdata();
   }
   OnGroupNameChange(){
+    if( this.saveUpdate==true){
     if(this.groupName!=this.oldGroupName)
     {
     this.SaveDisable = false;
@@ -102,6 +103,7 @@ export class SettingsComponent implements OnInit {
       this.SaveDisable = true;
 
     }
+  }
   }
   NewGroup() {
     this.isOn = false
@@ -445,6 +447,7 @@ export class SettingsComponent implements OnInit {
 
 
   addgroup() {
+    this.addgroupbutton=true
     console.log("New Group Added")
     this.selectedPersonsArr = []
     this.selectedPersonsArr1 = []
@@ -481,6 +484,7 @@ export class SettingsComponent implements OnInit {
 
 
   showdata(grpId: string) {
+    this.saveUpdate=true
     this.SaveDisable=true
     this.groupUuid = grpId;
     const data = this.dataService.getGroupInfo(grpId);

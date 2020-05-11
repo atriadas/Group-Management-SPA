@@ -24,6 +24,7 @@ export class ManageComponent implements OnInit {
   userArray:any=[];
   userId:string
   modalOpen:boolean=false
+  flag:boolean=false
  
 
 
@@ -114,6 +115,15 @@ modalClose()
   GetRoleValue(args){ //Extracting Selected Role
     //var role = args.value;
    // console.log(args.target.value)
+   if(this.role=='Group Recordings')
+   {
+     this.flag=true
+     console.log("Group Manager Disabled")
+   }
+   else{
+     this.flag=false
+     console.log("Group Manager enabled")
+   }
     this.role_id=this.roles.indexOf(this.role)+1
     console.log(this.role, this.role_id)
     
@@ -130,7 +140,7 @@ modalClose()
     userdto["Group_Supervisors_uuid"] = this.selectedPersons;
     var stringData = JSON.stringify(userdto);
     console.log(stringData,this.userId)
-    this.dataService.postData(stringData,this.userId)
+    //this.dataService.postData(stringData,this.userId)
     
   }
   
