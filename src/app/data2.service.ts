@@ -11,6 +11,7 @@ import { Injectable} from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'
 
 
 export class HttpData
@@ -55,7 +56,8 @@ export class Data2Service{
   
     if (term) 
     {
-      return this.http.get<HttpData[]>(`http://localhost:8089/GetUsersGroup?tid=${tid}&grp_name=${term}`)
+      var url='http://'+environment.backend_address+'/GetUsersGroup?tid='+tid+'&grp_name='+term
+      return this.http.get<HttpData[]>(url)
     }
 
     else 
@@ -67,7 +69,8 @@ export class Data2Service{
 
   getUsers(tid) { //Http Call for users
     
-      const item = this.http.get<UsersData[]>('http://localhost:8089/FindUser?tid='+tid+'&user=')
+    var url='http://'+environment.backend_address+'/FindUser?tid='+tid+'&user='
+      const item = this.http.get<UsersData[]>(url)
       //console.log(item.subscribe(x=>console.log(x)))
       
       return item
@@ -78,9 +81,10 @@ export class Data2Service{
  
 
 
-  postHTTPData(data,uid){ //Http Post in DB
+  postHTTPData(data:string,uid){ //Http Post in DB
     console.log("Posting data to DB")
-    return this.http.post('http://localhost:8089/Group/ConfigureUsers?uid='+uid,data).subscribe(res=>this.Success(res),res=>{
+    var url='http://'+environment.backend_address+'/Group/ConfigureUsers?uid='+uid
+    return this.http.post(url,data).subscribe(res=>this.Success(res),res=>{
       return this.Error(res);
   });
   }  

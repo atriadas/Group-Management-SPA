@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, Pipe, PipeTransform, AfterViewInit, ElementRef } from '@angular/core';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { concat, Observable, of, Subject, interval, Subscription, from } from 'rxjs';
-import { DataService, HttpData } from '../data.service';
+import { DataService, HttpData, Update } from '../data.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
 import { RouterEvent, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { RouterEvent, Router } from '@angular/router';
 })
 
 
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements AfterViewInit {
 
   progressbarValue = 100;
 
@@ -56,8 +56,8 @@ export class SettingsComponent implements OnInit {
   term3: string = null;
 
   dataArray: any = [];
-  MemDeleteArray:any = [];
-  ManDeleteArray:any = [];
+  MemDeleteArray:string[] = [];
+  ManDeleteArray:string[]= [];
 
  // , private api: ApiService
 
@@ -71,16 +71,15 @@ export class SettingsComponent implements OnInit {
 
   @ViewChild("elem", { static: false }) select1Comp: NgSelectComponent;
   @ViewChild("eleme2", { static: false }) select1Comp2: NgSelectComponent;
+  @ViewChild('openModal',{static:false}) openModal:ElementRef;
 
 
 
-
-  ngOnInit() {
-
-    this.loadPeople();
+  ngAfterViewInit(){
     
-    this.openMainModal(true);
-
+    this.loadPeople();
+    this.openModal.nativeElement.click();
+    this.getdbdata() 
   }
 
 
@@ -94,7 +93,7 @@ export class SettingsComponent implements OnInit {
     this.getdbdata();
   }
   OnGroupNameChange(){
-    if( this.saveUpdate==true){
+    if( this.saveUpdate==true){ //Only for new Group
     if(this.groupName!=this.oldGroupName)
     {
     this.SaveDisable = false;
@@ -105,21 +104,21 @@ export class SettingsComponent implements OnInit {
     }
   }
   }
-  NewGroup() {
+  NewGroup() { //when there is no existing group
     this.isOn = false
     this.noGroupFlag = 1
   }
 
-  DelOpen() {
+  DelOpen() { //Delete  modal open
     this.exampleModalOpen = true
   }
-  closeDeleteModal() {
+  closeDeleteModal() { //Delete modal close
     this.exampleModalOpen = false
   }
-  CanOpen() {
+  CanOpen() { //Cancel modal open
     this.exampleModal1Open = true
   }
-  closeCanModal() {
+  closeCanModal() { //Cancel Modal close
     this.addgroupbutton = false;
     this.exampleModal1Open = false
 
@@ -129,10 +128,10 @@ export class SettingsComponent implements OnInit {
 
   }
 
-  CloseModalOnCross() {
+  CloseModalOnCross() { //Closing main modal on cross
 
     this.addgroupbutton = false;
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl(''); //back to home page
 
 
   }
@@ -191,7 +190,7 @@ export class SettingsComponent implements OnInit {
 
   }
 
-  updateSave(seconds: number) {
+  updateSave(seconds: number) { //ON UPDATE
     console.log('update');
     this.isOn = false;
     this.loaderOpen = true
@@ -204,7 +203,8 @@ export class SettingsComponent implements OnInit {
         console.log(this.groupName)
         setTimeout(() => { this.alert1Open = false }, 2000);
         var postGroup2: any = {}
-        postGroup2['Groupname'] = this.groupName
+        var postGroup3: Update
+        
         //postGroup2["Prev_Members_uuid"] = this.previousMemberUuid
         //postGroup2["Prev_Manager_uuid"] = this.previousManagerUuid
 
@@ -215,11 +215,15 @@ export class SettingsComponent implements OnInit {
         //   this.newManagerUuid.push(this.selectedPersonsArr[i][3])
         // }
 
+        postGroup2["Groupname"] = this.groupName
         postGroup2["members_toadd"] = this.customerArray
         postGroup2["supervisors_toadd"] = this.customerArray2
         postGroup2["members_todelete"] = this.MemDeleteArray
         postGroup2["supervisors_todelete"] = this.ManDeleteArray
-      
+        // postGroup3=new Update(this.groupName,this.customerArray,this.customerArray2,
+        // this.MemDeleteArray,this.ManDeleteArray);
+        //this.dataService.postUpdatedData(postGroup3, this.groupUuid);
+
        
 
 
@@ -236,7 +240,7 @@ export class SettingsComponent implements OnInit {
 
 
   }
-  compare(arr1, arr2) {
+  compare(arr1, arr2) { //ARRAY COMPARISON
 
     if (!arr1 || !arr2) return
 
@@ -338,7 +342,15 @@ export class SettingsComponent implements OnInit {
       this.numberMember = this.numberMember - 1;
       console.log(this.selectedPersonsArr1==this.previousMemberUuid)
       console.log(this.compare(this.selectedPersonsArr1,this.previousMemberUuid))
-      this.SaveDisable=false
+      if(this.numberMember>0)
+      {
+        this.SaveDisable=false
+
+      }
+      else{
+        this.SaveDisable=true
+      }
+      
       //if(this.compare(this.selectedPersonsArr1,this.previousMemberUuid))
       // {
         
@@ -360,7 +372,15 @@ export class SettingsComponent implements OnInit {
       console.log(this.ManDeleteArray)
       this.selectedPersonsArr.splice(i, 1);
       this.numberManager = this.numberManager - 1;
-      this.SaveDisable=false
+      if(this.numberManager>0)
+      {
+        this.SaveDisable=false
+
+      }
+      else{
+        this.SaveDisable=true
+      }
+    
       // if(this.selectedPersonsArr==this.previousManagerUuid)
       // {
       //   console.log('save is disabled')

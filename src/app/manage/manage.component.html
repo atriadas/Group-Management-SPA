@@ -12,18 +12,17 @@
 
 
 <body>
-    <br>
-    <button type="button" (click)="showModal()">Call Recording Setting</button>
-    <br>
+    <!-- <br>
+    <button type="button" (click)="showModal()"></button>
+    <br> -->
     
    
 
- <!-- Button trigger modal -->
-
-    <!-- <button type="button"  data-toggle="modal" data-target="#staticBackdrop"
-        style="margin-left:10pt;"><i class="fa fa-gear fa-spin" style="font-size:17px"></i>
-        Settings
-     </button> -->
+ <!-- Button trigger modal  <i class="fa fa-gear fa-spin" style="font-size:17px"></i>-->
+<br>
+    <button type="button"  data-toggle="modal" data-target="#staticBackdrop">
+        Call Recording Setting
+     </button>
      <br>
 
      
@@ -41,9 +40,9 @@
      
       
 
- <!-- Modal -->
+ <!-- Modal [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}" -->
     <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true"[ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered  " role="document" >
 
@@ -52,7 +51,7 @@
                 <!-- Modal Heading -->
                 <div class="modal-header">
                     <h6 class="modal-title" id="staticBackdropLabel">Change Settings for Call Recordings</h6>
-                    <button type="button" class="close" (click)=modalClose() aria-label="Close">
+                    <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -158,9 +157,9 @@
 
                 </div>
 
-                <!-- Modal Footer-->
+                <!-- Modal Footer (click)=modalClose()-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)=modalClose() >Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
                     <button type="submit" class="btn btn-primary" > Save</button>
                 </div>
                 </form>

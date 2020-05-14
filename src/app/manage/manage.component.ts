@@ -60,21 +60,21 @@ export class ManageComponent implements OnInit {
     )
     console.log(this.userArray)
   }
-showModal()
-{
+// showModal()
+// {
   
-  this.modalOpen=true;
-  console.log(this.userId)
-}
+//   this.modalOpen=true;
+//   console.log(this.userId)
+// }
 userSelected(id:string)
 {
   this.userId=id;
   
 }
-modalClose()
-{
-  this.modalOpen=false;
-}
+// modalClose()
+// {
+//   this.modalOpen=false;
+// }
 
   OnAddGroupManager(){  //When Item is added
     console.log("item added")
@@ -140,7 +140,7 @@ modalClose()
     userdto["Group_Supervisors_uuid"] = this.selectedPersons;
     var stringData = JSON.stringify(userdto);
     console.log(stringData,this.userId)
-    //this.dataService.postData(stringData,this.userId)
+    this.dataService.postData(stringData,this.userId)
     
   }
   

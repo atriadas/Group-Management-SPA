@@ -2,6 +2,7 @@ import { Injectable} from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, catchError} from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment'
 
 
 
@@ -43,6 +44,22 @@ export class GroupInfo{
     };
 }
 
+export class Update{
+  Groupname: string
+  members_toadd: string[]=[]
+  supervisors_toadd: string[]=[]
+  members_todelete: string[]=[]
+  supervisors_todelete: string[]=[]
+
+  constructor(Groupname,members_toadd,supervisors_toadd,members_todelete,supervisors_todelete){
+    this.Groupname = Groupname;
+    this.members_toadd=members_toadd;
+    this.supervisors_toadd=supervisors_toadd;
+    this.members_todelete=members_todelete;
+    this.supervisors_todelete=supervisors_todelete;
+  }
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +86,8 @@ export class DataService{
   
     if (term) 
     {
-      const item = this.http.get<HttpData[]>('http://localhost:8089/FindUser?tid='+tid+'&user='+term)
+      var url='http://'+environment.backend_address+'/FindUser?tid='+tid+'&user='+term
+      const item = this.http.get<HttpData[]>(url)
       
       return item
     }
@@ -84,7 +102,8 @@ export class DataService{
   getAllGroupsData(tid) //http call for groups
   {
     console.log("get all groups api")
-  const data =this.http.get<GroupsData[]>(' http://localhost:8089/Group/AllGroups?tid='+tid)
+    var url='http://'+environment.backend_address+'/Group/AllGroups?tid='+tid
+  const data =this.http.get<GroupsData[]>(url)
   
   return data;
 
@@ -93,7 +112,8 @@ export class DataService{
   getGroupInfo(grpID:string)
   {
     console.log("get group info")
-    const data=this.http.get<GroupInfo[]>("http://localhost:8089/Group/GetGroupsInfo?group_uuid="+grpID)
+    var url='http://'+environment.backend_address+'/Group/GetGroupsInfo?group_uuid='+grpID
+    const data=this.http.get<GroupInfo[]>(url)
   
     return data;
 
@@ -101,7 +121,8 @@ export class DataService{
 
   postHTTPData(data,tid){ //Http Post in DB
     console.log("Posting data to DB")
-    return this.http.post('http://localhost:8089/createGroup?tid='+tid,data).subscribe(res=>this.Success(res),res=>{
+    var url='http://'+environment.backend_address+'/createGroup?tid='+tid
+    return this.http.post(url,data).subscribe(res=>this.Success(res),res=>{
       return this.Error(res);
   });
   }  
@@ -125,7 +146,9 @@ export class DataService{
       console.log(data)
       console.log(grpID)
     console.log("Updating data in the DB")
-    return this.http.put('http://localhost:8089/Group/UpdateGroup?grp_id='+grpID,data)
+    var url='http://'+environment.backend_address+'/Group/UpdateGroup?grp_id='+grpID
+
+    return this.http.put(url,data)
     .subscribe(
       (response) => {                           //Next callback
        // console.log('Success:200 OK')
@@ -145,7 +168,8 @@ export class DataService{
      var errorMessage;
       var successMessage;
     console.log("Group Deleted"+ grpID)
-   return this.http.delete('http://localhost:8089/Group/DeleteGroup?group_uuid='+ grpID)
+    var url='http://'+environment.backend_address+'/Group/DeleteGroup?group_uuid='+ grpID
+   return this.http.delete(url)
    .subscribe(
     (response) => {                           //Next callback
      // console.log('Success:200 OK')

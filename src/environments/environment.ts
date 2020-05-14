@@ -3,8 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false , backend_address: 'localhost:8089'
 };
+// 10.8.138.241  my system ip
+//10.30.12.81  navneet ip
 
 /*
  * For easier debugging in development mode, you can import the following file
