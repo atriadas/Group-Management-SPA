@@ -240,7 +240,7 @@ export class SettingsComponent implements AfterViewInit {
 
 
   }
-  compare(arr1, arr2) { //ARRAY COMPARISON
+  compare(arr1, arr2) { //ARRAY COMPARISON IF EVEN ONE ELEMENT EXISTS
 
     if (!arr1 || !arr2) return
 
@@ -258,7 +258,7 @@ export class SettingsComponent implements AfterViewInit {
     return result
 
   }
-  compare2(arr1, arr2) {
+  compare2(arr1, arr2) { // HOW MANY TIMES TRUE  
 
     if (!arr1 || !arr2) return
 
@@ -297,13 +297,21 @@ export class SettingsComponent implements AfterViewInit {
 
 
       else {
+
+
+
+
         this.SaveDisable=false
         this.selectedPersonsArr1[this.numberMember] = ([this.selectedPersons1['first_name'], this.selectedPersons1['last_name'], this.selectedPersons1['user_guiname'], this.selectedPersons1['user_uuid']]);
 
 
         this.numberMember = this.numberMember + 1;
         this.customerArray.push(this.selectedPersons1['user_uuid'])
-
+        if(this.MemDeleteArray.indexOf(this.selectedPersons1['user_uuid'])>-1)
+        {
+          this.MemDeleteArray.splice(this.MemDeleteArray.indexOf(this.selectedPersons1['user_uuid']),1);
+          console.log(this.MemDeleteArray, 'existing member removed')
+        }
 
         console.log("New Member added")
         console.log(this.customerArray)
@@ -417,6 +425,12 @@ export class SettingsComponent implements AfterViewInit {
 
       this.numberManager = this.numberManager + 1;
       this.customerArray2.push(this.selectedPersons['user_uuid'])
+
+      if(this.ManDeleteArray.indexOf(this.selectedPersons['user_uuid'])>-1)
+      {
+        this.ManDeleteArray.splice(this.ManDeleteArray.indexOf(this.selectedPersons['user_uuid']),1);
+        console.log(this.ManDeleteArray, 'existing manager removed')
+      }
 
       console.log("New Manager added")
       console.log(this.customerArray2)
