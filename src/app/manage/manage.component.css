@@ -5,13 +5,13 @@
 .popover-body{
     background-color:rgb(43, 41, 41); 
 }
-.ng-select .ng-clear-wrapper .ng-clear {
+/* .popover.bottom .arrow {
+    right:90% !important;
+} */
+/* .ng-select .ng-clear-wrapper .ng-clear {
     bottom: 0mm;
     
-}
-
-/* .modal .modal-dialog { width: 600px; max-width:100%; } */
-
+} */
 .popover.arrow{
     background-color: black;
 }
@@ -26,7 +26,7 @@
     } */
 
 
-#leftList{
+/* #leftList{
     
     border: none;
    
@@ -43,4 +43,4 @@
     color: rgb(0, 89, 255);
     background-color: rgb(229, 239, 245);
     outline: none;
-}
+} */

@@ -17,12 +17,13 @@
     <br> -->
     
    
-
- <!-- Button trigger modal  <i class="fa fa-gear fa-spin" style="font-size:17px"></i>-->
+<!-- 
+  Button trigger modal  <i class="fa fa-gear fa-spin" style="font-size:17px"></i>
 <br>
     <button type="button"  data-toggle="modal" data-target="#staticBackdrop">
         Call Recording Setting
      </button>
+     <br>
      <br>
 
      
@@ -33,7 +34,7 @@
                         <td style="padding-left: 20px;text-align: right;width: 100px;">{{item.UserId}}</td>
                     </button>
              </tr> 
-         </table>
+         </table> -->
 
         
          
@@ -41,29 +42,26 @@
       
 
  <!-- Modal [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}" -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+    <!-- <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered  " role="document" >
 
             <div class="modal-content" style="height: 6.8in; width: 10in;">
 
-                <!-- Modal Heading -->
-                <div class="modal-header">
-                    <h6 class="modal-title" id="staticBackdropLabel">Change Settings for Call Recordings</h6>
-                    <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                Modal Heading --> 
+            <div class="modal-header">
+                    <h6 class="modal-title" >Change Settings for Call Recordings</h6>      
+            </div> 
 
                 <form (ngSubmit)="UserDetails()">
 
                 <!-- Modal Body -->
-                <div class="modal-body" style="margin-left: 15pt;margin-right: 15pt;height: 5.5in;">
+                <div class="modal-body">
                         
                     <!-- Role Dropdown -->
                     <label >Record Management Access <ng-template #popContent  >
-                        <div style="color: white; font-size: 10pt; font-weight: 200;">
+                        <div style="color: white; font-size: 83.33%pt; font-weight: 200;">
                         
                         <p >•	None: the user may not manage recordings (even their own).</p>
 
@@ -75,7 +73,7 @@
                     </div>
                         </ng-template>
                         
-                         <img src="./assets/infocircle.png" height="22" width="22" placement="right" conatiner="body" [ngbPopover]="popContent" popoverClass="my-custom-class"> 
+                         <img src="./assets/infocircle.png" height="22" width="22" placement="auto" conatiner="body" [ngbPopover]="popContent" popoverClass="my-custom-class"> 
                     </label>
 
                     <div class="form-group">
@@ -85,9 +83,9 @@
                         </select>
                         
                     </div>
-
-                    <!-- Group Manger *ngIf="role!='Group Recordings'" -->
-                    <div >
+<!-- 
+                    Group Manger *ngIf="role!='Group Recordings'" -->
+                    <div  >
                     <label >Group Manager</label>
 
                         <ng-select #elem [items]="item$ | async" 
@@ -151,24 +149,19 @@
                         
                         </ng-select>
 
-                        <p style="margin-right:40pt">
+                        <p >
                             <small>The user's recordings can be managed by managers in listed groups</small>
                         </p>
 
                 </div>
 
-                <!-- Modal Footer (click)=modalClose()-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
                     <button type="submit" class="btn btn-primary" > Save</button>
                 </div>
                 </form>
 
-            </div>
-
-        </div>
-
-    </div>
+        
     
 
 

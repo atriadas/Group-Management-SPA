@@ -4,6 +4,8 @@ import { catchError, distinctUntilChanged, switchMap, tap, combineAll } from 'rx
 import { concat, Observable, of, Subject } from 'rxjs';
 import { Data2Service, HttpData} from '../data2.service';
 import { NgSelectComponent} from '@ng-select/ng-select';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
 
 @Component({
   selector: 'app-manage',
@@ -20,32 +22,46 @@ export class ManageComponent implements OnInit {
   peopleInput$ = new Subject<string>();
   roles =['None','Own Recordings','Group Recordings','All Recordings']; 
   groupMemberId:string[];
-  role_id:number
+  role_id:number=1;
   userArray:any=[];
   userId:string
-  modalOpen:boolean=false
+ // modalOpen:boolean=false
   flag:boolean=false
  
 
 
-  constructor(private dataService: Data2Service) {}
+  constructor(private dataService: Data2Service , private router: Router, private route: ActivatedRoute) {}
 
   @ViewChild("elem", {static: false}) select1Comp: NgSelectComponent;
   @ViewChild("eleme2", {static: false}) select1Comp2: NgSelectComponent;
 
-  selectedPersons:string;
-  selectedPersons1:string;
+  selectedPersons:string[]=[]; //MANAGERS
+  selectedPersons1:string[]=[]; //MEMBERS
   role:string='None';
   
 
   ngOnInit() { 
 
+    // this.route.paramMap.subscribe(
+    //   params=>{
+    //     this.userId=params.get('userid');
+    //   }
+    // );
+
+    this.route.queryParams
+    .subscribe(params => {
+      this.userId = params.useruuid;
+    });
+
+    console.log(this.userId)
+
     this.loadPeople();
     this.Manage()
 
+
   }
 
-  Manage(){
+  Manage(){ //TO GET ALL THE AVAILABLE USERS
     this.dataService.getUsers(1).subscribe(x => {
         
 
@@ -66,24 +82,28 @@ export class ManageComponent implements OnInit {
 //   this.modalOpen=true;
 //   console.log(this.userId)
 // }
-userSelected(id:string)
+
+
+userSelected(id:string) //Selected User
 {
   this.userId=id;
-  
+  console.log(this.userId)
 }
+
+
 // modalClose()
 // {
 //   this.modalOpen=false;
 // }
 
-  OnAddGroupManager(){  //When Item is added
+  OnAddGroupManager(){  //When Manager is added
     console.log("item added")
     console.log(this.selectedPersons)
      this.loadPeople();
- 
+  
     
   }
-  OnAddGroupMember(){  //When Item is added
+  OnAddGroupMember(){  //When Member is added
     console.log("item added")
     console.log(this.selectedPersons1)
      this.loadPeople();
@@ -119,14 +139,18 @@ userSelected(id:string)
    {
      this.flag=true
      console.log("Group Manager Disabled")
+     this.selectedPersons=[];
    }
    else{
      this.flag=false
      console.log("Group Manager enabled")
+    
    }
     this.role_id=this.roles.indexOf(this.role)+1
     console.log(this.role, this.role_id)
-    
+    //console.log(this.selectedPersons, 'groupIds for manager')
+    //console.log(this.selectedPersons1 , 'groupIds for members')
+   
   }
 
   UserDetails() //Save Changes
@@ -145,7 +169,7 @@ userSelected(id:string)
   }
   
  
-  private loadPeople() { 
+  private loadPeople() {  // ng select 
 
    this.item$= concat(
       this.peopleInput$.pipe(

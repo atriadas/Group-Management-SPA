@@ -1,4 +1,25 @@
- <button  [routerLink]="['Settings']"> Settings</button> <button style="margin-left: 5px;" [routerLink]="['Manage']"> Manage</button>
+ <button  (click)="gotoSettings()"> Settings</button>
+  <button style="margin-left: 5px;" (click)="Manage()" > Manage</button>
+  <br>
+
+
+<div *ngIf="flag==1">
+   <br>
+  <button type="button" (click)="gotoManage()"  >
+   Call Recording Settings
+</button>
+<br>
+  
+  <table >
+   <tr *ngFor='let item of userArray' style="width: 200px;">
+          <button id="leftList" style="width: 100%;" (click)=userSelected(item.UserId)>
+              <td style="width: 100px;text-align: left;">{{item.Firstname}} {{item.Lastname}}</td>
+              <td style="padding-left: 20px;text-align: right;width: 100px;">{{item.UserId}}</td>
+          </button>
+   </tr> 
+</table>
+</div>
     
     <!-- <i class="fas fa-pen"></i>
-    <i class="fa fa-wrench"></i> -->
+    <i class="fa fa-wrench"></i>
+   [routerLink]="['Manage']" -->

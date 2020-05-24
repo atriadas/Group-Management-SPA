@@ -14,6 +14,7 @@ import {GroupFilterPipe} from './groupFilter.pipe';
 import { SettingsComponent } from './settings/settings.component';
 import { ManageComponent } from './manage/manage.component';
 import { StartComponent } from './start/start.component';
+import { SettingPageComponent } from './setting-page/setting-page.component';
 
 
 
@@ -24,7 +25,8 @@ import { StartComponent } from './start/start.component';
     GroupFilterPipe,
     SettingsComponent,
     ManageComponent,
-    StartComponent
+    StartComponent,
+    SettingPageComponent
    
   ],
   imports: [

@@ -34,43 +34,54 @@
   <!-- MAIN MODAL   modal-lg modal-dialog-centered-->
   <!--[ngStyle]="{'display': mainModalOpen ? 'contents' : 'none', 'opacity': 1,'overflow':'visible'} "
   <div class="backdrop" [ngStyle]="{'display':mainModalOpen}"></div>-->
-  <button id="openModal" #openModal [hidden]="true" 
-  data-toggle="modal" data-target="#exampleModalCenter"></button>
+  <!-- <button id="openModal" #openModal [hidden]="true" 
+  data-toggle="modal" data-target="#exampleModalCenter"></button> -->
   
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" data-backdrop='static'
+  <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" data-backdrop='static'
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
     <div class="modal-dialog modal-lg modal-dialog-centerd">
-      <div class="modal-content" style="height:890px; ">
+      <div class="modal-content" style="height:890px; "> -->
         <!-- MAIN MODAL HEADER (click)="CanOpen()"  style="margin-top: 10px;"    [routerLink]="['']"(click)="CloseModalOnCross()" -->
 
-        <div class="modal-header" style="border-bottom:0 none;margin-left: -10px;">
+        <!-- <div class="modal-header" style="border-bottom:0 none;margin-left: -10px;">
           <p class="modal-title" id="exampleModalCenterTitle"><b>Call Recording Settings</b></p>
           <button  data-dismiss="modal"  (click)="CloseModalOnCross()" type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
+        </div> -->
 
 
         <!-- MAIN MODAL BODY -->
-
-        <div class="modal-body" style="height: 7.45in;">
-          <div class="container-fluid" style="padding: 0px 0px 0px 0px">
+<!-- 
+        <div class="modal-body" style="height: 7.45in;"> -->
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-4"><h6>Call Recording Setting</h6></div>
+              </div>
+          
 
 
 
             <!-- NO GROUP PAGE -->
             <div *ngIf="isOn&&noGroupFlag == 0">
-              <h5>Groups</h5>
-              <div class="row" style="height: 7in;">
+            <div class="row">
+                <div class="col-md-4 ">
+              <h6>Groups</h6>
+            </div>
+        </div>
+              <div class="row">
                 <div class="col-md-4 offset-4">
-                  <div align="center" id="newGroup">You have no groups
-                    <br> <a style="font-size: 11pt;">Set up groups to control access to<br> call
+                  <div align="center" id="newGroup">
+                      <a id="bigtex">You have no groups</a>
+                    <br> <a id="smaltex" style="font-size: 83.33%;">Set up groups to control access to <br> call
                       recordings</a><br><br>
                     <button (click)="NewGroup()" id="grpbtn">New group</button>
                   </div>
                 </div>
               </div>
             </div>
+           
+
 
 
 
@@ -78,50 +89,28 @@
 
             <!-- MAIN PAGE BEGINS -->
 
-            <div class="row" style="height: 7.45in;" *ngIf="!isOn || noGroupFlag == 1 ">
-              <div class="col-md-4"
-                style="padding: 0px 20px 0px 10px;height: 8in;border-right: 1px solid rgb(231, 231, 231);">
-                <h5>Groups</h5>
-                <button id="buttonstyle" style="float: right;margin-left:5px;margin-bottom: 10px;margin-right: 2px;"
+            <div class="row"  *ngIf="!isOn || noGroupFlag == 1 ">
+
+              <div class="col-md-4 " >
+                
+                <h6>Groups</h6>
+                <button id="leftaddstyle" style="float: right;margin-bottom: 5px;"
                   (click)="addgroup()">Add</button>
 
-                <input class="form-control mr-sm-2" id="myInput2" type="text" [(ngModel)]="term3" placeholder="Search"
+                <input class="form-control mr-sm-2"  style="font-size: 75%;" id="myInput2" type="text" [(ngModel)]="term3" placeholder="Search"
                   aria-label="Search">
                 <br>
 
 
-                <!-- <div>
-
-                  <ul style="list-style-type:none; padding: 0; margin: 0;">
-                    <li *ngFor="let recipient of getKeys(map)|mfilter: term3">
-                      <button id="leftList" (click)="showdata(recipient)"
-                        style="font-size: 9pt;float: left; "><b>{{recipient}}</b> <a
-                          style="opacity: 80%; font-size: 8pt; float: right;"> {{map.get(recipient).memberLength}}
-                          members, {{map.get(recipient).managerLength}} managers</a></button>
-                    </li>
-                  </ul>
-
-                  <div> <button style="font-size: 10pt;" id="leftList" *ngIf="addFlag==1"><b>{{groupName}}</b></button>
-                  </div>
-
-                </div> -->
-
-                <!-- (click)="showdata(item.GroupId)||added=true" -->
-
-                <!-- |mfilter: term3 -->
-
-
-
-
                 <!-- GROUPS BUTTONS -->
 
-                <div ><button *ngFor='let item of dataArray | groupFilter:term3' (click)="showdata(item.GroupId)" style="font-size: 10pt;" id="leftList">
+                <div ><button *ngFor='let item of dataArray | groupFilter:term3' (click)="showdata(item.GroupId)" style="font-size: 8pt;" id="leftList">
                   {{item.Groupname}}</button>
                 </div>
                 
                 <!-- NEW GROUP BUTTON -->
 
-                <div ><button *ngIf="addgroupbutton==true&&addFlag==1" style="font-size: 10pt;" id="leftList">
+                <div ><button *ngIf="addgroupbutton==true&&addFlag==1" style="font-size: 75%;" id="leftList">
                   {{groupName}}</button>
                 </div>
               </div>
@@ -135,15 +124,15 @@
 
               <!-- GROUPNAME (change)="OnGroupNameChange()" -->
   
-              <div class="col-md-8" *ngIf="addgroupbutton==true" style="height: 7.45in;padding-right:20px;">
-                <label>Name</label>
-                <input class="form-control" [(ngModel)]="groupName" type="text" placeholder="Enter Name"
-                  aria-label="name" style="height:5.5%;"  (change)="OnGroupNameChange()">
-                <br>
+              <div class="col-md-8" *ngIf="addgroupbutton==true" style="border-left: 1px solid rgb(231, 231, 231);" >
+                <label style="font-size: 75%;">Name</label>
+                <input class="form-control"   style="font-size: 75%;"[(ngModel)]="groupName" type="text" placeholder="Enter Name"
+                  aria-label="name"   (change)="OnGroupNameChange()">
+            
 
                 <!-- NAV TABS -->
 
-                <nav>
+                <nav style="margin-top: 1%;">
                   <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
                       aria-controls="nav-home" aria-selected="true">Members <span
@@ -153,7 +142,7 @@
                         class="badge">{{numberManager}}</span></a>
                   </div>
                 </nav>
-                <br>
+                
 
                 <!-- NAV CONTENTS -->
 
@@ -170,12 +159,12 @@
                    <!-- NG SELECT MEMBER DROPDOWN -->
 
 
-                    <div class="row">
-                      <div class="col-md-12" style="padding-right: 0px;">
+                    <div class="row" style="margin-top: 1%;">
+                      <div class="col-md-12" style="font-size: 75%;">
                         <label *ngIf="numberMember==0">New Member</label><br *ngIf="numberMember==0">
                         <label *ngIf="numberMember > 0">Add Member</label><br *ngIf="numberMember > 0">
-
-                        <ng-select class="customSelect" #eleme2 [items]="item$| async" bindLabel="first_name"
+                       
+                        <ng-select  #eleme2 [items]="item$| async" bindLabel="first_name"
                           [minTermLength]="2" typeToSearchText="Please enter 3 or more characters" notFoundText=""
                           [typeahead]="peopleInput$" [(ngModel)]="selectedPersons1"
                           placeholder="Start typing a username" appendTo="body" [ngModelOptions]="{standalone: true}"
@@ -188,46 +177,43 @@
                                 </tr>
                               </table>
                             </ng-template> -->
-                          <ng-template ng-option-tmp let-item="item" let-index="index">
+                          <ng-template ng-option-tmp let-item="item" let-index="index" >
 
                             <table>
-                              <tr>
+                              <tr style="font-size: 75%;">
                                 <td> {{item['first_name']}} {{item['last_name']}}</td>
                                 <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td>
                               </tr>
                             </table>
                           </ng-template>
                         </ng-select>
-                        <!-- </div> -->
-
-                        <!-- <div class="col-md-2"> -->
-                        <!-- style="height: 48%; margin-top: 54%;margin-right: 50%; font-size:10pt;width: 1.5cm;" -->
+               
 
 
                         <!-- ADD MEMBERS BUTTON -->
 
-                        <button (click)="OnAdd()" id="buttonstyle" type="button">Add</button>
+                        <button (click)="OnAdd()"  style="float: right;" id="rightaddstyle" type="button">Add</button>
                       </div>
                     </div>
 
 
 
                     
-                    <div *ngIf="numberMember > 0" style="margin-top: 10px;">
+                    <div *ngIf="numberMember > 0" style="margin-top: 1%;">
 
                     <!-- SEARCH FILTER FOR SELECTED MEMBERS    -->
 
-                      <label>Selected Members</label>
+                      <label style="font-size: 75%;">Selected Members</label>
 
-                      <input class="form-control mr-sm-2" id="myInput" type="text" placeholder="Search "
-                        aria-label="Search" name="term2" [(ngModel)]="term2" (keyup)="transform1()" style="height: 50%;">
+                      <input class="form-control mr-sm-2" style="font-size: 75%;" id="myInput" type="text" placeholder="Search "
+                        aria-label="Search" name="term2" [(ngModel)]="term2" (keyup)="transform1()">
 
 
-                      <br>
+                      
 
-                      <div class="list" style="height: 3.5in;">
+                      <div class="list" style="margin-top: 1%; height:2.9in;font-size: 75%;">
 
-         <!-- SELECTED MEMBERS TABLE |mfilter: term2 -->
+         <!-- SELECTED MEMBERS TABLE  style="margin-top: 1%;"|mfilter: term2 -->
                       <div *ngIf="(!term2)">
                         <table id="myTable">
                           <tr  *ngFor="let item of selectedPersonsArr1 | paginate: config ,let i=index">
@@ -255,7 +241,8 @@
 
                         </table>
                       </div>
-                      </div>
+                    </div>
+                    
 
                       <!-- PAGINATION FOR MEMBERS TAB -->
 
@@ -289,21 +276,24 @@
                         </div>
 
                       </pagination-template>
-
                     </div>
+
+                    
 
 
                     
                      <!-- WHEN NO MEMBER IS ADDED -->
+                     
 
-                    <div id="noNames" *ngIf="numberMember==0">There are no members.
-                      <br> <a style="font-size: 10pt;">Start typing a name above to add<br>a member.
+                    <div id="noNames" *ngIf="numberMember==0" style="font-size: 83.33%; ">
+                        <a  id="bigtex">There are no members.</a>
+                      <br> <a style="font-size: 75%;" id="smaltex">Start typing a name above to add<br>a member.
                       </a><br><br>
 
                     </div>
+                </div>
 
 
-                  </div>
 
                   <!-- MANAGER TAB -->
 
@@ -312,7 +302,7 @@
 
 
                     <div class="row">
-                      <div class="col-md-12" style="padding-right: 0px; ">
+                      <div class="col-md-12" style="margin-top: 1%; font-size: 75%;">
 
                         <!-- NG SELECT FOR MANGER DROPDOWN -->
 
@@ -340,22 +330,21 @@
               
                          <!-- ADD BUTTON FOR MANAGERS -->
 
-                        <!-- <div class="col-md-2"> -->
-                        <button id="buttonstyle" (click)="OnAdd1()">Add</button>
+                        <button id="rightaddstyle"style="float: right;" (click)="OnAdd1()">Add</button>
                       </div>
                     </div>
 
-                    <div *ngIf="numberManager > 0" style="margin-top: 10px;">
+                    <div *ngIf="numberManager > 0" style="margin-top: 1%;">
 
                       <!-- SEARCH FILTER FOR SELECTED MANAGERS -->
 
 
-                      <label>Selected Managers</label>
-                      <input class="form-control mr-sm-2" id="myInput1" (keyup)="transformMan()"  type="text" placeholder="Search"
-                        [(ngModel)]="term" style="height: 50%;">
-                      <br>
+                      <label style="font-size:75%;">Selected Managers</label>
+                      <input style="font-size: 75%;" class="form-control mr-sm-2" id="myInput1" (keyup)="transformMan()"  type="text" placeholder="Search"
+                        [(ngModel)]="term">
+                      
 
-                      <div class="list" style="height: 3.5in;">
+                      <div class="list" style="height: 2.9in;font-size: 75%;margin-top: 1%;">
                         <!-- | mfilter:term -->
 
                         <!-- TABLE FOR SELECTED MANGERS  mfilter:term -->
@@ -422,152 +411,176 @@
 
                     <!-- WHEN NO MANGER IS ADDED -->
 
-                    <div id="noNames" *ngIf="numberManager==0">There are no managers.
-                      <br> <a style="font-size: 10pt;">Start typing a name above to add<br>a manager.</a><br><br>
+                   
+
+                    <div id="noNames" *ngIf="numberManager==0" style="font-size: 83.33%;">
+                        <a id="bigtex">There are no managers.</a>
+                      <br> <a  id="smaltex" style="font-size: 75%">Start typing a name above to add<br>a manager.</a><br><br>
 
                     </div>
+                
 
 
                   </div>
 
                 </div>
 
+           <div class="row">
+
+           <div class="col-md-9">   
+          <button id="deletestyle"type="button" data-backdrop='static' data-toggle="modal" data-target="#deleteModal"
+          ><i class="fa fa-trash-o"></i> Delete</button>
+          <!-- [ngStyle]="{'display': exampleModalOpen ? 'block' : 'none', 'opacity': 1}" -->
+        <div class="modal fade " id="deleteModal"   tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered  "style="height: 2in; width: 4in;" role="document">
+            <div class="modal-content"  style="border-radius: 5%;">
+              <div class="modal-header">
+                <h5 class="modal-title"   style="font-size: 83.333%;" id="exampleModalLabel">Delete Group?</h5>
+                <button type="button"class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="padding-bottom: 0; height: 1in;">
+                <div class="row">
+                  <div class="col-md-3" style="margin-top:2%">
+                    <img style="height: 60%; " src="../assets/img.png">
+
+                  </div>
+                  <div class=" col-md-9" style="margin-top:1%;font-size: 75%; padding-right: 0;">
+
+                    <p>
+                      The "Admins" group will be permanantly deleted <br>
+                      <a style="opacity: 60%;">This cannot be undone. Are you sure you want to coninue?</a>
+
+                    </p>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+
+                <button type="button" style="font-size: 75%;" class="btn btn-secondary"  data-dismiss="modal"  (click)="deleteGroup()">Confirm Deletion</button>
+                <button type="button" style="font-size: 75%;" class="btn btn-primary"  data-dismiss="modal">Cancel</button>
               </div>
             </div>
-          </div>     <!-- CONTAINER -->
+          </div>
+        </div> 
+    </div>  
+
+
+
+
+        <!-- CANCEL BUTTON [ngStyle]="{'display': exampleModal1Open ? 'block' : 'none', 'opacity': 1}" -->
+        <div class="col-md-3" >
+            <div class="row">
+
+        <button  id="cancelstyle" style=" width:40%; margin-right: 2%;" data-backdrop='static' data-toggle="modal" data-target="#cancelModal">Cancel</button>
+        <div class="modal fade  " id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true" >
+          <div class="modal-dialog modal-dialog-centered " style="height: 2in; width: 4in;" role="document">
+      
+            <div class="modal-content" style="border-radius: 5%;" >
+              <div class="modal-header" >
+                <h5 class="modal-title" style="font-size: 83.33%;" id="exampleModalLabel">Discard Changes?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="padding-bottom: 0; height: 1in;">
+                <div class="row">
+                  <div class="col-md-3" style="margin-top: 2%;">
+                    <img style="height: 65%;" src="../assets/img.png">
+                  </div>
+                  <div class=" col-md-9" style="font-size: 75%;">
+                    <p >
+                      You have unsaved changes that will be lost. <br>
+                      <a style="opacity: 60%;">Are you sure you want to navigate away?</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" style="font-size: 75%;"  data-dismiss="modal" (click)="closeCanModal()" class="btn btn-secondary">Discard changes</button>
+                <button type="button" style="font-size: 75%;" data-dismiss="modal"class="btn btn-primary" >Continue Editing</button>
+              </div>
+            </div>
+          </div>
         </div>
+  
+
+
+        <!-- SAVE BUTTON     [ngStyle]="{'display': loaderOpen ? 'block' : 'none', 'opacity': 1}"-->
+       
+
+         <button id="savestyle" *ngIf="saveUpdate==false" [disabled]="SaveDisable"class="btn btn-primary"
+          (click)="startTimer(60)">Save</button>
+          <button id="loadButton" #loadButton [hidden]="true" data-backdrop='static' data-toggle="modal" data-target="#saveModal"> </button>
+          <button id="alertButton" #alertButton [hidden]="true" data-backdrop='false' data-toggle="modal" data-target="#successModal"> </button>
+        <div class="modal fade  " id="saveModal" data-backdrop="static" tabindex="-1" role="dialog"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true"
+       >
+          <div class="modal-dialog modal-dialog-centered " style="width: 1.2in;"  role="document">
+            <div class="modal-content" >
+                <button type="button"  id="closeLoadButton" #closeLoadButton [hidden]="true" class="close" data-dismiss="modal" aria-label="Close">
+                
+                  </button>
+
+              <div class="modal-body" >
+                
+                <p style="text-align: center;">Saving...</p>
+                <div class="spinner-border text-secondary"  style="margin-left: 30%;"role="status">
+                  <span  class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- [ngStyle]="{'display': alert1Open ? 'block' : 'none', 'opacity': 1}" -->
+        <!-- <div id="alertSuc"> -->
+          <div class="modal fade bd-example-modal-sm" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog  modal-sm" role="document">
+              <div class="modal-content" id="alertBox">
+                <button type="button" id="closeAlertButton" #closeAlertButton [hidden]="true" class="close" data-dismiss="modal" aria-label="Close"></button>
+
+                <div class="modal-body" style="font-size: 75%;">
+                  Successfully saved the "{{groupName}}" group </div>
+
+              </div>
+            </div>
+          </div>
+        
+        <button id="savestyle"  *ngIf="saveUpdate==true"  [disabled]="SaveDisable" class="btn btn-primary"
+        (click)="updateSave(60)">Save</button>
+           </div>
+        </div>
+    </div>
+
+            </div>      <!-- COL MD 8 -->
+            </div>  
+          </div>     <!-- CONTAINER -->
+        <!-- </div> -->
 
 
 
         <!-- MODAL FOOTER -->
 
-        <div class="modal-footer" style="border: none;" *ngIf="addgroupbutton==true">
+        <!-- <div class="modal-footer" style="border: none;" *ngIf="addgroupbutton==true"> -->
 
 
           <!-- DELETE BUTTON -->
 
-          <button id="buttonstyle" style="margin-right: 2.83in; height:36.4688px " type="button" data-backdrop='static'
-            (click)="DelOpen()"><i class="fa fa-trash-o"></i> Delete</button>
-
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" [ngStyle]="{'display': exampleModalOpen ? 'block' : 'none', 'opacity': 1}">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Delete Group?</h5>
-                  <button type="button" class="close" (click)="closeDeleteModal()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-md-2" style="margin-top: .7cm;">
-                      <img style="height: 65%; " src="../assets/img.png">
-
-                    </div>
-                    <div class=" col-md-10" style="margin-top: 1cm;">
-
-                      <p>
-                        The "Admins" group will be permanantly deleted <br>
-                        <a style="opacity: 60%;">This cannot be undone. Are you sure you want to coninue?</a>
-
-                      </p>
-
-                    </div>
-                  </div>
-                </div>
-
-                <div class="modal-footer">
-
-                  <button type="button" class="btn btn-secondary" (click)="deleteGroup()">Confirm Deletion</button>
-                  <button type="button" class="btn btn-primary" (click)="closeDeleteModal()">Cancel</button>
-                </div>
-              </div>
-            </div>
-          </div>
+    
+     <!-- </div> 
 
 
-
-
-          <!-- CANCEL BUTTON -->
-
-          <button type="button" id="buttonstyle" style=" height:36.4688px" (click)="CanOpen()"
-            data-backdrop='static'>Cancel</button>
-          <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" [ngStyle]="{'display': exampleModal1Open ? 'block' : 'none', 'opacity': 1}">
-            <div class="modal-dialog " role="document">
-        
-              <div class="modal-content">
-                <div class="modal-header" >
-                  <h5 class="modal-title" id="exampleModalLabel">Discard Changes?</h5>
-                  <button type="button" class="close" (click)="closeCanModalOnCancel()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body" style="height: 1.5in;">
-                  <div class="row">
-                    <div class="col-md-3" style="margin-top: .7cm;">
-                      <img style="height: 65%; margin-left: .5cm; " src="../assets/img.png">
-                    </div>
-                    <div class=" col-md-9" style="margin-top: 1cm;">
-                      <p>
-                        You unsaved changes that will be lost. <br>
-                        <a style="opacity: 60%;">Are you sure you want to navigate away?</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" data-dismiss="modal" (click)="closeCanModal()" class="btn btn-secondary">Discard changes</button>
-                  <button type="button" class="btn btn-primary" (click)="closeCanModalOnCancel()">Continue Editing</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <!-- SAVE BUTTON -->
-
-          <button type="button" *ngIf="saveUpdate==false" [disabled]="SaveDisable" style="font-size: 10pt;" class="btn btn-primary"
-            (click)="startTimer(60)">Save</button>
-          <div class="modal fade" id="loader" data-backdrop="static" tabindex="-1" role="dialog"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true"
-            [ngStyle]="{'display': loaderOpen ? 'block' : 'none', 'opacity': 1}">
-            <div class="modal-dialog modal-dialog-centered"  role="document">
-              <div class="modal-content" >
-
-                <div class="modal-body"  style="margin-top: 32px;">
-                  
-                  <p style="text-align: center;">Saving...</p>
-                  <div style="margin-left: 20px; " class="spinner-border text-secondary" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="alertSuc">
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
-              [ngStyle]="{'display': alert1Open ? 'block' : 'none', 'opacity': 1}">
-              <div class="modal-dialog modal-dialog-centerd" role="document">
-                <div class="modal-content" id="alertBox">
-
-                  <div class="modal-body">
-                    Successfully saved the "{{groupName}}" group </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <button type="button" *ngIf="saveUpdate==true"  [disabled]="SaveDisable" style="font-size: 10pt;" class="btn btn-primary"
-          (click)="updateSave(60)">Save</button>
-        </div>
-
-
-      </div>
+     </div>
+   
     </div>
-  </div>
+
+    
+  </div>   -->
 
 
 

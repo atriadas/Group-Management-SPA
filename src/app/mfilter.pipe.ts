@@ -3,15 +3,16 @@ import { PipeTransform, Pipe } from '@angular/core';
     name: 'mfilter'
 })
 export class MfilterPipe implements PipeTransform {
-    transform(value, term) {
+    transform(value, term) { //term is a input
+    
         if (!term) {
-            return value;
+            return value;// original array
         }
         else {
-           // var value1 = value.filter(item => (item[0].toLowerCase().indexOf(term.toLowerCase()) ) > -1);
-            var value2 = value.filter(item => ((item[0] + item[1]).toString().toLowerCase().indexOf(term.toLowerCase()) ) > -1);
-            return  value2
-            // (value1 ||
+      
+            value = value.filter(item => ((item[0] + item[1]).toString().toLowerCase().indexOf(term.toLowerCase()) ) > -1);
+          
+            return  value
         }
     }
 }

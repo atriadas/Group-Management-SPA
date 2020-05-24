@@ -4,16 +4,16 @@ import { concat, Observable, of, Subject, interval, Subscription, from } from 'r
 import { DataService, HttpData, Update } from '../data.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
-import { RouterEvent, Router } from '@angular/router';
+import { RouterEvent, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  selector: 'app-setting-page',
+  templateUrl: './setting-page.component.html',
+  styleUrls: ['./setting-page.component.css']
 })
 
 
-export class SettingsComponent implements AfterViewInit {
+export class SettingPageComponent  implements AfterViewInit {
 
   progressbarValue = 100;
 
@@ -28,6 +28,7 @@ export class SettingsComponent implements AfterViewInit {
   customerArray: string[] = []
   customerArray2: string[] = []
   groupUuid: string;
+  tid:number;
  
 
   addgroupbutton: boolean = false;
@@ -61,7 +62,7 @@ export class SettingsComponent implements AfterViewInit {
   TempManArray:any[]=[];
  
 
-  constructor(private dataService: DataService, private router:Router) {
+  constructor(private dataService: DataService, private router:Router, private route: ActivatedRoute) {
 
     this.selectedPersonsArr1 = ['members']
     this.selectedPersonsArr = ['managers']
@@ -72,14 +73,27 @@ export class SettingsComponent implements AfterViewInit {
   @ViewChild("elem", { static: false }) select1Comp: NgSelectComponent;
   @ViewChild("eleme2", { static: false }) select1Comp2: NgSelectComponent;
   @ViewChild('openModal',{static:false}) openModal:ElementRef;
+  @ViewChild('alertButton',{static:false}) alertButton:ElementRef;
+  @ViewChild('loadButton',{static:false}) loadButton:ElementRef;
+  @ViewChild('closeLoadButton',{static:false}) closeLoadButton:ElementRef;
+  @ViewChild('closeAlertButton',{static:false}) closeAlertButton:ElementRef;
 
 
 
   ngAfterViewInit(){
     
+
+    this.route.queryParams
+    .subscribe(params => {
+      this.tid = params.tenantuuid;
+    });
+
+    console.log('tid=',this.tid)
     this.loadPeople();
-    this.openModal.nativeElement.click();//modal open
-    //this.getdbdata() //get groups
+    // this.openModal.nativeElement.click();//modal open
+    this.getdbdata() //get groups
+
+
   }
 
 
@@ -142,7 +156,7 @@ export class SettingsComponent implements AfterViewInit {
 
   getdbdata() { // TO GET ALL THE GROUPS
     this.dataArray = [];
-    this.dataService.getAllGroupsData(2)
+    this.dataService.getAllGroupsData(this.tid)
       .subscribe(x => {
         if (x != null) {
 
@@ -168,20 +182,23 @@ export class SettingsComponent implements AfterViewInit {
   startTimer(seconds: number) { // ON SAVE
     console.log("save")
     this.isOn = false;
-    this.loaderOpen = true
+    // this.loaderOpen = true
+    this.loadButton.nativeElement.click();
     const timer$ = interval(20);
     const sub = timer$.subscribe((sec) => {
       this.progressbarValue = 100 - sec * 100 / seconds;
       if (this.progressbarValue == 0) {
-        this.loaderOpen = false
-        this.alert1Open = true
+        // this.loaderOpen = false 
+        // this.alert1Open = true this.alert1Open = false
+        this.closeLoadButton.nativeElement.click();
+        this.alertButton.nativeElement.click();
         console.log(this.groupName)
-        setTimeout(() => { this.alert1Open = false }, 2000);
+        setTimeout(() => {  this.closeAlertButton.nativeElement.click(); }, 4000);
         var postGroup2: any = {}
         postGroup2['Groupname'] = this.groupName
         postGroup2['Manager_uuid'] = this.customerArray2
         postGroup2['Members_uuid'] = this.customerArray
-        this.dataService.postData(JSON.stringify(postGroup2),2);
+        this.dataService.postData(JSON.stringify(postGroup2),this.tid);
         sub.unsubscribe();
         setTimeout(() => {this.addgroupbutton = false; }, 2000);
         
@@ -198,43 +215,32 @@ export class SettingsComponent implements AfterViewInit {
   updateSave(seconds: number) { //ON UPDATE
     console.log('update');
     this.isOn = false;
-    this.loaderOpen = true
+    //this.loaderOpen = true
+    this.loadButton.nativeElement.click();
     const timer$ = interval(20);
     const sub = timer$.subscribe((sec) => {
       this.progressbarValue = 100 - sec * 100 / seconds;
       if (this.progressbarValue == 0) {
-        this.loaderOpen = false
-        this.alert1Open = true
+        //this.loaderOpen = false
+        //this.alert1Open = true
+      
+        this.closeLoadButton.nativeElement.click();
+        this.alertButton.nativeElement.click();
         console.log(this.groupName)
-        setTimeout(() => { this.alert1Open = false }, 2000);
+        setTimeout(() => { this.closeAlertButton.nativeElement.click(); }, 2000);
         var postGroup2: any = {}
-        var postGroup3: Update
-        
-        //postGroup2["Prev_Members_uuid"] = this.previousMemberUuid
-        //postGroup2["Prev_Manager_uuid"] = this.previousManagerUuid
-
-        // for (var i in this.selectedPersonsArr1) {
-        //   this.newMemberUuid.push(this.selectedPersonsArr1[i][3])
-        // }
-        // for (var i in this.selectedPersonsArr) {
-        //   this.newManagerUuid.push(this.selectedPersonsArr[i][3])
-        // }
-
         postGroup2["Groupname"] = this.groupName
         postGroup2["members_toadd"] = this.customerArray
         postGroup2["supervisors_toadd"] = this.customerArray2
         postGroup2["members_todelete"] = this.MemDeleteArray
         postGroup2["supervisors_todelete"] = this.ManDeleteArray
+        this.dataService.postUpdatedData(JSON.stringify(postGroup2), this.groupUuid);
         // postGroup3=new Update(this.groupName,this.customerArray,this.customerArray2,
         // this.MemDeleteArray,this.ManDeleteArray);
-        //this.dataService.postUpdatedData(postGroup3, this.groupUuid);
-
-       
 
 
-        this.dataService.postUpdatedData(JSON.stringify(postGroup2), this.groupUuid);
-        //console.log(this.groupUuid)
-       // console.log(JSON.stringify(postGroup2));
+       // this.dataService.postUpdatedData(postGroup3, this.groupUuid);
+
         sub.unsubscribe();
         //setTimeout(() => { }, 2000);
 
