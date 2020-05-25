@@ -1,14 +1,20 @@
- <button  (click)="gotoSettings()"> Settings</button>
+ <!-- <button  (click)="gotoSettings()"> Settings</button> -->
+ 
+  <a  href="https://www.wikipedia.org/?action=tenantsetting&tenantuuid={{tid}}" ><button>Settings</button> </a>
   <button style="margin-left: 5px;" (click)="Manage()" > Manage</button>
+  
+  <br> 
+ 
   <br>
-
-
 <div *ngIf="flag==1">
    <br>
-  <button type="button" (click)="gotoManage()"  >
-   Call Recording Settings
-</button>
+<!-- <button (click)="gotoManage()" type="button"> Call Recording Settings</button> -->
+<a href="https://www.wikipedia.org/?action=usersetting&useruuid={{userId}}" ><button> Call Recording Settings</button> </a>
+  
+
 <br>
+<br>
+<h6>Select an user</h6>
   
   <table >
    <tr *ngFor='let item of userArray' style="width: 200px;">
