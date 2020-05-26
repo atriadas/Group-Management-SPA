@@ -26,6 +26,7 @@ export class ManageComponent implements OnInit {
   userArray:any=[];
   userId:string
   tid:number;
+  saveflag:boolean=true;
  // modalOpen:boolean=false
   flag:boolean=false
  
@@ -36,18 +37,27 @@ export class ManageComponent implements OnInit {
   @ViewChild("elem", {static: false}) select1Comp: NgSelectComponent;
   @ViewChild("eleme2", {static: false}) select1Comp2: NgSelectComponent;
 
-  selectedPersons:string[]=[]; //MANAGERS
-  selectedPersons1:string[]=[]; //MEMBERS
+  selectedPersons:any[]=[]; //MANAGERS
+  selectedPersons1:any[]=[]; //MEMBERS
   role:string='None';
+
+  // selectedPersons:any[]= [{group_uuid : "123",group_name: "lala"}]
+  // selectedPersons1:any[]= [{group_uuid : "87",group_name: "pupu"}]
+
+  // selectedPersons: [{group_name: string,group_uuid : string }]
+  // selectedPersons1: [{group_name: string,group_uuid : string}]
+
+  manuuid:any[]=[]
+  menuuid:any[]=[]
+  delarray:any[]=[]
+  
+   
   
 
   ngOnInit() { 
 
-    // this.route.paramMap.subscribe(
-    //   params=>{
-    //     this.userId=params.get('userid');
-    //   }
-    // );
+ 
+  
 
     this.route.queryParams
     .subscribe(params => {
@@ -60,28 +70,107 @@ export class ManageComponent implements OnInit {
 
     console.log(this.userId)
     console.log(this.tid)
+   
+
+    //if(this.role=='Own Recordings'||this.role=='None')
+    // {
+    //   this.flag=true
+    //   console.log("Group Manager Disabled")
+    //   this.selectedPersons=[];
+    //   this.manuuid=[];
+    // }
+    // else{
+    //   this.flag=false
+    //   console.log("Group Manager enabled")
+     
+    // }
 
     this.loadPeople();
-    this.Manage()
+    this.getuserinfo()
+  
+    //this.Manage()
+    //this.mockfunction()
 
 
   }
 
-  Manage(){ //TO GET ALL THE AVAILABLE USERS
-    this.dataService.getUsers(1).subscribe(x => {
+  // mockfunction()
+  // {
+    
+
+  //   this.selectedPersons = [
+  //     { group_name : "Power", group_uuid : "P"}
+  //   ]
+  //   console.log(this.selectedPersons)
+  // }
+
+  getuserinfo()
+  {
+    const data = this.dataService.getUserData(this.userId);
+    data.subscribe(x => {
+      
+      this.role = x["Userrole"];
+      
+      this.selectedPersons1 = x['MembersofGroup'];
+      this.selectedPersons = x['ManagerofGroup'];
+      console.log(this.selectedPersons)
+      for(var i in this.selectedPersons)
+      {
+       // if(!(this.manuuid.indexOf(this.selectedPersons[i]['group_uuid'])>-1))
+        
+          this.manuuid.push(this.selectedPersons[i]['group_uuid'])
+        
+        
+      }
+      console.log("Manuuid->",this.manuuid)
+    
+      for(var i in this.selectedPersons1)
+      {
+        // if(!(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1))
+        // {
+          this.menuuid.push(this.selectedPersons1[i]['group_uuid'])
+        //}
+        
+      }
+      
+      console.log("Menuuid->",this.menuuid)
+
+     
+    // if(this.role=='None'||this.role=='Own Recordings')
+    // {
+    //   this.selectedPersons = []
+    //   this.manuuid=[]
+    // }
+    // else
+    // {
+    //   this.selectedPersons = x['ManagerofGroup'];
+
+    // }
+      
+      console.log(x)
+      console.log(x["Userrole"]);
+    
+  });
+  
+  
+
+}
+
+//   Manage(){ //TO GET ALL THE AVAILABLE USERS
+//     this.dataService.getUsers(this.tid).subscribe(x => {
         
 
-          for (const i of (x as any)) {
-            this.userArray.push({
-              Firstname: i.first_name,
-              Lastname: i.last_name,
-              UserId: i.user_uuid
-            });
-          }
-    }
-    )
-    console.log(this.userArray)
-  }
+//           for (const i of (x as any)) {
+//             this.userArray.push({
+//               Firstname: i.first_name,
+//               Lastname: i.last_name,
+//               UserId: i.user_uuid
+//             });
+//           }
+//     }
+//     )
+//     console.log(this.userArray)
+//   }
 // showModal()
 // {
   
@@ -104,15 +193,40 @@ userSelected(id:string) //Selected User
 
   OnAddGroupManager(){  //When Manager is added
     console.log("item added")
+   // for(var i in this.selectedPersons) [i]['group_uuid']
     console.log(this.selectedPersons)
+    for(var i in this.selectedPersons)
+    {
+      if(!(this.manuuid.indexOf(this.selectedPersons[i]['group_uuid'])>-1))
+      {
+        this.manuuid.push(this.selectedPersons[i]['group_uuid'])
+      }
+      
+    }
+      
+    console.log(this.manuuid)
      this.loadPeople();
+     this.saveflag=false
   
     
   }
   OnAddGroupMember(){  //When Member is added
     console.log("item added")
+   
     console.log(this.selectedPersons1)
+
+    for(var i in this.selectedPersons1)
+    {
+      if(!(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1))
+      {
+        this.menuuid.push(this.selectedPersons1[i]['group_uuid'])
+      }
+      
+    }
+      
+    console.log(this.menuuid)
      this.loadPeople();
+     this.saveflag=false
  
     
   }
@@ -129,23 +243,57 @@ userSelected(id:string) //Selected User
   //   this.select1Comp2.close();//for second ngselect component
   // }
 
-  // OnRemove(){ //when item is removed
-  //   console.log("item removed")
-  //   this.select1Comp.close();
-  //   this.select1Comp2.close();
-  //   this.loadPeople();
+  OnRemove(){ //when item is removed
+    console.log(this.selectedPersons)
+    this.delarray = []
+    for(var i in this.selectedPersons)
+    {
+      if(this.manuuid.indexOf(this.selectedPersons[i]['group_uuid'])>-1)
+      {
+        this.delarray.push(this.selectedPersons[i]['group_uuid'])
+      }
+      
+    }
+    this.manuuid = this.delarray
+    console.log(this.manuuid)
+    // this.select1Comp.close();
+    // this.select1Comp2.close();
+    this.loadPeople();
+    this.saveflag=false
    
-  // }
+  }
+  OnRemove1(){
+    console.log(this.selectedPersons1)
+    this.delarray = []
+    for(var i in this.selectedPersons1)
+    {
+      if(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1)
+      {
+        this.delarray.push(this.selectedPersons1[i]['group_uuid'])
+      }
+      
+    }
+    this.menuuid = this.delarray
+    console.log(this.menuuid)
+    // this.select1Comp.close();
+    // this.select1Comp2.close();
+    this.loadPeople();
+    this.saveflag=false
+
+  }
+
+
 
 
   GetRoleValue(args){ //Extracting Selected Role
     //var role = args.value;
    // console.log(args.target.value)
-   if(this.role=='Group Recordings')
+   if(this.role=='Own Recordings'||this.role=='None')
    {
      this.flag=true
      console.log("Group Manager Disabled")
      this.selectedPersons=[];
+     this.manuuid=[];
    }
    else{
      this.flag=false
@@ -154,6 +302,7 @@ userSelected(id:string) //Selected User
    }
     this.role_id=this.roles.indexOf(this.role)+1
     console.log(this.role, this.role_id)
+    this.saveflag=false
     //console.log(this.selectedPersons, 'groupIds for manager')
     //console.log(this.selectedPersons1 , 'groupIds for members')
    
@@ -166,11 +315,12 @@ userSelected(id:string) //Selected User
     console.log(this.role,this.selectedPersons,this.selectedPersons1);
     var userdto:any = {};
     userdto[ "Role_id"] = this.role_id;
-    userdto["Group_Members_uuid"] = this.selectedPersons1;
-    userdto["Group_Supervisors_uuid"] = this.selectedPersons;
+    userdto["Group_Members_uuid"] = this.menuuid;
+    userdto["Group_Supervisors_uuid"] = this.manuuid;
     var stringData = JSON.stringify(userdto);
     console.log(stringData,this.userId)
     this.dataService.postData(stringData,this.userId)
+    this.saveflag=true
     
   }
   

@@ -88,10 +88,11 @@
                     <div  >
                     <label >Group Manager</label>
 
-                        <ng-select #elem [items]="item$ | async" 
+                        <ng-select #elem 
+                        [items]="item$ | async" 
                         [typeahead]="peopleInput$"  
                         bindLabel="group_name" 
-                        bindValue="group_uuid"
+                        
                         [multiple]="true" 
                         [minTermLength]="2" 
                         placeholder="Start typing a group name" 
@@ -102,8 +103,11 @@
                         appendTo="body"
                         id="groupManager"
                         (add)="OnAddGroupManager()"
+                        (remove)="OnRemove()"
                         [disabled]="flag">
 
+                        <!-- bindValue='group_uuid' -->
+                        
                         <!--    [closeOnSelect]="true" [hideSelected]="true" (remove)="OnRemove()"(add)="OnAdd()"  (blur) = "OnBlur()"  id="groupManager" (change)="GetManagerValue($event)" -->
 
                         <ng-template ng-label-tmp let-item="item" let-clear="clear">
@@ -124,7 +128,7 @@
                     <label>Group Member</label>
                         <ng-select #eleme2 [items]="item$| async" 
                         bindLabel="group_name" 
-                        bindValue="group_uuid"
+                       
                         [multiple]="true"  
                         [minTermLength]="2" 
                         typeToSearchText="Please enter 3 or more characters"
@@ -135,9 +139,11 @@
                         appendTo="body"
                         [ngModelOptions]="{standalone: true}"
                         (add)="OnAddGroupMember()"
+                        (remove)="OnRemove1()"
+                        
                        >
 
-                        <!--   (blur) = "OnBlur()"
+                        <!--   (blur) = "OnBlur()"  bindValue="group_uuid"
                         [closeOnSelect]="true"
                         (add)="OnAdd()"
                         (remove)="OnRemove()" [hideSelected]="true"(change)="GetMemberValue($event)" -->
@@ -157,7 +163,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
-                    <button type="submit" class="btn btn-primary" > Save</button>
+                    <button type="submit"[disabled]="saveflag" class="btn btn-primary" > Save</button>
                 </div>
                 </form>
 

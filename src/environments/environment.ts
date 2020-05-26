@@ -6,6 +6,7 @@ export const environment = {
   production: false , backend_address: '10.198.104.94:8089'
 };
 // localhost:8089
+//10.198.104.94:8089  final docker
 // 10.8.138.241  my system ip
 //10.30.12.81  navneet ip
 

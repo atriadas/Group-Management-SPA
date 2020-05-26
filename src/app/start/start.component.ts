@@ -35,21 +35,21 @@ export class StartComponent implements OnInit {
 
   }
   
-  Manage(){ //TO GET ALL THE AVAILABLE USERS
-    this.flag=1;
-    this.dataService.getUsers(1).subscribe(x => {
+  // Manage(){ //TO GET ALL THE AVAILABLE USERS
+  //   this.flag=1;
+  //   this.dataService.getUsers(1).subscribe(x => {
         
 
-          for (const i of (x as any)) {
-            this.userArray.push({
-              Firstname: i.first_name,
-              Lastname: i.last_name,
-              UserId: i.user_uuid
-            });
-          }
-    }
-    )
-    console.log(this.userArray)
-  }
+  //         for (const i of (x as any)) {
+  //           this.userArray.push({
+  //             Firstname: i.first_name,
+  //             Lastname: i.last_name,
+  //             UserId: i.user_uuid
+  //           });
+  //         }
+  //   }
+  //   )
+  //   console.log(this.userArray)
+  // }
 
 }

@@ -16,7 +16,9 @@ import { environment } from 'src/environments/environment'
 
 export class HttpData
 {
- groupname:string;
+ group_uuid:string;
+ group_name:string;
+ 
  
 }
 export class UsersData
@@ -29,6 +31,18 @@ export class UsersData
   tenant_id:  number;
  
 }
+// export class Userinfo
+// {
+//   userrole:string;
+//   MemberOfGroups: {
+//     groupname:string;
+
+//   } ;
+//   ManagerOfGroups: {
+//     groupname:string;
+
+//   } ;
+// }
 
 
 @Injectable({
@@ -44,8 +58,9 @@ export class Data2Service{
   getPeople(term: string = null,tid:number): Observable<HttpData[]> {
   
     this.getHttpData(term,tid).subscribe(items=>this.items=items);
-
+    
     return of(this.items).pipe(delay(100));
+    
   }
 
 
@@ -66,16 +81,24 @@ export class Data2Service{
     }
 
   }
+  getUserData(useruuid: string = null) { //Http Call
+    
+ 
+      var url='http://'+environment.backend_address+'/UserInfo?user_uuid='+useruuid;
+      return this.http.get(url)
+    
 
-  getUsers(tid) { //Http Call for users
-    
-    var url='http://'+environment.backend_address+'/FindUser?tid='+tid+'&user='
-      const item = this.http.get<UsersData[]>(url)
-      //console.log(item.subscribe(x=>console.log(x)))
-      
-      return item
-    
   }
+
+  // getUsers(tid) { //Http Call for users
+    
+  //   var url='http://'+environment.backend_address+'/FindUser?tid='+tid+'&user='
+  //     const item = this.http.get<UsersData[]>(url)
+  //     //console.log(item.subscribe(x=>console.log(x)))
+      
+  //     return item
+    
+  // }
 
   
  
