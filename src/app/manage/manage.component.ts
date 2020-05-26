@@ -25,6 +25,7 @@ export class ManageComponent implements OnInit {
   role_id:number=1;
   userArray:any=[];
   userId:string
+  tid:number;
  // modalOpen:boolean=false
   flag:boolean=false
  
@@ -52,8 +53,13 @@ export class ManageComponent implements OnInit {
     .subscribe(params => {
       this.userId = params.useruuid;
     });
+    this.route.queryParams
+    .subscribe(params => {
+      this.tid = params.tenantuuid;
+    });
 
     console.log(this.userId)
+    console.log(this.tid)
 
     this.loadPeople();
     this.Manage()
@@ -175,7 +181,7 @@ userSelected(id:string) //Selected User
       this.peopleInput$.pipe(
           distinctUntilChanged(),
           tap(() => this.peopleLoading = true),
-          switchMap(term => this.dataService.getPeople(term,2).pipe(
+          switchMap(term => this.dataService.getPeople(term,this.tid).pipe(
               catchError(() => of([])), // empty list on error
               tap(() => this.peopleLoading = false)
           ))

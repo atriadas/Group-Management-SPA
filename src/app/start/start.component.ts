@@ -24,7 +24,7 @@ export class StartComponent implements OnInit {
   this.userId=id;
   console.log(this.userId)
 }
-  gotoManage(){
+   gotoManage(){
   
     this.router.navigate(['Manage'],{queryParams:{useruuid:this.userId}})
   }

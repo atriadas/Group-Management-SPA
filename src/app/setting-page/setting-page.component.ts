@@ -616,7 +616,7 @@ transformMan() // filter for selected members
       this.peopleInput$.pipe(
         distinctUntilChanged(),
         tap(() => this.peopleLoading = true),
-        switchMap(term => this.dataService.getPeople(term,1).pipe(
+        switchMap(term => this.dataService.getPeople(term,this.tid).pipe(
           catchError(() => of([])), // empty list on error
           tap(() => this.peopleLoading = false)
         ))

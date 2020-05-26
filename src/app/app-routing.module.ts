@@ -10,7 +10,7 @@ import { SettingPageComponent } from './setting-page/setting-page.component';
 const routes: Routes = [
   { path: 'Settings', component: SettingPageComponent },
   { path: 'Manage', component: ManageComponent },
-  { path: '', component: StartComponent}
+  //{ path: '', component: StartComponent}
 
 ];
 
