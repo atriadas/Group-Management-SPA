@@ -5,6 +5,7 @@ import { concat, Observable, of, Subject } from 'rxjs';
 import { Data2Service, HttpData} from '../data2.service';
 import { NgSelectComponent} from '@ng-select/ng-select';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { timingSafeEqual } from 'crypto';
 
 
 @Component({
@@ -50,6 +51,10 @@ export class ManageComponent implements OnInit {
   manuuid:any[]=[]
   menuuid:any[]=[]
   delarray:any[]=[]
+  mandeluuid:any[]=[]
+  mandel:any[]=[]
+  tempman:any[]=[]
+  tempman2:any[]=[]
   
    
   
@@ -129,6 +134,7 @@ export class ManageComponent implements OnInit {
         // if(!(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1))
         // {
           this.menuuid.push(this.selectedPersons1[i]['group_uuid'])
+          
         //}
         
       }
@@ -136,19 +142,31 @@ export class ManageComponent implements OnInit {
       console.log("Menuuid->",this.menuuid)
 
      
-    // if(this.role=='None'||this.role=='Own Recordings')
-    // {
-    //   this.selectedPersons = []
-    //   this.manuuid=[]
-    // }
+    if(this.role=='None'||this.role=='Own Recordings')
+    {
+      for(var i in this.selectedPersons)
+      {
+        // if(!(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1))
+        // {
+          this.mandeluuid.push(this.selectedPersons1[i]['group_uuid'])
+          this.tempman.push(this.selectedPersons1[i])
+        //}
+       
+        
+      }
+      this.flag=true
+      console.log("Group Manager disabled")
+      this.selectedPersons=[]
+    }
+    console.log('managers to delete', this. mandeluuid)
     // else
     // {
     //   this.selectedPersons = x['ManagerofGroup'];
 
     // }
       
-      console.log(x)
-      console.log(x["Userrole"]);
+    //   console.log(x)
+    //   console.log(x["Userrole"]);
     
   });
   
@@ -179,11 +197,11 @@ export class ManageComponent implements OnInit {
 // }
 
 
-userSelected(id:string) //Selected User
-{
-  this.userId=id;
-  console.log(this.userId)
-}
+// userSelected(id:string) //Selected User
+// {
+//   this.userId=id;
+//   console.log(this.userId)
+// }
 
 
 // modalClose()
@@ -195,6 +213,8 @@ userSelected(id:string) //Selected User
     console.log("item added")
    // for(var i in this.selectedPersons) [i]['group_uuid']
     console.log(this.selectedPersons)
+    this.tempman=this.selectedPersons
+    this.tempman2=this.selectedPersons
     for(var i in this.selectedPersons)
     {
       if(!(this.manuuid.indexOf(this.selectedPersons[i]['group_uuid'])>-1))
@@ -245,6 +265,8 @@ userSelected(id:string) //Selected User
 
   OnRemove(){ //when item is removed
     console.log(this.selectedPersons)
+    this.tempman2=this.selectedPersons
+    this.tempman=this.selectedPersons
     this.delarray = []
     for(var i in this.selectedPersons)
     {
@@ -292,12 +314,45 @@ userSelected(id:string) //Selected User
    {
      this.flag=true
      console.log("Group Manager Disabled")
+     if(this.selectedPersons==[])
+     {
+       this.tempman=this.tempman2
+       console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+     }
+     else{
+      this.tempman =this.selectedPersons
+      console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+
+     }
+    
      this.selectedPersons=[];
      this.manuuid=[];
    }
    else{
      this.flag=false
+     console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+     if(this.tempman.length==0)
+     {
+       this.selectedPersons=this.tempman2
+       console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+     }
+     else
+     {
+      this.selectedPersons=this.tempman
+      console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+
+     }
+    if(this.tempman.length!=0)
+    {
+      this.tempman2=this.tempman
+
+    }
+   
      console.log("Group Manager enabled")
+     console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+     
+     
+
     
    }
     this.role_id=this.roles.indexOf(this.role)+1
