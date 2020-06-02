@@ -104,10 +104,10 @@ export class Data2Service{
  
 
 
-  postHTTPData(data:string,uid){ //Http Post in DB
+  putHTTPData(data:string,uid){ //Http Post in DB
     console.log("Posting data to DB")
-    var url='http://'+environment.backend_address+'/Group/ConfigureUsers?uid='+uid
-    return this.http.post(url,data).subscribe(res=>this.Success(res),res=>{
+    var url='http://'+environment.backend_address+'/Group/ConfigureUsers?user_uuid='+uid
+    return this.http.put(url,data).subscribe(res=>this.Success(res),res=>{
       return this.Error(res);
   });
   }  
@@ -120,9 +120,9 @@ export class Data2Service{
   console.log("Successfully Posted");
   } 
 
-  postData(Data: string,uid){
-    this.postHTTPData(Data,uid);
-  }
+  // postData(Data: string,uid){
+  //   this.postHTTPData(Data,uid);
+  // }
   
 
 }

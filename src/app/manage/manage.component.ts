@@ -5,7 +5,7 @@ import { concat, Observable, of, Subject } from 'rxjs';
 import { Data2Service, HttpData} from '../data2.service';
 import { NgSelectComponent} from '@ng-select/ng-select';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { timingSafeEqual } from 'crypto';
+
 
 
 @Component({
@@ -16,7 +16,6 @@ import { timingSafeEqual } from 'crypto';
 })
 export class ManageComponent implements OnInit {
 
-  //isbeingSearched: boolean = false;
 
   item$: Observable<HttpData[]>;
   peopleLoading = false;
@@ -25,10 +24,9 @@ export class ManageComponent implements OnInit {
   groupMemberId:string[];
   role_id:number=1;
   userArray:any=[];
-  userId:string
-  tid:number;
+  userId:string=''
+  tid:number=0;
   saveflag:boolean=true;
- // modalOpen:boolean=false
   flag:boolean=false
  
 
@@ -41,29 +39,25 @@ export class ManageComponent implements OnInit {
   selectedPersons:any[]=[]; //MANAGERS
   selectedPersons1:any[]=[]; //MEMBERS
   role:string='None';
-
-  // selectedPersons:any[]= [{group_uuid : "123",group_name: "lala"}]
-  // selectedPersons1:any[]= [{group_uuid : "87",group_name: "pupu"}]
-
-  // selectedPersons: [{group_name: string,group_uuid : string }]
-  // selectedPersons1: [{group_name: string,group_uuid : string}]
-
   manuuid:any[]=[]
   menuuid:any[]=[]
   delarray:any[]=[]
-  mandeluuid:any[]=[]
-  mandel:any[]=[]
+  // mandeluuid:any[]=[]
+  // mandel:any[]=[]
   tempman:any[]=[]
   tempman2:any[]=[]
+  tempmen:any[]=[]
   
    
-  
-
   ngOnInit() { 
 
+    console.log("PAGE LOADS")
+    this.role=''
+    this.selectedPersons=[]
+    this.selectedPersons1=[]
+    this.menuuid=[]
+    this.manuuid=[]
  
-  
-
     this.route.queryParams
     .subscribe(params => {
       this.userId = params.useruuid;
@@ -73,41 +67,11 @@ export class ManageComponent implements OnInit {
       this.tid = params.tenantuuid;
     });
 
-    console.log(this.userId)
-    console.log(this.tid)
-   
-
-    //if(this.role=='Own Recordings'||this.role=='None')
-    // {
-    //   this.flag=true
-    //   console.log("Group Manager Disabled")
-    //   this.selectedPersons=[];
-    //   this.manuuid=[];
-    // }
-    // else{
-    //   this.flag=false
-    //   console.log("Group Manager enabled")
-     
-    // }
-
-    this.loadPeople();
+    console.log("userId->",this.userId)
+    console.log("tid->",this.tid)
     this.getuserinfo()
-  
-    //this.Manage()
-    //this.mockfunction()
-
-
+    this.loadPeople();
   }
-
-  // mockfunction()
-  // {
-    
-
-  //   this.selectedPersons = [
-  //     { group_name : "Power", group_uuid : "P"}
-  //   ]
-  //   console.log(this.selectedPersons)
-  // }
 
   getuserinfo()
   {
@@ -115,6 +79,16 @@ export class ManageComponent implements OnInit {
     data.subscribe(x => {
       
       this.role = x["Userrole"];
+      if(this.role=="None")
+      this.role_id=1
+      if(this.role=="Own Recordings")
+      this.role_id=2
+      if(this.role=="Group Recordings")
+      this.role_id=3
+      if(this.role=="All Recordings")
+      this.role_id=4
+
+      console.log("role_>",this.role,"role id_>", this.role_id)
       
       this.selectedPersons1 = x['MembersofGroup'];
       this.selectedPersons = x['ManagerofGroup'];
@@ -127,6 +101,8 @@ export class ManageComponent implements OnInit {
         
         
       }
+      this.tempman=this.selectedPersons
+      console.log("Origina manager groups->",this.tempman)
       console.log("Manuuid->",this.manuuid)
     
       for(var i in this.selectedPersons1)
@@ -138,35 +114,30 @@ export class ManageComponent implements OnInit {
         //}
         
       }
-      
+      this.tempmen=this.selectedPersons1
+      console.log("Origina member groups->",this.tempmen)
       console.log("Menuuid->",this.menuuid)
 
      
     if(this.role=='None'||this.role=='Own Recordings')
     {
-      for(var i in this.selectedPersons)
-      {
-        // if(!(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1))
-        // {
-          this.mandeluuid.push(this.selectedPersons1[i]['group_uuid'])
-          this.tempman.push(this.selectedPersons1[i])
-        //}
-       
-        
-      }
+      // for(var i in this.selectedPersons)
+      // {
+      //   // if(!(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1))
+      //   // {
+      //     this.mandeluuid.push(this.selectedPersons[i]['group_uuid'])
+      //     //this.tempman.push(this.selectedPersons[i])
+          
+      //   //}
+ 
+      // }
+      
       this.flag=true
       console.log("Group Manager disabled")
       this.selectedPersons=[]
     }
-    console.log('managers to delete', this. mandeluuid)
-    // else
-    // {
-    //   this.selectedPersons = x['ManagerofGroup'];
-
-    // }
-      
-    //   console.log(x)
-    //   console.log(x["Userrole"]);
+    
+   // console.log('managers to delete', this. mandeluuid)
     
   });
   
@@ -213,8 +184,8 @@ export class ManageComponent implements OnInit {
     console.log("item added")
    // for(var i in this.selectedPersons) [i]['group_uuid']
     console.log(this.selectedPersons)
-    this.tempman=this.selectedPersons
-    this.tempman2=this.selectedPersons
+    // this.tempman=this.selectedPersons
+    // this.tempman2=this.selectedPersons
     for(var i in this.selectedPersons)
     {
       if(!(this.manuuid.indexOf(this.selectedPersons[i]['group_uuid'])>-1))
@@ -222,14 +193,13 @@ export class ManageComponent implements OnInit {
         this.manuuid.push(this.selectedPersons[i]['group_uuid'])
       }
       
-    }
-      
+    } 
     console.log(this.manuuid)
      this.loadPeople();
      this.saveflag=false
-  
-    
   }
+
+
   OnAddGroupMember(){  //When Member is added
     console.log("item added")
    
@@ -240,10 +210,8 @@ export class ManageComponent implements OnInit {
       if(!(this.menuuid.indexOf(this.selectedPersons1[i]['group_uuid'])>-1))
       {
         this.menuuid.push(this.selectedPersons1[i]['group_uuid'])
-      }
-      
+      } 
     }
-      
     console.log(this.menuuid)
      this.loadPeople();
      this.saveflag=false
@@ -265,8 +233,6 @@ export class ManageComponent implements OnInit {
 
   OnRemove(){ //when item is removed
     console.log(this.selectedPersons)
-    this.tempman2=this.selectedPersons
-    this.tempman=this.selectedPersons
     this.delarray = []
     for(var i in this.selectedPersons)
     {
@@ -274,7 +240,6 @@ export class ManageComponent implements OnInit {
       {
         this.delarray.push(this.selectedPersons[i]['group_uuid'])
       }
-      
     }
     this.manuuid = this.delarray
     console.log(this.manuuid)
@@ -314,42 +279,51 @@ export class ManageComponent implements OnInit {
    {
      this.flag=true
      console.log("Group Manager Disabled")
-     if(this.selectedPersons==[])
-     {
-       this.tempman=this.tempman2
-       console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
-     }
-     else{
-      this.tempman =this.selectedPersons
-      console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+    //  if(this.selectedPersons==[])
+    //  {
+    //    this.tempman=this.tempman2
+    //    console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+    //  }
+    //  else{
+    //   this.tempman =this.selectedPersons
+    //   console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
 
-     }
+    //  }
     
      this.selectedPersons=[];
      this.manuuid=[];
    }
    else{
      this.flag=false
-     console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
-     if(this.tempman.length==0)
+     //console.log(this.selectedPersons, "before if")
+     if(this.selectedPersons.length==0)
      {
-       this.selectedPersons=this.tempman2
-       console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
-     }
-     else
-     {
+      //console.log(this.selectedPersons,"insie")
       this.selectedPersons=this.tempman
-      console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
 
      }
-    if(this.tempman.length!=0)
-    {
-      this.tempman2=this.tempman
+    // console.log(this.selectedPersons," after")
+    
+    // console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+    //  if(this.tempman.length==0)
+    //  {
+    //    this.selectedPersons=this.tempman2
+    //    console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+    //  }
+    //  else
+    //  {
+    //   this.selectedPersons=this.tempman
+    //   console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
 
-    }
+     //}
+    // if(this.tempman.length!=0)
+    // {
+    //   this.tempman2=this.tempman
+
+    // }
    
      console.log("Group Manager enabled")
-     console.log('temparaay 1',this.tempman,'temp2',this.tempman2)
+     
      
      
 
@@ -360,22 +334,46 @@ export class ManageComponent implements OnInit {
     this.saveflag=false
     //console.log(this.selectedPersons, 'groupIds for manager')
     //console.log(this.selectedPersons1 , 'groupIds for members')
+    
    
   }
 
   UserDetails() //Save Changes
   {
-    //var details:any ={};
     console.log("details Saved");
-    console.log(this.role,this.selectedPersons,this.selectedPersons1);
+    var managerRemoveUuid:any[]=[]
+    var memberRemoveUuid:any[]=[]
+    if(this.tempman!=null){
+    let managerrem = this.tempman.filter(item => this.selectedPersons.indexOf(item) < 0);
+    for(var i in managerrem)
+    {
+       managerRemoveUuid.push(managerrem[i]["group_uuid"])
+    }
+    }
+    console.log("Manager to remove uuid->",managerRemoveUuid);
+    if(this.tempmen!=null)
+    {
+    let memberrem = this.tempmen.filter(item => this.selectedPersons1.indexOf(item) < 0);
+       for(var i in memberrem)
+        {
+            memberRemoveUuid.push(memberrem[i]["group_uuid"])
+        }
+     }
+    console.log("Member to remove uuid->",memberRemoveUuid);
+
     var userdto:any = {};
-    userdto[ "Role_id"] = this.role_id;
-    userdto["Group_Members_uuid"] = this.menuuid;
-    userdto["Group_Supervisors_uuid"] = this.manuuid;
+    userdto["Role_id"] = this.role_id;
+    userdto["Group_Members_toadd"] = this.menuuid;
+    userdto["Group_Members_todelete"] = memberRemoveUuid;
+    userdto["Group_Supervisors_toadd"] = this.manuuid;
+    userdto["Group_Supervisors_todelete"] = managerRemoveUuid;
+
     var stringData = JSON.stringify(userdto);
     console.log(stringData,this.userId)
-    this.dataService.postData(stringData,this.userId)
+    this.dataService.putHTTPData(stringData,this.userId)
     this.saveflag=true
+    setTimeout(() => {  this.ngOnInit(); }, 2000);
+   
     
   }
   
