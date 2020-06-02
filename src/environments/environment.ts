@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false , backend_address: '10.198.104.94:8089'
+  production: false ,
+  backend_address: '10.198.104.94:8089'
 };
 // localhost:8089
 //10.198.104.94:8089  final docker
