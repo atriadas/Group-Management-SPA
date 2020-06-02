@@ -60,6 +60,11 @@ export class SettingPageComponent  implements AfterViewInit {
   ManDeleteArray:string[]= [];
   TempArray:any[]=[];
   TempManArray:any[]=[];
+  accessToken:string;
+  refreshToken:string;
+  errorflag:boolean=false
+  errorMessage:string
+ 
  
 
   constructor(private dataService: DataService, private router:Router, private route: ActivatedRoute) {
@@ -81,6 +86,26 @@ export class SettingPageComponent  implements AfterViewInit {
 
 
   ngAfterViewInit(){
+
+    this.accessToken= localStorage.getItem('Access_Token')
+    this.refreshToken=localStorage.getItem('Refresh_Token')
+
+    var lala=this.dataService.getLoggedInUser(this.accessToken)
+    lala
+    .subscribe(
+      (response) => {                           //Next callback
+       console.log('Success:200 OK')
+       this.errorflag=true 
+      },
+      (error) => {
+        this.errorflag=false      
+      
+       // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
+        this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
+        console.log('Error thrown -> token:',this.errorMessage)
+      }
+    )
+    console.log(lala) 
     
 
     this.route.queryParams
@@ -88,6 +113,12 @@ export class SettingPageComponent  implements AfterViewInit {
       this.tid = params.tenantuuid;
     });
 
+    // localStorage.getItem('')
+    // localStorage.getItem('')
+    this.accessToken= localStorage.getItem('Access_Token')
+    this.refreshToken=localStorage.getItem('Refresh_Token')
+
+    console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
     console.log('tid=',this.tid)
     this.loadPeople();
     // this.openModal.nativeElement.click();//modal open

@@ -10,8 +10,11 @@
 import { Injectable} from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay} from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
+import { HttpHeaders } from '@angular/common/http';
+
+
 
 
 export class HttpData
@@ -123,8 +126,36 @@ export class Data2Service{
   // postData(Data: string,uid){
   //   this.postHTTPData(Data,uid);
   // }
+
+  getLoggedInUser(auth_token) {
+    var errorMessage;
+    var successMessage;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' +auth_token
+    })
+    var res=this.http.get('https://authentication.us.dev.api.mitel.io/2017-09-01/token', { headers: headers })
+    //res.subscribe(x=>console.log(x)) 
+    console.log(res)
+    res.subscribe(
+      (response) => {                           //Next callback
+       // console.log('Success:200 OK')
+        successMessage=response
+        console.log(successMessage)
+      },
+      (error : HttpErrorResponse) => {                              //Error callback
+       // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
+        errorMessage = error.error['message'];
+        console.log('Error thrown -> token:',errorMessage)
+      }
+    )
+    return res
+  
+  } 
   
 
 }
+
+
 
 

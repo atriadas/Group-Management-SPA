@@ -28,6 +28,8 @@ export class ManageComponent implements OnInit {
   tid:number=0;
   saveflag:boolean=true;
   flag:boolean=false
+  accessToken:string;
+  refreshToken:string;
  
 
 
@@ -47,9 +49,34 @@ export class ManageComponent implements OnInit {
   tempman:any[]=[]
   tempman2:any[]=[]
   tempmen:any[]=[]
+  errorflag:boolean=false
+  errorMessage:string
   
    
   ngOnInit() { 
+    
+    this.accessToken= localStorage.getItem('Access_Token')
+    this.refreshToken=localStorage.getItem('Refresh_Token')
+
+    console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
+
+ 
+    var lala=this.dataService.getLoggedInUser(this.accessToken)
+    lala
+    .subscribe(
+      (response) => {                           //Next callback
+       console.log('Success:200 OK')
+       this.errorflag=true 
+      },
+      (error) => {
+        this.errorflag=false      
+      
+       // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
+        this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
+        console.log('Error thrown -> token:',this.errorMessage)
+      }
+    )
+    console.log(lala) 
 
     console.log("PAGE LOADS")
     this.role=''
@@ -66,12 +93,15 @@ export class ManageComponent implements OnInit {
     .subscribe(params => {
       this.tid = params.tenantuuid;
     });
-
     console.log("userId->",this.userId)
     console.log("tid->",this.tid)
+
     this.getuserinfo()
     this.loadPeople();
   }
+
+
+
 
   getuserinfo()
   {
