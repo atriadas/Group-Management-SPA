@@ -3,17 +3,16 @@ import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from './app/app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule} from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { MfilterPipe } from './mfilter.pipe';
-import {GroupFilterPipe} from './groupFilter.pipe';
+import { MfilterPipe } from './filter/mfilter.pipe';
+import {GroupFilterPipe} from './filter/groupFilter.pipe';
 import { SettingsComponent } from './settings/settings.component';
 import { ManageComponent } from './manage/manage.component';
-import { StartComponent } from './start/start.component';
 import { SettingPageComponent } from './setting-page/setting-page.component';
 
 
@@ -25,7 +24,6 @@ import { SettingPageComponent } from './setting-page/setting-page.component';
     GroupFilterPipe,
     SettingsComponent,
     ManageComponent,
-    StartComponent,
     SettingPageComponent
    
   ],

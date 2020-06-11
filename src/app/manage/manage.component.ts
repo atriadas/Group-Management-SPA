@@ -2,7 +2,7 @@
 import { Component, OnInit ,ViewChild,ViewEncapsulation} from '@angular/core';
 import { catchError, distinctUntilChanged, switchMap, tap, combineAll } from 'rxjs/operators';
 import { concat, Observable, of, Subject } from 'rxjs';
-import { Data2Service, HttpData} from '../data2.service';
+import { Data2Service, HttpData} from '../dataService/data2.service';
 import { NgSelectComponent} from '@ng-select/ng-select';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -55,23 +55,33 @@ export class ManageComponent implements OnInit {
    
   ngOnInit() { 
     
-    this.accessToken= localStorage.getItem('Access_Token')
+    this.accessToken= localStorage.getItem('Access_Token')// fetching the access toke from local storage
     this.refreshToken=localStorage.getItem('Refresh_Token')
 
     console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
 
  
-    var lala=this.dataService.getLoggedInUser(this.accessToken)
+  // var lala=this.dataService.getLoggedInUser('eyJhY2NvdW50SWQiOiIxOGExNWIzZS04NGQxLTRmNDgtOGFjZS1jZTJiY2RhZjg2YzYiLCJiZWFyZXJUb2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYm1seGRXVlZjMlZ5U1dRaU9pSmlOREpoWVRNNE5TMDBOR1JoTFRRNE5qWXRPRFJpWmkwMlpEUTROMkprTVdaalpEUWlMQ0p3Y21sdVkybHdZV3hKWkNJNkltSTBNbUZoTXpnMUxUUTBaR0V0TkRnMk5pMDROR0ptTFRaa05EZzNZbVF4Wm1Oa05DSXNJbUZqWTI5MWJuUkpaQ0k2SWpFNFlURTFZak5sTFRnMFpERXROR1kwT0MwNFlXTmxMV05sTW1KalpHRm1PRFpqTmlJc0luQmhjblJ1WlhKSlpDSTZJams1TVRBd01EQXdNaUlzSW1SdmJXRnBiaUk2SWpFNFlURTFZak5sTFRnMFpERXROR1kwT0MwNFlXTmxMV05sTW1KalpHRm1PRFpqTmk1MWN5NWtaWFl1WVhCcExtMXBkR1ZzTG1sdklpd2laVzFoYVd3aU9pSmhjMk5qY25WelpYSTJRRzFwZEdWc0xtTnZiU0lzSW1WdFlXbHNWbVZ5YVdacFpXUWlPbVpoYkhObExDSmxlSFJsYm5OcGIyNGlPaUkzTXpRMUlpd2laWGgwWlc1emFXOXVWbVZ5YVdacFpXUWlPblJ5ZFdVc0lteGhibWQxWVdkbFEyOWtaU0k2SW1WdUxWVlRJaXdpYlc5aWFXeGxJam9pSWl3aWJXOWlhV3hsVm1WeWFXWnBaV1FpT21aaGJITmxMQ0p1WVcxbElqb2lZWE5qSUhWelpYSTJJaXdpY0dodmJtVWlPaUlyTVRRd09EVXdPRGN6TkRVaUxDSndhRzl1WlZabGNtbG1hV1ZrSWpwMGNuVmxMQ0p3YUc5MGIxVnliQ0k2SWlJc0luQnliMlpwYkdWSVpXRmtaWEpWY213aU9pSWlMQ0p5YjJ4bElqb2lRVU5EVDFWT1ZGOUJSRTFKVGlJc0luVnpaWEpKWkNJNkltSTBNbUZoTXpnMUxUUTBaR0V0TkRnMk5pMDROR0ptTFRaa05EZzNZbVF4Wm1Oa05DSXNJbk5wY0VGa1pISmxjM01pT2lKaU5ESmhZVE00TlMwME5HUmhMVFE0TmpZdE9EUmlaaTAyWkRRNE4ySmtNV1pqWkRSQU1UaGhNVFZpTTJVdE9EUmtNUzAwWmpRNExUaGhZMlV0WTJVeVltTmtZV1k0Tm1NMkxuVnpMbVJsZGk1aGNHa3ViV2wwWld3dWFXOGlMQ0p6YVhSbFNXUWlPaUlpTENKc2IyZHBia2xrSWpvaVlYTmpZM0oxYzJWeU5rQnRhWFJsYkM1amIyMGlMQ0poZFdRaU9pSm9kSFJ3Y3pvdkwyMXBkR1ZzTG1sdkwyRjFkR2d2ZEdWaGJYZHZjbXNpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMkYxZEdobGJuUnBZMkYwYVc5dUxuVnpMV1ZoYzNRdE1TNTFjeTVrWlhZdVlYQnBMbTFwZEdWc0xtbHZMMk52Ym01bFkzUWlMQ0pwWVhRaU9qRTFPVEUyTlRBM05UY3NJbVY0Y0NJNk1UVTVNVFkxTkRjeE5YMC5fdEp5MXgtdTdGV2t3bGMyWDJwMGdLSUtfZE9tT2Q5Y0YwcWZ2SWpQTVhJIn0=')
+   var lala=this.dataService.getLoggedInUser(this.accessToken)
     lala
     .subscribe(
       (response) => {                           //Next callback
        console.log('Success:200 OK')
-       this.errorflag=true 
+       console.log(response['role'])
+       if(response['role']=="ACCOUNT_ADMI")
+       {
+        this.errorflag=true 
+        
+
+       }
+       else
+       {
+         this.errorMessage="Unauthorised: Not an Admin"
+       }
+       
       },
       (error) => {
         this.errorflag=false      
-      
-       // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
         this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
         console.log('Error thrown -> token:',this.errorMessage)
       }
@@ -85,7 +95,7 @@ export class ManageComponent implements OnInit {
     this.menuuid=[]
     this.manuuid=[]
  
-    this.route.queryParams
+    this.route.queryParams//fetching query params
     .subscribe(params => {
       this.userId = params.useruuid;
     });
@@ -95,13 +105,9 @@ export class ManageComponent implements OnInit {
     });
     console.log("userId->",this.userId)
     console.log("tid->",this.tid)
-
     this.getuserinfo()
     this.loadPeople();
   }
-
-
-
 
   getuserinfo()
   {
@@ -174,36 +180,6 @@ export class ManageComponent implements OnInit {
   
 
 }
-
-//   Manage(){ //TO GET ALL THE AVAILABLE USERS
-//     this.dataService.getUsers(this.tid).subscribe(x => {
-        
-
-//           for (const i of (x as any)) {
-//             this.userArray.push({
-//               Firstname: i.first_name,
-//               Lastname: i.last_name,
-//               UserId: i.user_uuid
-//             });
-//           }
-//     }
-//     )
-//     console.log(this.userArray)
-//   }
-// showModal()
-// {
-  
-//   this.modalOpen=true;
-//   console.log(this.userId)
-// }
-
-
-// userSelected(id:string) //Selected User
-// {
-//   this.userId=id;
-//   console.log(this.userId)
-// }
-
 
 // modalClose()
 // {
@@ -279,6 +255,7 @@ export class ManageComponent implements OnInit {
     this.saveflag=false
    
   }
+
   OnRemove1(){
     console.log(this.selectedPersons1)
     this.delarray = []
@@ -298,9 +275,6 @@ export class ManageComponent implements OnInit {
     this.saveflag=false
 
   }
-
-
-
 
   GetRoleValue(args){ //Extracting Selected Role
     //var role = args.value;
@@ -407,7 +381,6 @@ export class ManageComponent implements OnInit {
     
   }
   
- 
   private loadPeople() {  // ng select 
 
    this.item$= concat(

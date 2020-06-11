@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Pipe, PipeTransform, AfterViewInit, ElementRef } from '@angular/core';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { concat, Observable, of, Subject, interval, Subscription, from } from 'rxjs';
-import { DataService, HttpData, Update } from '../data.service';
+import { DataService, HttpData, Update } from '../dataService/data.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { PaginationInstance } from 'ngx-pagination/dist/ngx-pagination.module';
 import { RouterEvent, Router, ActivatedRoute } from '@angular/router';
@@ -95,7 +95,18 @@ export class SettingPageComponent  implements AfterViewInit {
     .subscribe(
       (response) => {                           //Next callback
        console.log('Success:200 OK')
-       this.errorflag=true 
+       console.log(response['role'])
+       if(response['role']=="ACCOUNT_ADMI")
+       {
+        this.errorflag=true 
+        
+
+       }
+       else
+       {
+         this.errorMessage="Unauthorised: Not an Admin"
+       }
+       
       },
       (error) => {
         this.errorflag=false      
@@ -112,9 +123,6 @@ export class SettingPageComponent  implements AfterViewInit {
     .subscribe(params => {
       this.tid = params.tenantuuid;
     });
-
-    // localStorage.getItem('')
-    // localStorage.getItem('')
     this.accessToken= localStorage.getItem('Access_Token')
     this.refreshToken=localStorage.getItem('Refresh_Token')
 
