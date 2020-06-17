@@ -96,7 +96,7 @@ export class SettingPageComponent  implements AfterViewInit {
       (response) => {                           //Next callback
        console.log('Success:200 OK')
        console.log(response['role'])
-       if(response['role']=="ACCOUNT_ADMI")
+       if(response['role']=="ACCOUNT_ADMIN")
        {
         this.errorflag=true 
         
