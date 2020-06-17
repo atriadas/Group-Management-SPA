@@ -73,6 +73,7 @@ export class DataService{
   
 
   getPeople(term: string = null,tid): Observable<HttpData[]> {
+    console.log(term);
     
     this.getHttpData(term,tid).subscribe(items=>this.items=items);
     return of(this.items).pipe(delay(100));

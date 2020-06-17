@@ -44,49 +44,47 @@ export class ManageComponent implements OnInit {
   manuuid:any[]=[]
   menuuid:any[]=[]
   delarray:any[]=[]
-  // mandeluuid:any[]=[]
-  // mandel:any[]=[]
   tempman:any[]=[]
   tempman2:any[]=[]
   tempmen:any[]=[]
-  errorflag:boolean=true
+  errorflag:boolean=false
   errorMessage:string
   
    
   ngOnInit() { 
     
-  //   this.accessToken= localStorage.getItem('Access_Token')// fetching the access toke from local storage
-  //   this.refreshToken=localStorage.getItem('Refresh_Token')
+    this.accessToken= localStorage.getItem('Access_Token')// fetching the access toke from local storage
+    this.refreshToken=localStorage.getItem('Refresh_Token')
 
-  //   console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
+    console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
 
  
-  // // var lala=this.dataService.getLoggedInUser('eyJhY2NvdW50SWQiOiIxOGExNWIzZS04NGQxLTRmNDgtOGFjZS1jZTJiY2RhZjg2YzYiLCJiZWFyZXJUb2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYm1seGRXVlZjMlZ5U1dRaU9pSmlOREpoWVRNNE5TMDBOR1JoTFRRNE5qWXRPRFJpWmkwMlpEUTROMkprTVdaalpEUWlMQ0p3Y21sdVkybHdZV3hKWkNJNkltSTBNbUZoTXpnMUxUUTBaR0V0TkRnMk5pMDROR0ptTFRaa05EZzNZbVF4Wm1Oa05DSXNJbUZqWTI5MWJuUkpaQ0k2SWpFNFlURTFZak5sTFRnMFpERXROR1kwT0MwNFlXTmxMV05sTW1KalpHRm1PRFpqTmlJc0luQmhjblJ1WlhKSlpDSTZJams1TVRBd01EQXdNaUlzSW1SdmJXRnBiaUk2SWpFNFlURTFZak5sTFRnMFpERXROR1kwT0MwNFlXTmxMV05sTW1KalpHRm1PRFpqTmk1MWN5NWtaWFl1WVhCcExtMXBkR1ZzTG1sdklpd2laVzFoYVd3aU9pSmhjMk5qY25WelpYSTJRRzFwZEdWc0xtTnZiU0lzSW1WdFlXbHNWbVZ5YVdacFpXUWlPbVpoYkhObExDSmxlSFJsYm5OcGIyNGlPaUkzTXpRMUlpd2laWGgwWlc1emFXOXVWbVZ5YVdacFpXUWlPblJ5ZFdVc0lteGhibWQxWVdkbFEyOWtaU0k2SW1WdUxWVlRJaXdpYlc5aWFXeGxJam9pSWl3aWJXOWlhV3hsVm1WeWFXWnBaV1FpT21aaGJITmxMQ0p1WVcxbElqb2lZWE5qSUhWelpYSTJJaXdpY0dodmJtVWlPaUlyTVRRd09EVXdPRGN6TkRVaUxDSndhRzl1WlZabGNtbG1hV1ZrSWpwMGNuVmxMQ0p3YUc5MGIxVnliQ0k2SWlJc0luQnliMlpwYkdWSVpXRmtaWEpWY213aU9pSWlMQ0p5YjJ4bElqb2lRVU5EVDFWT1ZGOUJSRTFKVGlJc0luVnpaWEpKWkNJNkltSTBNbUZoTXpnMUxUUTBaR0V0TkRnMk5pMDROR0ptTFRaa05EZzNZbVF4Wm1Oa05DSXNJbk5wY0VGa1pISmxjM01pT2lKaU5ESmhZVE00TlMwME5HUmhMVFE0TmpZdE9EUmlaaTAyWkRRNE4ySmtNV1pqWkRSQU1UaGhNVFZpTTJVdE9EUmtNUzAwWmpRNExUaGhZMlV0WTJVeVltTmtZV1k0Tm1NMkxuVnpMbVJsZGk1aGNHa3ViV2wwWld3dWFXOGlMQ0p6YVhSbFNXUWlPaUlpTENKc2IyZHBia2xrSWpvaVlYTmpZM0oxYzJWeU5rQnRhWFJsYkM1amIyMGlMQ0poZFdRaU9pSm9kSFJ3Y3pvdkwyMXBkR1ZzTG1sdkwyRjFkR2d2ZEdWaGJYZHZjbXNpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMkYxZEdobGJuUnBZMkYwYVc5dUxuVnpMV1ZoYzNRdE1TNTFjeTVrWlhZdVlYQnBMbTFwZEdWc0xtbHZMMk52Ym01bFkzUWlMQ0pwWVhRaU9qRTFPVEUyTlRBM05UY3NJbVY0Y0NJNk1UVTVNVFkxTkRjeE5YMC5fdEp5MXgtdTdGV2t3bGMyWDJwMGdLSUtfZE9tT2Q5Y0YwcWZ2SWpQTVhJIn0=')
-  //  var lala=this.dataService.getLoggedInUser(this.accessToken)
-  //   lala
-  //   .subscribe(
-  //     (response) => {                           //Next callback
-  //      console.log('Success:200 OK')
-  //      console.log(response['role'])
-  //      if(response['role']=="ACCOUNT_ADMI")
-  //      {
-  //       this.errorflag=true 
+  // var lala=this.dataService.getLoggedInUser('eyJhY2NvdW50SWQiOiIxOGExNWIzZS04NGQxLTRmNDgtOGFjZS1jZTJiY2RhZjg2YzYiLCJiZWFyZXJUb2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUoxYm1seGRXVlZjMlZ5U1dRaU9pSmlOREpoWVRNNE5TMDBOR1JoTFRRNE5qWXRPRFJpWmkwMlpEUTROMkprTVdaalpEUWlMQ0p3Y21sdVkybHdZV3hKWkNJNkltSTBNbUZoTXpnMUxUUTBaR0V0TkRnMk5pMDROR0ptTFRaa05EZzNZbVF4Wm1Oa05DSXNJbUZqWTI5MWJuUkpaQ0k2SWpFNFlURTFZak5sTFRnMFpERXROR1kwT0MwNFlXTmxMV05sTW1KalpHRm1PRFpqTmlJc0luQmhjblJ1WlhKSlpDSTZJams1TVRBd01EQXdNaUlzSW1SdmJXRnBiaUk2SWpFNFlURTFZak5sTFRnMFpERXROR1kwT0MwNFlXTmxMV05sTW1KalpHRm1PRFpqTmk1MWN5NWtaWFl1WVhCcExtMXBkR1ZzTG1sdklpd2laVzFoYVd3aU9pSmhjMk5qY25WelpYSTJRRzFwZEdWc0xtTnZiU0lzSW1WdFlXbHNWbVZ5YVdacFpXUWlPbVpoYkhObExDSmxlSFJsYm5OcGIyNGlPaUkzTXpRMUlpd2laWGgwWlc1emFXOXVWbVZ5YVdacFpXUWlPblJ5ZFdVc0lteGhibWQxWVdkbFEyOWtaU0k2SW1WdUxWVlRJaXdpYlc5aWFXeGxJam9pSWl3aWJXOWlhV3hsVm1WeWFXWnBaV1FpT21aaGJITmxMQ0p1WVcxbElqb2lZWE5qSUhWelpYSTJJaXdpY0dodmJtVWlPaUlyTVRRd09EVXdPRGN6TkRVaUxDSndhRzl1WlZabGNtbG1hV1ZrSWpwMGNuVmxMQ0p3YUc5MGIxVnliQ0k2SWlJc0luQnliMlpwYkdWSVpXRmtaWEpWY213aU9pSWlMQ0p5YjJ4bElqb2lRVU5EVDFWT1ZGOUJSRTFKVGlJc0luVnpaWEpKWkNJNkltSTBNbUZoTXpnMUxUUTBaR0V0TkRnMk5pMDROR0ptTFRaa05EZzNZbVF4Wm1Oa05DSXNJbk5wY0VGa1pISmxjM01pT2lKaU5ESmhZVE00TlMwME5HUmhMVFE0TmpZdE9EUmlaaTAyWkRRNE4ySmtNV1pqWkRSQU1UaGhNVFZpTTJVdE9EUmtNUzAwWmpRNExUaGhZMlV0WTJVeVltTmtZV1k0Tm1NMkxuVnpMbVJsZGk1aGNHa3ViV2wwWld3dWFXOGlMQ0p6YVhSbFNXUWlPaUlpTENKc2IyZHBia2xrSWpvaVlYTmpZM0oxYzJWeU5rQnRhWFJsYkM1amIyMGlMQ0poZFdRaU9pSm9kSFJ3Y3pvdkwyMXBkR1ZzTG1sdkwyRjFkR2d2ZEdWaGJYZHZjbXNpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMkYxZEdobGJuUnBZMkYwYVc5dUxuVnpMV1ZoYzNRdE1TNTFjeTVrWlhZdVlYQnBMbTFwZEdWc0xtbHZMMk52Ym01bFkzUWlMQ0pwWVhRaU9qRTFPVEUyTlRBM05UY3NJbVY0Y0NJNk1UVTVNVFkxTkRjeE5YMC5fdEp5MXgtdTdGV2t3bGMyWDJwMGdLSUtfZE9tT2Q5Y0YwcWZ2SWpQTVhJIn0=')
+   var lala=this.dataService.getLoggedInUser(this.accessToken)
+    lala
+    .subscribe(
+      (response) => {                           //Next callback
+       console.log('Success:200 OK')
+       console.log(response['role'])
+       if(response['role']=="ACCOUNT_ADMI")
+       {
+        this.errorflag=true 
         
 
-  //      }
-  //      else
-  //      {
-  //        this.errorMessage="Unauthorised: Not an Admin"
-  //      }
+       }
+       else
+       {
+         this.errorMessage="Unauthorised: Not an Admin"
+       }
        
-  //     },
-  //     (error) => {
-  //       this.errorflag=false      
-  //       this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
-  //       console.log('Error thrown -> token:',this.errorMessage)
-  //     }
-  //   )
-  //   console.log(lala) 
+      },
+      (error) => {
+        this.errorflag=false      
+        this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
+        console.log('Error thrown -> token:',this.errorMessage)
+      }
+    )
+    console.log(lala) 
 
     console.log("PAGE LOADS")
     this.role=''
@@ -103,6 +101,8 @@ export class ManageComponent implements OnInit {
     .subscribe(params => {
       this.tid = params.tenantuuid;
     });
+    // this.userId="x_1111"
+    // this.tid=2
     console.log("userId->",this.userId)
     console.log("tid->",this.tid)
     this.getuserinfo()
@@ -181,25 +181,26 @@ export class ManageComponent implements OnInit {
 
 }
 
-// modalClose()
-// {
-//   this.modalOpen=false;
-// }
+
 
   OnAddGroupManager(){  //When Manager is added
-    console.log("item added")
+    console.log("Manager added")
    // for(var i in this.selectedPersons) [i]['group_uuid']
     console.log(this.selectedPersons)
     // this.tempman=this.selectedPersons
     // this.tempman2=this.selectedPersons
     for(var i in this.selectedPersons)
     {
+      
       if(!(this.manuuid.indexOf(this.selectedPersons[i]['group_uuid'])>-1))
       {
         this.manuuid.push(this.selectedPersons[i]['group_uuid'])
       }
+      console.log('manuuid on->'+i+"->"+this.manuuid)
+      
       
     } 
+
     console.log(this.manuuid)
      this.loadPeople();
      this.saveflag=false
@@ -207,7 +208,7 @@ export class ManageComponent implements OnInit {
 
 
   OnAddGroupMember(){  //When Member is added
-    console.log("item added")
+    console.log("Member added")
    
     console.log(this.selectedPersons1)
 
@@ -225,19 +226,9 @@ export class ManageComponent implements OnInit {
     
   }
 
-  // OnBlur(){
-  //   console.log("OnBlue");
-  //   this.isbeingSearched = false;
-  //   this.select1Comp.close();//for first ngselect component
-  // }
-
-  // OnBlur2(){
-  //   console.log("OnBlue");
-  //   this.isbeingSearched = false;
-  //   this.select1Comp2.close();//for second ngselect component
-  // }
 
   OnRemove(){ //when item is removed
+    console.log("Remove Manager function is called")
     console.log(this.selectedPersons)
     this.delarray = []
     for(var i in this.selectedPersons)
@@ -257,6 +248,7 @@ export class ManageComponent implements OnInit {
   }
 
   OnRemove1(){
+    console.log("Remove Members function is called")
     console.log(this.selectedPersons1)
     this.delarray = []
     for(var i in this.selectedPersons1)
@@ -375,13 +367,18 @@ export class ManageComponent implements OnInit {
     var stringData = JSON.stringify(userdto);
     console.log(stringData,this.userId)
     this.dataService.putHTTPData(stringData,this.userId)
+    //targetWindow.postMessage(message, targetOrigin);
     this.saveflag=true
-    setTimeout(() => {  this.ngOnInit(); }, 2000);
-   
-    
+    setTimeout(() => {  this.ngOnInit(); }, 2000); 
+  }
+
+
+  OnClose()
+  {
+    //targetWindow.postMessage(message, targetOrigin);
   }
   
-  private loadPeople() {  // ng select 
+   loadPeople() {  // ng select 
 
    this.item$= concat(
       this.peopleInput$.pipe(

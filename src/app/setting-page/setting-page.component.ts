@@ -184,13 +184,13 @@ export class SettingPageComponent  implements AfterViewInit {
 
   }
 
-  CloseModalOnCross() { //Closing main modal on cross
+  // CloseModalOnCross() { //Closing main modal on cross
 
-    this.addgroupbutton = false;
-    this.router.navigateByUrl(''); //back to home page
+  //   this.addgroupbutton = false;
+  //   this.router.navigateByUrl(''); //back to home page
 
 
-  }
+  // }
 
 
   getdbdata() { // TO GET ALL THE GROUPS
@@ -238,6 +238,7 @@ export class SettingPageComponent  implements AfterViewInit {
         postGroup2['Manager_uuid'] = this.customerArray2
         postGroup2['Members_uuid'] = this.customerArray
         this.dataService.postData(JSON.stringify(postGroup2),this.tid);
+        //targetWindow.postMessage(message, targetOrigin);
         sub.unsubscribe();
         setTimeout(() => {this.addgroupbutton = false; }, 2000);
         
@@ -274,6 +275,7 @@ export class SettingPageComponent  implements AfterViewInit {
         postGroup2["members_todelete"] = this.MemDeleteArray
         postGroup2["supervisors_todelete"] = this.ManDeleteArray
         this.dataService.postUpdatedData(JSON.stringify(postGroup2), this.groupUuid);
+        //targetWindow.postMessage(message, targetOrigin);
         // postGroup3=new Update(this.groupName,this.customerArray,this.customerArray2,
         // this.MemDeleteArray,this.ManDeleteArray);
 
@@ -561,8 +563,6 @@ transformMan() // filter for selected members
     this.groupName = 'New Group'
     this.addFlag = 1;
     this.saveUpdate = false;
-
-
   }
 
   mockfunction() { //DUMMY FUNCTION FOR TESTING

@@ -8,7 +8,7 @@
 //   constructor() { }
 // }
 import { Injectable} from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of , Subject } from 'rxjs';
 import { delay} from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
@@ -152,9 +152,28 @@ export class Data2Service{
     return res
   
   } 
-  
+
 
 }
+
+ export class MessageService {
+    private subject = new Subject<any>();
+
+    sendMessage(message: string) {
+        this.subject.next({ text: message });
+    }
+
+    clearMessages() {
+        this.subject.next();
+    }
+
+    getMessage(): Observable<any> {
+        return this.subject.asObservable();
+    }
+}
+  
+
+
 
 
 

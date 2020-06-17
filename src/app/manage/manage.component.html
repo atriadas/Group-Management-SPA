@@ -92,8 +92,7 @@
                         <ng-select #elem 
                         [items]="item$ | async" 
                         [typeahead]="peopleInput$"  
-                        bindLabel="group_name" 
-                        
+                        bindLabel="group_name"                         
                         [multiple]="true" 
                         [minTermLength]="2" 
                         placeholder="Start typing a group name" 
@@ -102,7 +101,7 @@
                         typeToSearchText="Please enter 3 or more characters"
                         notFoundText = ""
                         appendTo="body"
-                        id="groupManager"
+                        id="ng-select"
                         (add)="OnAddGroupManager()"
                         (remove)="OnRemove()"
                         [disabled]="flag">
@@ -141,6 +140,7 @@
                         [ngModelOptions]="{standalone: true}"
                         (add)="OnAddGroupMember()"
                         (remove)="OnRemove1()"
+                        id="ng-select"
                         
                        >
 
@@ -163,7 +163,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                    <button type="button" class="btn btn-secondary" (click)="OnClose()" >Close</button>
                     <button type="submit"[disabled]="saveflag" class="btn btn-primary" > Save</button>
                 </div>
                 </form>
