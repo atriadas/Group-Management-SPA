@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ManageComponent } from './manage/manage.component';
-import { SettingsComponent } from './settings/settings.component';
+//import { SettingsComponent } from './settings/settings.component';
 import { SettingPageComponent } from './setting-page/setting-page.component';
 
 
 const routes: Routes = [
   { path: 'Settings', component: SettingPageComponent },
   { path: 'Manage', component: ManageComponent },
-  { path: 'SettingsModal', component: SettingsComponent}
+  //{ path: 'SettingsModal', component: SettingsComponent}
 
 ];
 

@@ -111,7 +111,7 @@ export class ManageComponent implements OnInit {
 
   getuserinfo()
   {
-    const data = this.dataService.getUserData(this.userId);
+    const data = this.dataService.getUserData(this.userId,this.accessToken);
     data.subscribe(x => {
       
       this.role = x["Userrole"];
@@ -127,7 +127,7 @@ export class ManageComponent implements OnInit {
       console.log("role_>",this.role,"role id_>", this.role_id)
       
       this.selectedPersons1 = x['MembersofGroup'];
-      this.selectedPersons = x['ManagerofGroup'];
+      this.selectedPersons = x['SupervisorofGroup'];
       console.log(this.selectedPersons)
       for(var i in this.selectedPersons)
       {
@@ -291,7 +291,7 @@ export class ManageComponent implements OnInit {
    }
    else{
      this.flag=false
-     //console.log(this.selectedPersons, "before if")
+    console.log(this.selectedPersons, "before if")
      if(this.selectedPersons.length==0)
      {
       //console.log(this.selectedPersons,"insie")
@@ -358,24 +358,58 @@ export class ManageComponent implements OnInit {
     console.log("Member to remove uuid->",memberRemoveUuid);
 
     var userdto:any = {};
+    // userdto["Role_id"] = this.role_id;
+    // userdto["Group_Members_toadd"] = this.menuuid;
+    // userdto["Group_Members_todelete"] = memberRemoveUuid;
+    // userdto["Group_Supervisors_toadd"] = this.manuuid;
+    // userdto["Group_Supervisors_todelete"] = managerRemoveUuid;
+
+
     userdto["Role_id"] = this.role_id;
-    userdto["Group_Members_toadd"] = this.menuuid;
-    userdto["Group_Members_todelete"] = memberRemoveUuid;
-    userdto["Group_Supervisors_toadd"] = this.manuuid;
-    userdto["Group_Supervisors_todelete"] = managerRemoveUuid;
+    userdto["Group_uuid_todelete_AsMember"] = memberRemoveUuid
+    userdto["Group_uuid_todelete_AsSupervisors"] = managerRemoveUuid
+    userdto["Group_uuid_toadd_AsMember"] = this.menuuid
+    userdto["Group_uuid_toadd_AsSupervisors"] = this.manuuid
+
+
+
 
     var stringData = JSON.stringify(userdto);
     console.log(stringData,this.userId)
-    this.dataService.putHTTPData(stringData,this.userId)
-    //targetWindow.postMessage(message, targetOrigin);
+    // this.dataService.putHTTPData(stringData,this.userId)
+    // .subscribe(response => {
+    //   console.log('Success:200 OK', response) 
+      //        parent.postMessage("successfully_saved", "*");    
+  //  })
+    // this.dataService.putHTTPData(stringData,this.userId).then(data => {
+    //   console.log('then()=>',data);
+    // });
+
+    var res=this.dataService.putHTTPData(stringData,this.userId,this.accessToken)
+
+    res.subscribe(
+          (response) => {                           
+           console.log('Success:200 OK') 
+           parent.postMessage("successfully_saved", "*");         
+          },
+          (error) => {     
+            this.errorMessage = error
+            console.log('Error thrown ->',this.errorMessage)
+            parent.postMessage("Failure", "*");
+          }
+        )
+
+   
     this.saveflag=true
+
     setTimeout(() => {  this.ngOnInit(); }, 2000); 
   }
 
 
   OnClose()
   {
-    //targetWindow.postMessage(message, targetOrigin);
+    //window.postMessage("Close Modal", "window");
+    parent.postMessage("close_modal", "*");
   }
   
    loadPeople() {  // ng select 
@@ -384,7 +418,7 @@ export class ManageComponent implements OnInit {
       this.peopleInput$.pipe(
           distinctUntilChanged(),
           tap(() => this.peopleLoading = true),
-          switchMap(term => this.dataService.getPeople(term,this.tid).pipe(
+          switchMap(term => this.dataService.getPeople(term,this.tid,this.accessToken).pipe(
               catchError(() => of([])), // empty list on error
               tap(() => this.peopleLoading = false)
           ))

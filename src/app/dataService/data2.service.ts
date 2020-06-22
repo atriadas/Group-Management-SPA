@@ -8,11 +8,12 @@
 //   constructor() { }
 // }
 import { Injectable} from '@angular/core';
-import { Observable, of , Subject } from 'rxjs';
-import { delay} from 'rxjs/operators';
+import { Observable, of , Subject, throwError } from 'rxjs';
+import { delay, catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
 import { HttpHeaders } from '@angular/common/http';
+
 
 
 
@@ -58,9 +59,9 @@ export class Data2Service{
   items:HttpData[]=[];
   constructor(public http: HttpClient) { }
 
-  getPeople(term: string = null,tid:number): Observable<HttpData[]> {
+  getPeople(term: string = null,tid:number,auth_token): Observable<HttpData[]> {
   
-    this.getHttpData(term,tid).subscribe(items=>this.items=items);
+    this.getHttpData(term,tid,auth_token).subscribe(items=>this.items=items);
     
     return of(this.items).pipe(delay(100));
     
@@ -68,14 +69,18 @@ export class Data2Service{
 
 
   
-  getHttpData(term: string = null,tid:number) { //Http Call
+  getHttpData(term: string = null,tid:number,auth_token:string) { //Http Call
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' +auth_token
+    })
     
  
   
     if (term) 
     {
       var url='http://'+environment.backend_address+'/GetUsersGroup?tid='+tid+'&grp_name='+term
-      return this.http.get<HttpData[]>(url)
+      return this.http.get<HttpData[]>(url,{ headers: headers })
     }
 
     else 
@@ -84,11 +89,15 @@ export class Data2Service{
     }
 
   }
-  getUserData(useruuid: string = null) { //Http Call
+  getUserData(useruuid: string = null ,auth_token) { //Http Call 
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'Authorization': 'Bearer ' +auth_token
+    // })
     
  
       var url='http://'+environment.backend_address+'/UserInfo?user_uuid='+useruuid;
-      return this.http.get(url)
+      return this.http.get(url) //,{ headers: headers }
     
 
   }
@@ -107,21 +116,25 @@ export class Data2Service{
  
 
 
-  putHTTPData(data:string,uid){ //Http Post in DB
+  putHTTPData(data:string,uid,auth_token){ //Http Post in DB //SHOWS ERROR EVEN ON SUCCESS
     console.log("Posting data to DB")
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' +auth_token
+    })
     var url='http://'+environment.backend_address+'/Group/ConfigureUsers?user_uuid='+uid
-    return this.http.put(url,data).subscribe(res=>this.Success(res),res=>{
-      return this.Error(res);
-  });
-  }  
-  Error(res) {
-    console.log("Error is seen"); 
-    console.debug(res);
+     return this.http.put(url,data, { headers: headers });
+
+    // return this.http.put(url,data).pipe(
+    //   catchError(err => {
+    //     console.log('err', err);
+    //     return throwError('error',err);
+    //   }),s
+      
+    // )
   }
-  Success(res) {
-  console.log(res);
-  console.log("Successfully Posted");
-  } 
+   
+
 
   // postData(Data: string,uid){
   //   this.postHTTPData(Data,uid);
@@ -156,21 +169,21 @@ export class Data2Service{
 
 }
 
- export class MessageService {
-    private subject = new Subject<any>();
+//  export class MessageService {
+//     private subject = new Subject<any>();
 
-    sendMessage(message: string) {
-        this.subject.next({ text: message });
-    }
+//     sendMessage(message: string) {
+//         this.subject.next({ text: message });
+//     }
 
-    clearMessages() {
-        this.subject.next();
-    }
+//     clearMessages() {
+//         this.subject.next();
+//     }
 
-    getMessage(): Observable<any> {
-        return this.subject.asObservable();
-    }
-}
+//     getMessage(): Observable<any> {
+//         return this.subject.asObservable();
+//     }
+// }
   
 
 

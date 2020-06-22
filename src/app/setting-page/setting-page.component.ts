@@ -28,7 +28,7 @@ export class SettingPageComponent  implements AfterViewInit {
   customerArray: string[] = []
   customerArray2: string[] = []
   groupUuid: string;
-  tid:number;
+  tid:string;
  
 
   addgroupbutton: boolean = false;
@@ -195,7 +195,7 @@ export class SettingPageComponent  implements AfterViewInit {
 
   getdbdata() { // TO GET ALL THE GROUPS
     this.dataArray = [];
-    this.dataService.getAllGroupsData(this.tid)
+    this.dataService.getAllGroupsData(this.tid,this.accessToken)
       .subscribe(x => {
         if (x != null) {
 
@@ -235,9 +235,9 @@ export class SettingPageComponent  implements AfterViewInit {
         setTimeout(() => {  this.closeAlertButton.nativeElement.click(); }, 4000);
         var postGroup2: any = {}
         postGroup2['Groupname'] = this.groupName
-        postGroup2['Manager_uuid'] = this.customerArray2
+        postGroup2['Supervisor_uuid'] = this.customerArray2
         postGroup2['Members_uuid'] = this.customerArray
-        this.dataService.postData(JSON.stringify(postGroup2),this.tid);
+        this.dataService.postHTTPData(JSON.stringify(postGroup2),this.tid,this.accessToken);
         //targetWindow.postMessage(message, targetOrigin);
         sub.unsubscribe();
         setTimeout(() => {this.addgroupbutton = false; }, 2000);
@@ -274,7 +274,7 @@ export class SettingPageComponent  implements AfterViewInit {
         postGroup2["supervisors_toadd"] = this.customerArray2
         postGroup2["members_todelete"] = this.MemDeleteArray
         postGroup2["supervisors_todelete"] = this.ManDeleteArray
-        this.dataService.postUpdatedData(JSON.stringify(postGroup2), this.groupUuid);
+        this.dataService.postUpdatedData(JSON.stringify(postGroup2), this.groupUuid,this.accessToken,this.tid);
         //targetWindow.postMessage(message, targetOrigin);
         // postGroup3=new Update(this.groupName,this.customerArray,this.customerArray2,
         // this.MemDeleteArray,this.ManDeleteArray);
@@ -404,7 +404,7 @@ export class SettingPageComponent  implements AfterViewInit {
     }
     else {
       console.log('Change det',term)
-      this.TempArray = this.TempArray.filter(item => ((item[0] + item[1]).toString().toLowerCase().indexOf(term.toLowerCase()) ) > -1);
+      this.TempArray = this.TempArray.filter(item => ((item[0] + ' '+item[1]).toString().toLowerCase().indexOf(term.toLowerCase()) ) > -1);
       console.log(this.TempArray)
     }
 }
@@ -419,7 +419,7 @@ transformMan() // filter for selected members
     }
     else {
       console.log('Change det',term)
-      this.TempManArray = this.TempManArray.filter(item => ((item[0] + item[1]).toString().toLowerCase().indexOf(term.toLowerCase()) ) > -1);
+      this.TempManArray = this.TempManArray.filter(item => ((item[0] +" "+ item[1]).toString().toLowerCase().indexOf(term.toLowerCase()) ) > -1);
       console.log(this.TempManArray)
     }
 }
@@ -587,7 +587,7 @@ transformMan() // filter for selected members
     this.saveUpdate=true
     this.SaveDisable=true
     this.groupUuid = grpId;
-    const data = this.dataService.getGroupInfo(grpId);
+    const data = this.dataService.getGroupInfo(grpId,this.accessToken);
     this.addgroupbutton = true;
     this.selectedPersonsArr1 = []
     this.selectedPersonsArr = []
@@ -644,7 +644,7 @@ transformMan() // filter for selected members
 
   deleteGroup() //DELETE A GROUP
   {
-    this.dataService.deleteGroupDb(this.groupUuid)
+    this.dataService.deleteGroupDb(this.groupUuid,this.tid,this.accessToken)
     this.closeDeleteModal();
     setTimeout(() => { this.getdbdata(); this.addgroupbutton = false;}, 1000);
   }
@@ -655,7 +655,7 @@ transformMan() // filter for selected members
       this.peopleInput$.pipe(
         distinctUntilChanged(),
         tap(() => this.peopleLoading = true),
-        switchMap(term => this.dataService.getPeople(term,this.tid).pipe(
+        switchMap(term => this.dataService.getPeople(term,this.tid,this.accessToken).pipe(
           catchError(() => of([])), // empty list on error
           tap(() => this.peopleLoading = false)
         ))

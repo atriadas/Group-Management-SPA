@@ -166,14 +166,14 @@
                           [typeahead]="peopleInput$" [(ngModel)]="selectedPersons1"
                           placeholder="Start typing a username" appendTo="body" [ngModelOptions]="{standalone: true}"
                           >
-                          <!-- <ng-template ng-label-tmp let-item="item">
+                          <ng-template ng-label-tmp let-item="item">
                              <table>
                                 <tr>
-                                  <td> {{item['first_name']}} {{item['last_name']}}</td> 
-                                  <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td>
+                                  <td>{{item['first_name']}} {{item['last_name']}}</td> 
+                                  <!-- <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td> -->
                                 </tr>
                               </table>
-                            </ng-template> -->
+                            </ng-template>
                           <ng-template ng-option-tmp let-item="item" let-index="index" >
 
                             <table>
@@ -311,10 +311,21 @@
                            [minTermLength]="2" placeholder="Start typing a username"
                           [(ngModel)]="selectedPersons" [ngModelOptions]="{standalone: true}" [hideSelected]="true"
                           typeToSearchText="Please enter 3 or more characters" notFoundText="" appendTo="body" id="groupManager">
+
+                          <ng-template ng-label-tmp let-item="item">
+                            <!-- <table>
+                               <tr>
+                                 <td></td> 
+                               <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td> 
+                               </tr>
+                             </table> -->
+                             <span>{{item['first_name']}} {{item['last_name']}}</span>
+                           </ng-template>
+
                           <ng-template ng-option-tmp let-item="item" let-index="index">
 
                             <table>
-                              <tr>
+                              <tr style="font-size: 75%;">
                                 <td> {{item['first_name']}} {{item['last_name']}}</td>
                                 <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td>
                               </tr>

@@ -11,7 +11,6 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MfilterPipe } from './filter/mfilter.pipe';
 import {GroupFilterPipe} from './filter/groupFilter.pipe';
-import { SettingsComponent } from './settings/settings.component';
 import { ManageComponent } from './manage/manage.component';
 import { SettingPageComponent } from './setting-page/setting-page.component';
 
@@ -22,7 +21,6 @@ import { SettingPageComponent } from './setting-page/setting-page.component';
     AppComponent,
     MfilterPipe,
     GroupFilterPipe,
-    SettingsComponent,
     ManageComponent,
     SettingPageComponent
    

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, Pipe, PipeTransform, HostListener } from '@angular/core';
 // import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 // import { concat, Observable, of, Subject, interval, Subscription, from } from 'rxjs';
 // import { DataService, HttpData } from './data.service';
@@ -79,7 +79,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {    
 
+    // window.addEventListener("successfully_saved", function(event) {
+    //   alert(`Received ${event.data} from ${event.origin}`);
+    // });
+
   }
+  
+  @HostListener('window:Failure', ['$event'])
+onMessage(event) {
+  console.log("message received",event);
+}
+
 }
 
 

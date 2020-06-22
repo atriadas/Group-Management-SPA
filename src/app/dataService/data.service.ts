@@ -72,23 +72,25 @@ export class DataService{
   constructor(public http: HttpClient) { }
   
 
-  getPeople(term: string = null,tid): Observable<HttpData[]> {
+  getPeople(term: string = null,tid,auth_token): Observable<HttpData[]> {
     console.log(term);
     
-    this.getHttpData(term,tid).subscribe(items=>this.items=items);
+    this.getHttpData(term,tid,auth_token).subscribe(items=>this.items=items);
     return of(this.items).pipe(delay(100));
   }
 
 
   
-  getHttpData(term: string = null,tid) { //Http Call for users
-    
-    
+  getHttpData(term: string = null,tid,auth_token) { //Http Call for users 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' +auth_token
+    })
   
     if (term) 
     {
       var url='http://'+environment.backend_address+'/FindUser?tid='+tid+'&user='+term
-      const item = this.http.get<HttpData[]>(url)
+      const item = this.http.get<HttpData[]>(url,{ headers: headers })
       
       return item
     }
@@ -100,30 +102,42 @@ export class DataService{
 
   }
  
-  getAllGroupsData(tid) //http call for groups
+  getAllGroupsData(tid,auth_token) 
   {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' +auth_token
+    })
     console.log("get all groups api")
     var url='http://'+environment.backend_address+'/Group/AllGroups?tid='+tid
-  const data =this.http.get<GroupsData[]>(url)
+  const data =this.http.get<GroupsData[]>(url,{ headers: headers })
   
   return data;
 
   }
 
-  getGroupInfo(grpID:string)
+  getGroupInfo(grpID:string,auth_token)
   {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' +auth_token
+    })
     console.log("get group info")
     var url='http://'+environment.backend_address+'/Group/GetGroupsInfo?group_uuid='+grpID
-    const data=this.http.get<GroupInfo[]>(url)
+    const data=this.http.get<GroupInfo[]>(url,{ headers: headers })
   
     return data;
 
   }
 
-  postHTTPData(data,tid){ //Http Post in DB
+  postHTTPData(data,tid,auth_token){ //Http Post in DB
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' +auth_token
+    })
     console.log("Posting data to DB")
     var url='http://'+environment.backend_address+'/createGroup?tid='+tid
-    return this.http.post(url,data).subscribe(res=>this.Success(res),res=>{
+    return this.http.post(url,data,{ headers: headers }).subscribe(res=>this.Success(res),res=>{
       return this.Error(res);
   });
   }  
@@ -136,20 +150,22 @@ export class DataService{
   console.log("Successfully Posted");
   } 
 
-  postData(Data: string,tid){
-    this.postHTTPData(Data,tid);
-  }
 
 
-  postUpdatedData(data:string,grpID:string){ //Http Post in DB
+
+  postUpdatedData(data:string,grpID:string,auth_token,tid){ //SUCCESS AS ERROR
     var errorMessage;
       var successMessage;
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' +auth_token
+      })
       console.log(data)
       console.log(grpID)
     console.log("Updating data in the DB")
-    var url='http://'+environment.backend_address+'/Group/UpdateGroup?grp_id='+grpID
+    var url='http://'+environment.backend_address+'/Group/UpdateGroup?grp_id='+grpID+'&tid='+tid
 
-    return this.http.put(url,data)
+    return this.http.put(url,data,{ headers: headers })
     .subscribe(
       (response) => {                           //Next callback
        // console.log('Success:200 OK')
@@ -164,13 +180,17 @@ export class DataService{
     )
   }  
   
-  deleteGroupDb(grpID:string)
+  deleteGroupDb(grpID:string,tid:string,auth_token)
   { 
      var errorMessage;
       var successMessage;
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' +auth_token
+      })
     console.log("Group Deleted"+ grpID)
-    var url='http://'+environment.backend_address+'/Group/DeleteGroup?group_uuid='+ grpID
-   return this.http.delete(url)
+    var url='http://'+environment.backend_address+'/Group/DeleteGroup?group_uuid='+ grpID+'&tid='+tid
+   return this.http.delete(url,{ headers: headers })
    .subscribe(
     (response) => {                           //Next callback
      // console.log('Success:200 OK')
