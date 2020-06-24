@@ -62,7 +62,8 @@ export class SettingPageComponent  implements AfterViewInit {
   TempManArray:any[]=[];
   accessToken:string;
   refreshToken:string;
-  errorflag:boolean=false
+  //errorflag:boolean=false
+  errorflag:boolean=true
   errorMessage:string
  
  
@@ -87,36 +88,36 @@ export class SettingPageComponent  implements AfterViewInit {
 
   ngAfterViewInit(){
 
-    this.accessToken= localStorage.getItem('Access_Token')
-    this.refreshToken=localStorage.getItem('Refresh_Token')
+    // this.accessToken= localStorage.getItem('Access_Token')
+    // this.refreshToken=localStorage.getItem('Refresh_Token')
 
-    var lala=this.dataService.getLoggedInUser(this.accessToken)
-    lala
-    .subscribe(
-      (response) => {                           //Next callback
-       console.log('Success:200 OK')
-       console.log(response['role'])
-       if(response['role']=="ACCOUNT_ADMIN")
-       {
-        this.errorflag=true 
+    // var lala=this.dataService.getLoggedInUser(this.accessToken)
+    // lala
+    // .subscribe(
+    //   (response) => {                           //Next callback
+    //    console.log('Success:200 OK')
+    //    console.log(response['role'])
+    //    if(response['role']=="ACCOUNT_ADMIN")
+    //    {
+    //     this.errorflag=true 
         
 
-       }
-       else
-       {
-         this.errorMessage="Unauthorised: Not an Admin"
-       }
+    //    }
+    //    else
+    //    {
+    //      this.errorMessage="Unauthorised: Not an Admin"
+    //    }
        
-      },
-      (error) => {
-        this.errorflag=false      
+    //   },
+    //   (error) => {
+    //     this.errorflag=false      
       
-       // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
-        this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
-        console.log('Error thrown -> token:',this.errorMessage)
-      }
-    )
-    console.log(lala) 
+    //    // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
+    //     this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
+    //     console.log('Error thrown -> token:',this.errorMessage)
+    //   }
+    // )
+    // console.log(lala) 
     
 
     this.route.queryParams
