@@ -51,14 +51,15 @@
             <div class="modal-content" style="height: 6.8in; width: 10in;">
 
                 Modal Heading --> 
-            <div class="modal-header">
-                    <h6 class="modal-title" >Change Settings for Call Recordings</h6>      
+           <div class="container">
+            <div class="header" style="margin-bottom: 5px;">
+                    <h6 class="title" >Change Settings for Call Recordings</h6>      
             </div> 
 
                 <form (ngSubmit)="UserDetails()">
 
                 <!-- Modal Body -->
-                <div class="modal-body">
+                <div class="form-body">
                         
                     <!-- Role Dropdown -->
                     <label >Record Management Access <ng-template #popContent  >
@@ -162,11 +163,12 @@
 
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="OnClose()" >Close</button>
+                       <div class="form-footer" style="float: right;">
+                    <button type="button" style="margin-right:2px;" class="btn btn-secondary" (click)="OnClose()" >Close</button>
                     <button type="submit"[disabled]="saveflag" class="btn btn-primary" > Save</button>
                 </div>
                 </form>
+        </div>
 
         
     
