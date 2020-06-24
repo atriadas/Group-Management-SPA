@@ -230,6 +230,11 @@ export class DataService{
     return res
   
   } 
+
+  getNewToken(data)
+  {
+     return this.http.post("https://authentication.us.dev.api.mitel.io/2017-09-01/token",data)
+  }
   
 
 }

@@ -167,6 +167,11 @@ export class Data2Service{
   } 
 
 
+  getNewToken(data)
+  {
+     return this.http.post("https://authentication.us.dev.api.mitel.io/2017-09-01/token",data)
+  }
+
 }
 
 //  export class MessageService {

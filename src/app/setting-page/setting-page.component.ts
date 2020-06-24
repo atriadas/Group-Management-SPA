@@ -63,8 +63,10 @@ export class SettingPageComponent  implements AfterViewInit {
   accessToken:string;
   refreshToken:string;
   //errorflag:boolean=false
-  errorflag:boolean=true
+  errorflag:boolean=false
   errorMessage:string
+  j=0
+  private updateSubscription: Subscription;
  
  
 
@@ -88,51 +90,94 @@ export class SettingPageComponent  implements AfterViewInit {
 
   ngAfterViewInit(){
 
-    // this.accessToken= localStorage.getItem('Access_Token')
-    // this.refreshToken=localStorage.getItem('Refresh_Token')
 
-    // var lala=this.dataService.getLoggedInUser(this.accessToken)
-    // lala
-    // .subscribe(
-    //   (response) => {                           //Next callback
-    //    console.log('Success:200 OK')
-    //    console.log(response['role'])
-    //    if(response['role']=="ACCOUNT_ADMIN")
-    //    {
-    //     this.errorflag=true 
-        
-
-    //    }
-    //    else
-    //    {
-    //      this.errorMessage="Unauthorised: Not an Admin"
-    //    }
-       
-    //   },
-    //   (error) => {
-    //     this.errorflag=false      
-      
-    //    // console.error('error caughtMissing query param: 400 Bad Request  {"ErrorCode":2,"ErrorLog":"Group uuid is missing"} in component')
-    //     this.errorMessage = 'Error:'+ error.status +' '+ error.error['message'];
-    //     console.log('Error thrown -> token:',this.errorMessage)
-    //   }
-    // )
-    // console.log(lala) 
     
 
     this.route.queryParams
     .subscribe(params => {
       this.tid = params.tenantuuid;
     });
-    this.accessToken= localStorage.getItem('Access_Token')
-    this.refreshToken=localStorage.getItem('Refresh_Token')
 
-    console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
     console.log('tid=',this.tid)
+    this.token()
     this.loadPeople();
     // this.openModal.nativeElement.click();//modal open
     this.getdbdata() //get groups
 
+
+  }
+  token() {
+    this.j = this.j + 1;
+
+    this.accessToken = localStorage.getItem('Access_Token')// fetching the access toke from local storage
+    this.refreshToken = localStorage.getItem('Refresh_Token')
+    console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
+    var validtoken = this.dataService.getLoggedInUser(this.accessToken)
+
+    validtoken
+      .subscribe(
+        (response) => {                           //Next callback
+          console.log('Success:200 OK')
+          console.log(response['role'])
+          if (response['role'] == "ACCOUNT_ADMIN") {
+            this.errorflag = true
+            var expiryTime = response['exp'];
+            console.log("exp->", expiryTime);
+            const now = new Date()
+            const secondsSinceEpoch = Math.round(now.getTime() / 1000)
+            console.log("current epoch time->", secondsSinceEpoch)
+            var remTime = (expiryTime - secondsSinceEpoch) * 1000 //milliseconds
+            console.log(remTime);
+            var i = 0;
+
+            this.updateSubscription = interval(remTime-2000).subscribe( //Buffer time of 2 secs
+              (val) => {
+                i = i + 1;
+                if (i > 1) {
+                  console.log("token expired")
+                  var userdto: any = {};
+                  userdto["grant_type"] = "refresh_token"
+                  userdto["token"] = this.refreshToken
+                  var data = this.dataService.getNewToken(JSON.stringify(userdto))
+                  data.subscribe(
+                    (response) => {
+                      console.log('Success:200 OK')
+                      var newAccessToken = response["access_token"]
+                      var newRefreshToken = response["refresh_token"]
+                      localStorage.setItem("Access_Token", newAccessToken);
+                      localStorage.setItem("Refresh_Token", newRefreshToken);
+                      localStorage.setItem("tokenchange", this.j.toString())//token changed counter
+                      console.log("new access token", newAccessToken, "new refresh token", newRefreshToken)
+                      this.token();
+
+                    },
+                    (error)=>{
+                      console.log(error)
+                    })
+                }
+              }
+            );
+
+
+          }
+          else {
+            this.errorMessage = "Unauthorised: Not an Admin"
+          }
+
+
+
+
+
+
+
+        },
+        (error) => {
+          this.errorflag = false
+          this.errorMessage = 'Error:' + error.status + ' ' + error.error['message'];
+          console.log('Error thrown -> token:', this.errorMessage)
+        }
+      )
+    console.log(validtoken)
 
   }
 
