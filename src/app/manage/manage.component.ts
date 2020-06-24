@@ -128,6 +128,10 @@ export class ManageComponent implements OnInit {
       
       this.selectedPersons1 = x['MembersofGroup'];
       this.selectedPersons = x['SupervisorofGroup'];
+        if(this.selectedPersons==null)
+      {
+        this.selectedPersons=[]
+      }
       console.log(this.selectedPersons)
       for(var i in this.selectedPersons)
       {
@@ -387,15 +391,15 @@ export class ManageComponent implements OnInit {
 
     var res=this.dataService.putHTTPData(stringData,this.userId,this.accessToken)
 
-    res.subscribe(
+  res.subscribe(
           (response) => {                           
            console.log('Success:200 OK') 
-           parent.postMessage("successfully_saved", "*");         
+           parent.postMessage("SAVE_SUCCESSFULL", "*");         
           },
           (error) => {     
             this.errorMessage = error
             console.log('Error thrown ->',this.errorMessage)
-            parent.postMessage("Failure", "*");
+            parent.postMessage("SAVE_FAILED", "*");
           }
         )
 
@@ -409,7 +413,7 @@ export class ManageComponent implements OnInit {
   OnClose()
   {
     //window.postMessage("Close Modal", "window");
-    parent.postMessage("close_modal", "*");
+    parent.postMessage("CLOSE_MODAL", "*");
   }
   
    loadPeople() {  // ng select 
