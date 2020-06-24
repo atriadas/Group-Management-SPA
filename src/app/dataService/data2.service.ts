@@ -123,7 +123,9 @@ export class Data2Service{
       'Authorization': 'Bearer ' +auth_token
     })
     var url='http://'+environment.backend_address+'/Group/ConfigureUsers?user_uuid='+uid
-     return this.http.put(url,data, { headers: headers });
+    const options = {responseType: 'OK' as 'json',headers: headers};
+    // const response = this.http.put(url, data, options).toPromise();
+     return this.http.put(url,data,options);
 
     // return this.http.put(url,data).pipe(
     //   catchError(err => {
