@@ -127,10 +127,10 @@ export class SettingPageComponent  implements AfterViewInit {
             const secondsSinceEpoch = Math.round(now.getTime() / 1000)
             console.log("current epoch time->", secondsSinceEpoch)
             var remTime = (expiryTime - secondsSinceEpoch) * 1000 //milliseconds
-            console.log(remTime);
+            console.log(remTime-5000);
             var i = 0;
 
-            this.updateSubscription = interval(remTime-2000).subscribe( //Buffer time of 2 secs
+            this.updateSubscription = interval(remTime-5000).subscribe( //Buffer time of 2 secs
               (val) => {
                 i = i + 1;
                 if (i > 1) {
@@ -278,7 +278,8 @@ export class SettingPageComponent  implements AfterViewInit {
         this.closeLoadButton.nativeElement.click();
         this.alertButton.nativeElement.click();
         console.log(this.groupName)
-        setTimeout(() => {  this.closeAlertButton.nativeElement.click(); }, 4000);
+        var close=this.closeAlertButton.nativeElement;
+        setTimeout(() => {close.click(); }, 2000);
         var postGroup2: any = {}
         postGroup2['Groupname'] = this.groupName
         postGroup2['Supervisor_uuid'] = this.customerArray2
@@ -313,7 +314,8 @@ export class SettingPageComponent  implements AfterViewInit {
         this.closeLoadButton.nativeElement.click();
         this.alertButton.nativeElement.click();
         console.log(this.groupName)
-        setTimeout(() => { this.closeAlertButton.nativeElement.click(); }, 2000);
+        var close=this.closeAlertButton.nativeElement;
+        setTimeout(() => {close.click(); }, 2000);
         var postGroup2: any = {}
         postGroup2["Groupname"] = this.groupName
         postGroup2["members_toadd"] = this.customerArray

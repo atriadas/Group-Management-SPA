@@ -450,7 +450,7 @@ export class ManageComponent implements OnInit {
 
     this.saveflag = true
 
-    setTimeout(() => { this.getuserinfo(); }, 2000);
+    setTimeout(() => { this.getuserinfo(); }, 3000);
   }
 
 

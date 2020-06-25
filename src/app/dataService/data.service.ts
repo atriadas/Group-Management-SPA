@@ -137,7 +137,8 @@ export class DataService{
     })
     console.log("Posting data to DB")
     var url='http://'+environment.backend_address+'/createGroup?tid='+tid
-    return this.http.post(url,data,{ headers: headers }).subscribe(res=>this.Success(res),res=>{
+    const options = {responseType: 'OK' as 'json',headers: headers};
+    return this.http.post(url,data,options).subscribe(res=>this.Success(res),res=>{
       return this.Error(res);
   });
   }  
@@ -164,11 +165,12 @@ export class DataService{
       console.log(grpID)
     console.log("Updating data in the DB")
     var url='http://'+environment.backend_address+'/Group/UpdateGroup?grp_id='+grpID+'&tid='+tid
+    const options = {responseType: 'OK' as 'json',headers: headers};
 
-    return this.http.put(url,data,{ headers: headers })
+    return this.http.put(url,data,options)
     .subscribe(
       (response) => {                           //Next callback
-       // console.log('Success:200 OK')
+        console.log('Success:200 OK')
         successMessage=response
         console.log(successMessage)
       },
