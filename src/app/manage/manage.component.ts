@@ -111,13 +111,12 @@ export class ManageComponent implements OnInit {
             console.log("current epoch time->", secondsSinceEpoch)
             var remTime = (expiryTime - secondsSinceEpoch) * 1000 //milliseconds
             console.log(remTime);
-            var i = 0;
+            
 
-            this.updateSubscription = interval(remTime-2000).subscribe( //Buffer time of 2 secs
+            this.updateSubscription = interval(remTime-5000).subscribe( //Buffer time of 5 secs
               (val) => {
-                i = i + 1;
-                if (i > 1) {
                   console.log("token expired")
+
                   var userdto: any = {};
                   userdto["grant_type"] = "refresh_token"
                   userdto["token"] = this.refreshToken
@@ -129,15 +128,16 @@ export class ManageComponent implements OnInit {
                       var newRefreshToken = response["refresh_token"]
                       localStorage.setItem("Access_Token", newAccessToken);
                       localStorage.setItem("Refresh_Token", newRefreshToken);
-                      localStorage.setItem("tokenchange", this.j.toString())//token changed counter
-                      console.log("new access token", newAccessToken, "new refresh token", newRefreshToken)
-                      this.token();
+                     localStorage.setItem("tokenchange", this.j.toString())//token changed counter
+                     console.log("new access token", newAccessToken, "new refresh token", newRefreshToken)
+                       this.token();
 
                     },
                     (error)=>{
                       console.log(error)
                     })
-                }
+                  this.updateSubscription.unsubscribe();
+                
               }
             );
 

@@ -128,12 +128,11 @@ export class SettingPageComponent  implements AfterViewInit {
             console.log("current epoch time->", secondsSinceEpoch)
             var remTime = (expiryTime - secondsSinceEpoch) * 1000 //milliseconds
             console.log(remTime-5000);
-            var i = 0;
+          
 
-            this.updateSubscription = interval(remTime-5000).subscribe( //Buffer time of 2 secs
+            this.updateSubscription = interval(remTime-5000).subscribe( //Buffer time of 5 secs
               (val) => {
-                i = i + 1;
-                if (i > 1) {
+               
                   console.log("token expired")
                   var userdto: any = {};
                   userdto["grant_type"] = "refresh_token"
@@ -149,12 +148,13 @@ export class SettingPageComponent  implements AfterViewInit {
                       localStorage.setItem("tokenchange", this.j.toString())//token changed counter
                       console.log("new access token", newAccessToken, "new refresh token", newRefreshToken)
                       this.token();
+                      this.updateSubscription.unsubscribe();
 
                     },
                     (error)=>{
                       console.log(error)
                     })
-                }
+                
               }
             );
 
