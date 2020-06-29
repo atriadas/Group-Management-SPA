@@ -1,4 +1,4 @@
-<div  *ngIf="!errorflag" >{{errorMessage}}</div>
+<div *ngIf="!errorflag">{{errorMessage}}</div>
 <html *ngIf="errorflag">
 
 <head>
@@ -24,7 +24,7 @@
 
   <!-- API BUTTON -->
 
-   <!-- <button type="button" (click)='mockfunction()'>api</button>  -->
+  <!-- <button type="button" (click)='mockfunction()'>api</button>  -->
   <!-- <br> -->
   <!-- <div *ngFor='let item of dataArray'>
     <div>{{item.firstname}} {{item.lastname}}</div>
@@ -36,14 +36,14 @@
   <div class="backdrop" [ngStyle]="{'display':mainModalOpen}"></div>-->
   <!-- <button id="openModal" #openModal [hidden]="true" 
   data-toggle="modal" data-target="#exampleModalCenter"></button> -->
-  
+
   <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" data-backdrop='static'
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
     <div class="modal-dialog modal-lg modal-dialog-centerd">
       <div class="modal-content" style="height:890px; "> -->
-        <!-- MAIN MODAL HEADER (click)="CanOpen()"  style="margin-top: 10px;"    [routerLink]="['']"(click)="CloseModalOnCross()" -->
+  <!-- MAIN MODAL HEADER (click)="CanOpen()"  style="margin-top: 10px;"    [routerLink]="['']"(click)="CloseModalOnCross()" -->
 
-        <!-- <div class="modal-header" style="border-bottom:0 none;margin-left: -10px;">
+  <!-- <div class="modal-header" style="border-bottom:0 none;margin-left: -10px;">
           <p class="modal-title" id="exampleModalCenterTitle"><b>Call Recording Settings</b></p>
           <button  data-dismiss="modal"  (click)="CloseModalOnCross()" type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -51,536 +51,543 @@
         </div> -->
 
 
-        <!-- MAIN MODAL BODY -->
-<!-- 
+  <!-- MAIN MODAL BODY -->
+  <!-- 
         <div class="modal-body" style="height: 7.45in;"> -->
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-4 col-sm-4 col-xs-4" ><h6>Call Recording Settings</h6></div>
-              </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-4">
+        <h6>Call Recording Settings</h6>
+      </div>
+    </div>
 
-            <!-- NO GROUP PAGE -->
-            <div *ngIf="isOn&&noGroupFlag == 0">
-            <div class="row">
-                <div class="col-md-4 col-sm-4 col-xs-4">
-              <h6>Groups</h6>
-            </div>
+    <!-- NO GROUP PAGE -->
+
+    <div *ngIf="isOn&&noGroupFlag == 0">
+      <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+          <h6>Groups</h6>
         </div>
-              <div class="row">
-                <div class="col-md-4 col-sm-4 col-xs-4" >
-                  <div align="center" id="newGroup">
-                      <a id="bigtex">You have no groups</a>
-                    <br> <a id="smaltex" style="font-size: 83.33%;">Set up groups to control access to <br> call
-                      recordings</a><br><br>
-                    <button (click)="NewGroup()" id="grpbtn">New group</button>
-                  </div>
-                </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4 offset-4">
+          <div align="center" id="newGroup">
+            <a id="bigtex">You have no groups</a>
+            <br> <a id="smaltex" style="font-size: 83.33%;">Set up groups to control access to <br> call
+              recordings</a><br><br>
+            <button (click)="NewGroup()" id="grpbtn">New group</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- MAIN PAGE BEGINS -->
+
+    <div class="row" *ngIf="!isOn || noGroupFlag == 1 ">
+
+      <div class="col-md-4 col-sm-4 col-xs-4">
+
+        <h6>Groups</h6>
+        <button id="leftaddstyle" style="float: right;margin-bottom: 5px;" (click)="addgroup()">Add</button>
+
+        <input class="form-control mr-sm-2" style="font-size: 75%;" id="myInput2" type="text" [(ngModel)]="term3"
+          placeholder="Search" aria-label="Search">
+        <br>
+
+
+        <!-- GROUPS BUTTONS -->
+
+        <div><button *ngFor='let item of dataArray | groupFilter:term3' (click)="showdata(item.GroupId)"
+            style="font-size: 8pt;" id="leftList">
+            {{item.Groupname}}</button>
+        </div>
+
+        <!-- NEW GROUP BUTTON -->
+
+        <div><button *ngIf="addgroupbutton==true&&addFlag==1" style="font-size: 75%;" id="leftList">
+            {{groupName}}</button>
+        </div>
+      </div>
+
+
+
+
+
+
+      <!-- RIGHT COLUMN CODE -->
+
+      <!-- GROUPNAME (change)="OnGroupNameChange()" -->
+
+      <div class="col-md-8 col-sm-8 col-xs-8" *ngIf="addgroupbutton==true"
+        style="border-left: 1px solid rgb(231, 231, 231);">
+        <label style="font-size: 75%;">Name</label>
+        <input class="form-control" style="font-size: 75%;" [(ngModel)]="groupName" type="text" placeholder="Enter Name"
+          aria-label="name" (change)="OnGroupNameChange()">
+
+
+        <!-- NAV TABS -->
+
+        <nav style="margin-top: 1%;">
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+              aria-controls="nav-home" aria-selected="true">Members <span class="badge">{{numberMember}}</span></a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+              aria-controls="nav-profile" aria-selected="false">Managers <span
+                class="badge">{{numberManager}}</span></a>
+          </div>
+        </nav>
+
+
+        <!-- NAV CONTENTS -->
+
+
+        <div class="tab-content" id="nav-tabContent">
+
+
+          <!-- MEMBER TAB -->
+
+
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+
+            <!-- NG SELECT MEMBER DROPDOWN -->
+
+
+            <div class="row" style="margin-top: 1%;">
+              <div class="col-md-12 col-sm-12" style="font-size: 75%;">
+                <label *ngIf="numberMember==0">New Member</label><br *ngIf="numberMember==0">
+                <label *ngIf="numberMember > 0">Add Member</label><br *ngIf="numberMember > 0">
+
+                <ng-select #eleme2 [items]="item$| async" bindLabel="first_name" [minTermLength]="2"
+                  typeToSearchText="Please enter 3 or more characters" notFoundText="" [typeahead]="peopleInput$"
+                  [(ngModel)]="selectedPersons1" placeholder="Start typing a username" appendTo="body"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-template ng-label-tmp let-item="item">
+                    <table>
+                      <tr>
+                        <td>{{item['first_name']}} {{item['last_name']}}</td>
+                        <!-- <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td> -->
+                      </tr>
+                    </table>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-index="index">
+
+                    <table>
+                      <tr style="font-size: 75%;">
+                        <td> {{item['first_name']}} {{item['last_name']}}</td>
+                        <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td>
+                      </tr>
+                    </table>
+                  </ng-template>
+                </ng-select>
+
+
+
+                <!-- ADD MEMBERS BUTTON -->
+
+                <button (click)="OnAdd()" style="float: right;" id="rightaddstyle" type="button">Add</button>
               </div>
             </div>
-           
 
 
 
 
+            <div *ngIf="numberMember > 0" style="margin-top: 1%;">
+
+              <!-- SEARCH FILTER FOR SELECTED MEMBERS    -->
+
+              <label style="font-size: 75%;">Selected Members</label>
+
+              <input class="form-control mr-sm-2" style="font-size: 75%;" id="myInput" type="text" placeholder="Search "
+                aria-label="Search" name="term2" [(ngModel)]="term2" (keyup)="transform1()">
 
 
-            <!-- MAIN PAGE BEGINS -->
-
-            <div class="row"  *ngIf="!isOn || noGroupFlag == 1 ">
-
-              <div class="col-md-4 col-sm-4 col-xs-4" >
-                
-                <h6>Groups</h6>
-                <button id="leftaddstyle" style="float: right;margin-bottom: 5px;"
-                  (click)="addgroup()">Add</button>
-
-                <input class="form-control mr-sm-2"  style="font-size: 75%;" id="myInput2" type="text" [(ngModel)]="term3" placeholder="Search"
-                  aria-label="Search">
-                <br>
 
 
-                <!-- GROUPS BUTTONS -->
+              <div class="list" style="margin-top: 1%; height:2.9in;font-size: 75%;">
 
-                <div ><button *ngFor='let item of dataArray | groupFilter:term3' (click)="showdata(item.GroupId)" style="font-size: 8pt;" id="leftList">
-                  {{item.Groupname}}</button>
+                <!-- SELECTED MEMBERS TABLE  style="margin-top: 1%;"|mfilter: term2 -->
+                <div *ngIf="(!term2)">
+                  <table id="myTable">
+                    <tr *ngFor="let item of selectedPersonsArr1 | paginate: config ,let i=index">
+                      <td> {{item[0]}} {{item[1]}}</td>
+                      <td style="text-align: right; color: gray;">{{item[2]}}</td>
+
+                      <td style="text-align: center;"> <a id="crossButton" (click)="removeFromList(item,0)"><i
+                            class="fa fa-times-circle" style="color:rgb(182, 179, 179);"></i></a></td>
+                    </tr>
+                  </table>
                 </div>
-                
-                <!-- NEW GROUP BUTTON -->
 
-                <div ><button *ngIf="addgroupbutton==true&&addFlag==1" style="font-size: 75%;" id="leftList">
-                  {{groupName}}</button>
+                <div *ngIf="(term2)">
+                  <div *ngIf="TempArray.length==0">Not Found</div>
+                  <table id="myTable">
+                    <tr *ngFor="let item of TempArray | paginate: config ,let i=index">
+                      <td> {{item[0]}} {{item[1]}}</td>
+                      <td style="text-align: right; color: gray;">{{item[2]}}</td>
+
+                      <td style="text-align: center;"> <a id="crossButton" (click)="removeFromList(item,0)"><i
+                            class="fa fa-times-circle" style="color:rgb(182, 179, 179);"></i></a></td>
+                    </tr>
+
+                  </table>
                 </div>
               </div>
 
 
+              <!-- PAGINATION FOR MEMBERS TAB -->
+
+              <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event"
+                *ngIf="selectedPersonsArr1.length >= 10">
 
 
-
-
-              <!-- RIGHT COLUMN CODE -->
-
-              <!-- GROUPNAME (change)="OnGroupNameChange()" -->
-  
-              <div class="col-md-8 col-sm-8 col-xs-8" *ngIf="addgroupbutton==true" style="border-left: 1px solid rgb(231, 231, 231);" >
-                <label style="font-size: 75%;">Name</label>
-                <input class="form-control"   style="font-size: 75%;"[(ngModel)]="groupName" type="text" placeholder="Enter Name"
-                  aria-label="name"   (change)="OnGroupNameChange()">
-            
-
-                <!-- NAV TABS -->
-
-                <nav style="margin-top: 1%;">
-                  <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                      aria-controls="nav-home" aria-selected="true">Members <span
-                        class="badge">{{numberMember}}</span></a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                      aria-controls="nav-profile" aria-selected="false">Managers <span
-                        class="badge">{{numberManager}}</span></a>
-                  </div>
-                </nav>
-                
-
-                <!-- NAV CONTENTS -->
-
-
-                <div class="tab-content" id="nav-tabContent">
-
-
-                  <!-- MEMBER TAB -->
-
-
-                  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-
-
-                   <!-- NG SELECT MEMBER DROPDOWN -->
-
-
-                    <div class="row" style="margin-top: 1%;">
-                      <div class="col-md-12 col-sm-12" style="font-size: 75%;">
-                        <label *ngIf="numberMember==0">New Member</label><br *ngIf="numberMember==0">
-                        <label *ngIf="numberMember > 0">Add Member</label><br *ngIf="numberMember > 0">
-                       
-                        <ng-select  #eleme2 [items]="item$| async" bindLabel="first_name"
-                          [minTermLength]="2" typeToSearchText="Please enter 3 or more characters" notFoundText=""
-                          [typeahead]="peopleInput$" [(ngModel)]="selectedPersons1"
-                          placeholder="Start typing a username" appendTo="body" [ngModelOptions]="{standalone: true}"
-                          >
-                          <ng-template ng-label-tmp let-item="item">
-                             <table>
-                                <tr>
-                                  <td>{{item['first_name']}} {{item['last_name']}}</td> 
-                                  <!-- <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td> -->
-                                </tr>
-                              </table>
-                            </ng-template>
-                          <ng-template ng-option-tmp let-item="item" let-index="index" >
-
-                            <table>
-                              <tr style="font-size: 75%;">
-                                <td> {{item['first_name']}} {{item['last_name']}}</td>
-                                <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td>
-                              </tr>
-                            </table>
-                          </ng-template>
-                        </ng-select>
-               
-
-
-                        <!-- ADD MEMBERS BUTTON -->
-
-                        <button (click)="OnAdd()"  style="float: right;" id="rightaddstyle" type="button">Add</button>
-                      </div>
-                    </div>
-
-
-
-                    
-                    <div *ngIf="numberMember > 0" style="margin-top: 1%;">
-
-                    <!-- SEARCH FILTER FOR SELECTED MEMBERS    -->
-
-                      <label style="font-size: 75%;">Selected Members</label>
-
-                      <input class="form-control mr-sm-2" style="font-size: 75%;" id="myInput" type="text" placeholder="Search "
-                        aria-label="Search" name="term2" [(ngModel)]="term2" (keyup)="transform1()">
-
-
-                      
-
-                      <div class="list" style="margin-top: 1%; height:2.9in;font-size: 75%;">
-
-         <!-- SELECTED MEMBERS TABLE  style="margin-top: 1%;"|mfilter: term2 -->
-                      <div *ngIf="(!term2)">
-                        <table id="myTable">
-                          <tr  *ngFor="let item of selectedPersonsArr1 | paginate: config ,let i=index">
-                            <td> {{item[0]}} {{item[1]}}</td>
-                            <td style="text-align: right; color: gray;">{{item[2]}}</td>
-
-                            <td style="text-align: center;"> <a id="crossButton"
-                                (click)="removeFromList(item,0)"><i class="fa fa-times-circle"
-                                  style="color:rgb(182, 179, 179);"></i></a></td>
-                          </tr>
-                        </table>
-                      </div>
-
-                      <div *ngIf="(term2)">
-                        <div *ngIf="TempArray.length==0">Not Found</div>
-                        <table id="myTable">
-                            <tr *ngFor="let item of TempArray | paginate: config ,let i=index">
-                            <td> {{item[0]}} {{item[1]}}</td>
-                            <td style="text-align: right; color: gray;">{{item[2]}}</td>
-
-                            <td style="text-align: center;"> <a id="crossButton"
-                                (click)="removeFromList(item,0)"><i class="fa fa-times-circle"
-                                  style="color:rgb(182, 179, 179);"></i></a></td>
-                          </tr>
-
-                        </table>
-                      </div>
-                    </div>
-                    
-
-                      <!-- PAGINATION FOR MEMBERS TAB -->
-
-                      <pagination-template #p="paginationApi" [id]="config.id"
-                        (pageChange)="config.currentPage = $event" *ngIf="selectedPersonsArr1.length >= 10">
-
-
-                        <div class="custom-pagination" style="width: 1.75in; color: rgb(9, 56, 211);  ">
-                          <table id="pagenum">
-                            <tr>
-                              <td class="pagination-first"> <a class="pageAnchor" (click)="p.setCurrent(1)"> First </a>
-                              </td>
-                              <td class="pagination-previous" [class.disabled]="p.isFirstPage()"><a class="pageAnchor"
-                                  (click)="p.previous()"> Prev </a></td>
-                              <td *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
-                                <a class="pageAnchor" (click)="p.setCurrent(page.value)"
-                                  *ngIf="p.getCurrent() !== page.value">
-                                  <span>{{ page.label }}</span>
-                                </a>
-                                <div *ngIf="p.getCurrent() === page.value">
-                                  <span>{{ page.label }}</span>
-                                </div>
-                              </td>
-                              <td class="pagination-next" [class.disabled]="p.isLastPage()"> <a class="pageAnchor"
-                                  (click)="p.next()"> Next
-                                </a></td>
-                              <td class="pagination-last"><a class="pageAnchor" (click)="p.setCurrent(p.getLastPage())">
-                                  Last </a></td>
-                            </tr>
-                          </table>
+                <div class="custom-pagination" style="width: 1.75in; color: rgb(9, 56, 211);  ">
+                  <table id="pagenum">
+                    <tr>
+                      <td class="pagination-first"> <a class="pageAnchor" (click)="p.setCurrent(1)"> First </a>
+                      </td>
+                      <td class="pagination-previous" [class.disabled]="p.isFirstPage()"><a class="pageAnchor"
+                          (click)="p.previous()"> Prev </a></td>
+                      <td *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+                        <a class="pageAnchor" (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+                          <span>{{ page.label }}</span>
+                        </a>
+                        <div *ngIf="p.getCurrent() === page.value">
+                          <span>{{ page.label }}</span>
                         </div>
-
-                      </pagination-template>
-                    </div>
-
-                    
-
-
-                    
-                     <!-- WHEN NO MEMBER IS ADDED -->
-                     
-
-                    <div id="noNames" *ngIf="numberMember==0" style="font-size: 83.33%; ">
-                        <a  id="bigtex">There are no members.</a>
-                      <br> <a style="font-size: 75%;" id="smaltex">Start typing a name above to add<br>a member.
-                      </a><br><br>
-
-                    </div>
+                      </td>
+                      <td class="pagination-next" [class.disabled]="p.isLastPage()"> <a class="pageAnchor"
+                          (click)="p.next()"> Next
+                        </a></td>
+                      <td class="pagination-last"><a class="pageAnchor" (click)="p.setCurrent(p.getLastPage())">
+                          Last </a></td>
+                    </tr>
+                  </table>
                 </div>
 
+              </pagination-template>
+            </div>
 
 
-                  <!-- MANAGER TAB -->
 
 
-                  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            <!-- WHEN NO MEMBER IS ADDED -->
 
 
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12" style="margin-top: 1%; font-size: 75%;">
+            <div id="noNames" *ngIf="numberMember==0" style="font-size: 83.33%; ">
+              <a id="bigtex">There are no members.</a>
+              <br> <a style="font-size: 75%;" id="smaltex">Start typing a name above to add<br>a member.
+              </a><br><br>
 
-                        <!-- NG SELECT FOR MANGER DROPDOWN -->
-
-                        <label *ngIf="numberManager==0">New Manager</label><br *ngIf="numberManager==0">
-                        <label *ngIf="numberManager > 0">Add Manager</label><br *ngIf="numberManager > 0">
+            </div>
+          </div>
 
 
-                        <ng-select #elem [items]="item$ | async" [typeahead]="peopleInput$" bindLabel="first_name"
-                           [minTermLength]="2" placeholder="Start typing a username"
-                          [(ngModel)]="selectedPersons" [ngModelOptions]="{standalone: true}" [hideSelected]="true"
-                          typeToSearchText="Please enter 3 or more characters" notFoundText="" appendTo="body" id="groupManager">
 
-                          <ng-template ng-label-tmp let-item="item">
-                            <!-- <table>
+          <!-- MANAGER TAB -->
+
+
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12" style="margin-top: 1%; font-size: 75%;">
+
+                <!-- NG SELECT FOR MANGER DROPDOWN -->
+
+                <label *ngIf="numberManager==0">New Manager</label><br *ngIf="numberManager==0">
+                <label *ngIf="numberManager > 0">Add Manager</label><br *ngIf="numberManager > 0">
+
+
+                <ng-select #elem [items]="item$ | async" [typeahead]="peopleInput$" bindLabel="first_name"
+                  [minTermLength]="2" placeholder="Start typing a username" [(ngModel)]="selectedPersons"
+                  [ngModelOptions]="{standalone: true}" [hideSelected]="true"
+                  typeToSearchText="Please enter 3 or more characters" notFoundText="" appendTo="body"
+                  id="groupManager">
+
+                  <ng-template ng-label-tmp let-item="item">
+                    <!-- <table>
                                <tr>
                                  <td></td> 
                                <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td> 
                                </tr>
                              </table> -->
-                             <span>{{item['first_name']}} {{item['last_name']}}</span>
-                           </ng-template>
+                    <span>{{item['first_name']}} {{item['last_name']}}</span>
+                  </ng-template>
 
-                          <ng-template ng-option-tmp let-item="item" let-index="index">
+                  <ng-template ng-option-tmp let-item="item" let-index="index">
 
-                            <table>
-                              <tr style="font-size: 75%;">
-                                <td> {{item['first_name']}} {{item['last_name']}}</td>
-                                <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td>
-                              </tr>
-                            </table>
-                          </ng-template>
+                    <table>
+                      <tr style="font-size: 75%;">
+                        <td> {{item['first_name']}} {{item['last_name']}}</td>
+                        <td style="text-align: right; color: gray;">{{item['user_guiname']}}</td>
+                      </tr>
+                    </table>
+                  </ng-template>
 
-                        </ng-select>
-
-
-              
-                         <!-- ADD BUTTON FOR MANAGERS -->
-
-                        <button id="rightaddstyle"style="float: right;" (click)="OnAdd1()">Add</button>
-                      </div>
-                    </div>
-
-                    <div *ngIf="numberManager > 0" style="margin-top: 1%;">
-
-                      <!-- SEARCH FILTER FOR SELECTED MANAGERS -->
+                </ng-select>
 
 
-                      <label style="font-size:75%;">Selected Managers</label>
-                      <input style="font-size: 75%;" class="form-control mr-sm-2" id="myInput1" (keyup)="transformMan()"  type="text" placeholder="Search"
-                        [(ngModel)]="term">
-                      
 
-                      <div class="list" style="height: 2.9in;font-size: 75%;margin-top: 1%;">
-                        <!-- | mfilter:term -->
+                <!-- ADD BUTTON FOR MANAGERS -->
 
-                        <!-- TABLE FOR SELECTED MANGERS  mfilter:term -->
-                        <div *ngIf="(!term)">
-                        <table id="myTable">
-                          <tr *ngFor="let item of selectedPersonsArr | paginate: config1 ,let i=index">
-                            <td> {{item[0]}} {{item[1]}}</td>
-                            <td style="text-align: right; color: gray;">{{item[2]}}</td>
+                <button id="rightaddstyle" style="float: right;" (click)="OnAdd1()">Add</button>
+              </div>
+            </div>
 
-                            <td style="text-align: center;"> <a id="crossButton"
-                                (click)="removeFromList(item,1)"><i class="fa fa-times-circle"
-                                  style="color:rgb(182, 179, 179);"></i></a></td>
-                          </tr>
+            <div *ngIf="numberManager > 0" style="margin-top: 1%;">
 
-                        </table>
-                      </div>
-
-                        <div *ngIf="(term)">
-                          <div *ngIf="TempManArray.length==0">Not Found</div>
-                          <table id="myTable">
-                              <tr *ngFor="let item of TempManArray | paginate: config1 ,let i=index">
-                              <td> {{item[0]}} {{item[1]}}</td>
-                              <td style="text-align: right; color: gray;">{{item[2]}}</td>
-  
-                              <td style="text-align: center;"> <a id="crossButton"
-                                  (click)="removeFromList(item,1)"><i class="fa fa-times-circle"
-                                    style="color:rgb(182, 179, 179);"></i></a></td>
-                            </tr>
-  
-                          </table>
-                        </div>
-                      </div>
-
-                      <!-- PAGINATION FOR MANAGERS -->
-
-                      <pagination-template #q="paginationApi" [id]="config1.id"
-                        (pageChange)="config1.currentPage = $event" *ngIf="selectedPersonsArr.length >= 10">
+              <!-- SEARCH FILTER FOR SELECTED MANAGERS -->
 
 
-                        <div class="custom-pagination" style="width: 1.75in; color: rgb(9, 56, 211);  ">
-                          <table id="pagenum1">
-                            <tr>
-                              <td class="pagination-first"> <a (click)="q.setCurrent(1)"> First </a></td>
-                              <td class="pagination-previous" [class.disabled]="q.isFirstPage()"><a
-                                  (click)="q.previous()"> Prev </a></td>
-                              <td *ngFor="let page of q.pages" [class.current]="q.getCurrent() === page.value">
-                                <a (click)="q.setCurrent(page.value)" *ngIf="q.getCurrent() !== page.value">
-                                  <span>{{ page.label }}</span>
-                                </a>
-                                <div *ngIf="q.getCurrent() === page.value">
-                                  <span>{{ page.label }}</span>
-                                </div>
-                              </td>
-                              <td class="pagination-next" [class.disabled]="q.isLastPage()"> <a (click)="q.next()"> Next
-                                </a></td>
-                              <td class="pagination-last"><a (click)="q.setCurrent(q.getLastPage())"> Last </a></td>
-                            </tr>
-                          </table>
-                        </div>
-
-                      </pagination-template>
-
-                    </div>
-
-                    <!-- WHEN NO MANGER IS ADDED -->
-
-                   
-
-                    <div id="noNames" *ngIf="numberManager==0" style="font-size: 83.33%;">
-                        <a id="bigtex">There are no managers.</a>
-                      <br> <a  id="smaltex" style="font-size: 75%">Start typing a name above to add<br>a manager.</a><br><br>
-
-                    </div>
-                
+              <label style="font-size:75%;">Selected Managers</label>
+              <input style="font-size: 75%;" class="form-control mr-sm-2" id="myInput1" (keyup)="transformMan()"
+                type="text" placeholder="Search" [(ngModel)]="term">
 
 
-                  </div>
+              <div class="list" style="height: 2.9in;font-size: 75%;margin-top: 1%;">
+                <!-- | mfilter:term -->
 
+                <!-- TABLE FOR SELECTED MANGERS  mfilter:term -->
+                <div *ngIf="(!term)">
+                  <table id="myTable">
+                    <tr *ngFor="let item of selectedPersonsArr | paginate: config1 ,let i=index">
+                      <td> {{item[0]}} {{item[1]}}</td>
+                      <td style="text-align: right; color: gray;">{{item[2]}}</td>
+
+                      <td style="text-align: center;"> <a id="crossButton" (click)="removeFromList(item,1)"><i
+                            class="fa fa-times-circle" style="color:rgb(182, 179, 179);"></i></a></td>
+                    </tr>
+
+                  </table>
                 </div>
 
-           <div class="row">
+                <div *ngIf="(term)">
+                  <div *ngIf="TempManArray.length==0">Not Found</div>
+                  <table id="myTable">
+                    <tr *ngFor="let item of TempManArray | paginate: config1 ,let i=index">
+                      <td> {{item[0]}} {{item[1]}}</td>
+                      <td style="text-align: right; color: gray;">{{item[2]}}</td>
 
-           <div class="col-md-9 col-sm-9">   
-          <button id="deletestyle"type="button" data-backdrop='static' data-toggle="modal" data-target="#deleteModal"
-          ><i class="fa fa-trash-o"></i> Delete</button>
-          <!-- [ngStyle]="{'display': exampleModalOpen ? 'block' : 'none', 'opacity': 1}" -->
-        <div class="modal fade " id="deleteModal"   tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered  "style="height: 2in; width: 4in;" role="document">
-            <div class="modal-content"  style="border-radius: 5%;">
-              <div class="modal-header">
-                <h5 class="modal-title"   style="font-size: 83.333%;" id="exampleModalLabel">Delete Group?</h5>
-                <button type="button"class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" style="padding-bottom: 0; height: 1in;">
-                <div class="row">
-                  <div class="col-md-3 col-sm-3" style="margin-top:2%">
-                    <img style="height: 60%; " src="../assets/img.png">
+                      <td style="text-align: center;"> <a id="crossButton" (click)="removeFromList(item,1)"><i
+                            class="fa fa-times-circle" style="color:rgb(182, 179, 179);"></i></a></td>
+                    </tr>
 
-                  </div>
-                  <div class=" col-md-9 col-sm-9" style="margin-top:1%;font-size: 75%; padding-right: 0;">
-
-                    <p>
-                      The "Admins" group will be permanantly deleted <br>
-                      <a style="opacity: 60%;">This cannot be undone. Are you sure you want to coninue?</a>
-
-                    </p>
-
-                  </div>
+                  </table>
                 </div>
               </div>
 
-              <div class="modal-footer">
+              <!-- PAGINATION FOR MANAGERS -->
 
-                <button type="button" style="font-size: 75%;" class="btn btn-secondary"  data-dismiss="modal"  (click)="deleteGroup()">Confirm Deletion</button>
-                <button type="button" style="font-size: 75%;" class="btn btn-primary"  data-dismiss="modal">Cancel</button>
+              <pagination-template #q="paginationApi" [id]="config1.id" (pageChange)="config1.currentPage = $event"
+                *ngIf="selectedPersonsArr.length >= 10">
+
+
+                <div class="custom-pagination" style="width: 1.75in; color: rgb(9, 56, 211);  ">
+                  <table id="pagenum1">
+                    <tr>
+                      <td class="pagination-first"> <a (click)="q.setCurrent(1)"> First </a></td>
+                      <td class="pagination-previous" [class.disabled]="q.isFirstPage()"><a (click)="q.previous()"> Prev
+                        </a></td>
+                      <td *ngFor="let page of q.pages" [class.current]="q.getCurrent() === page.value">
+                        <a (click)="q.setCurrent(page.value)" *ngIf="q.getCurrent() !== page.value">
+                          <span>{{ page.label }}</span>
+                        </a>
+                        <div *ngIf="q.getCurrent() === page.value">
+                          <span>{{ page.label }}</span>
+                        </div>
+                      </td>
+                      <td class="pagination-next" [class.disabled]="q.isLastPage()"> <a (click)="q.next()"> Next
+                        </a></td>
+                      <td class="pagination-last"><a (click)="q.setCurrent(q.getLastPage())"> Last </a></td>
+                    </tr>
+                  </table>
+                </div>
+
+              </pagination-template>
+
+            </div>
+
+            <!-- WHEN NO MANGER IS ADDED -->
+
+
+
+            <div id="noNames" *ngIf="numberManager==0" style="font-size: 83.33%;">
+              <a id="bigtex">There are no managers.</a>
+              <br> <a id="smaltex" style="font-size: 75%">Start typing a name above to add<br>a manager.</a><br><br>
+
+            </div>
+
+
+
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-9 col-sm-9">
+            <button id="deletestyle" type="button" data-backdrop='static' data-toggle="modal"
+              data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
+            <!-- [ngStyle]="{'display': exampleModalOpen ? 'block' : 'none', 'opacity': 1}" -->
+            <div class="modal fade " id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered  " style="height: 2in; width: 4in;" role="document">
+                <div class="modal-content" style="border-radius: 5%;">
+                  <div class="modal-header">
+                    <h5 class="modal-title" style="font-size: 83.333%;" id="exampleModalLabel">Delete Group?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" style="padding-bottom: 0; height: 1in;">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-3" style="margin-top:2%">
+                        <img style="height: 60%; " src="../../assets/img.png">
+
+                      </div>
+                      <div class=" col-md-9 col-sm-9" style="margin-top:1%;font-size: 75%; padding-right: 0;">
+
+                        <p>
+                          The "Admins" group will be permanantly deleted <br>
+                          <a style="opacity: 60%;">This cannot be undone. Are you sure you want to coninue?</a>
+
+                        </p>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+
+                    <button type="button" style="font-size: 75%;" class="btn btn-secondary" data-dismiss="modal"
+                      (click)="deleteGroup()">Confirm Deletion</button>
+                    <button type="button" style="font-size: 75%;" class="btn btn-primary"
+                      data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div> 
-    </div>  
 
 
 
 
-        <!-- CANCEL BUTTON [ngStyle]="{'display': exampleModal1Open ? 'block' : 'none', 'opacity': 1}" -->
-        <div class="col-md-3 col-sm-3" >
+          <!-- CANCEL BUTTON [ngStyle]="{'display': exampleModal1Open ? 'block' : 'none', 'opacity': 1}" -->
+          <div class="col-md-3 col-sm-3">
             <div class="row">
 
-        <button  id="cancelstyle" style=" width:40%; margin-right: 2%;" data-backdrop='static' data-toggle="modal" data-target="#cancelModal">Cancel</button>
-        <div class="modal fade  " id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-          aria-hidden="true" >
-          <div class="modal-dialog modal-dialog-centered " style="height: 2in; width: 4in;" role="document">
-      
-            <div class="modal-content" style="border-radius: 5%;" >
-              <div class="modal-header" >
-                <h5 class="modal-title" style="font-size: 83.33%;" id="exampleModalLabel">Discard Changes?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" style="padding-bottom: 0; height: 1in;">
-                <div class="row">
-                  <div class="col-md-3 col-sm-3" style="margin-top: 2%;">
-                    <img style="height: 65%;" src="../assets/img.png">
-                  </div>
-                  <div class=" col-md-9 col-sm-9" style="font-size: 75%;">
-                    <p >
-                      You have unsaved changes that will be lost. <br>
-                      <a style="opacity: 60%;">Are you sure you want to navigate away?</a>
-                    </p>
+              <button id="cancelstyle" style=" width:40%; margin-right: 2%;" data-backdrop='static' data-toggle="modal"
+                data-target="#cancelModal">Cancel</button>
+              <div class="modal fade  " id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered " style="height: 2in; width: 4in;" role="document">
+
+                  <div class="modal-content" style="border-radius: 5%;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" style="font-size: 83.33%;" id="exampleModalLabel">Discard Changes?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" style="padding-bottom: 0; height: 1in;">
+                      <div class="row">
+                        <div class="col-md-3 col-sm-3" style="margin-top: 2%;">
+                          <img style="height: 65%;" src="../../assets/img.png">
+                        </div>
+                        <div class=" col-md-9 col-sm-9" style="font-size: 75%;">
+                          <p>
+                            You have unsaved changes that will be lost. <br>
+                            <a style="opacity: 60%;">Are you sure you want to navigate away?</a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" style="font-size: 75%;" data-dismiss="modal" (click)="closeCanModal()"
+                        class="btn btn-secondary">Discard changes</button>
+                      <button type="button" style="font-size: 75%;" data-dismiss="modal"
+                        class="btn btn-primary">Continue Editing</button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" style="font-size: 75%;"  data-dismiss="modal" (click)="closeCanModal()" class="btn btn-secondary">Discard changes</button>
-                <button type="button" style="font-size: 75%;" data-dismiss="modal"class="btn btn-primary" >Continue Editing</button>
-              </div>
-            </div>
-          </div>
-        </div>
-  
 
 
-        <!-- SAVE BUTTON     [ngStyle]="{'display': loaderOpen ? 'block' : 'none', 'opacity': 1}"-->
-       
 
-         <button id="savestyle" *ngIf="saveUpdate==false" [disabled]="SaveDisable"class="btn btn-primary"
-          (click)="startTimer(60)">Save</button>
-          <button id="loadButton" #loadButton [hidden]="true" data-backdrop='static' data-toggle="modal" data-target="#saveModal"> </button>
-          <button id="alertButton" #alertButton [hidden]="true" data-backdrop='false' data-toggle="modal" data-target="#successModal"> </button>
-        <div class="modal fade  " id="saveModal" data-backdrop="static" tabindex="-1" role="dialog"
-          aria-labelledby="staticBackdropLabel" aria-hidden="true"
-       >
-          <div class="modal-dialog modal-dialog-centered " style="width: 1.2in;"  role="document">
-            <div class="modal-content" >
-                <button type="button"  id="closeLoadButton" #closeLoadButton [hidden]="true" class="close" data-dismiss="modal" aria-label="Close">
-                
-                  </button>
+              <!-- SAVE BUTTON     [ngStyle]="{'display': loaderOpen ? 'block' : 'none', 'opacity': 1}"-->
 
-              <div class="modal-body" >
-                
-                <p style="text-align: center;">Saving...</p>
-                <div class="spinner-border text-secondary"  style="margin-left: 30%;"role="status">
-                  <span  class="sr-only">Loading...</span>
+
+              <button id="savestyle" *ngIf="saveUpdate==false" [disabled]="SaveDisable" class="btn btn-primary"
+                (click)="startTimer(60)">Save</button>
+              <button id="loadButton" #loadButton [hidden]="true" data-backdrop='static' data-toggle="modal"
+                data-target="#saveModal"> </button>
+              <button id="alertButton" #alertButton [hidden]="true" data-backdrop='false' data-toggle="modal"
+                data-target="#successModal"> </button>
+              <div class="modal fade  " id="saveModal" data-backdrop="static" tabindex="-1" role="dialog"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered " style="width: 1.2in;" role="document">
+                  <div class="modal-content">
+                    <button type="button" id="closeLoadButton" #closeLoadButton [hidden]="true" class="close"
+                      data-dismiss="modal" aria-label="Close">
+
+                    </button>
+
+                    <div class="modal-body">
+
+                      <p style="text-align: center;">Saving...</p>
+                      <div class="spinner-border text-secondary" style="margin-left: 30%;" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- [ngStyle]="{'display': alert1Open ? 'block' : 'none', 'opacity': 1}" -->
-        <!-- <div id="alertSuc"> -->
-          <div class="modal fade bd-example-modal-sm" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog  modal-sm" role="document">
-              <div class="modal-content" id="alertBox">
-                <button type="button" id="closeAlertButton" #closeAlertButton [hidden]="true" class="close" data-dismiss="modal" aria-label="Close"></button>
+              <!-- [ngStyle]="{'display': alert1Open ? 'block' : 'none', 'opacity': 1}" -->
+              <!-- <div id="alertSuc"> -->
+              <div class="modal fade bd-example-modal-sm" id="successModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content" id="alertBox">
+                    <button type="button" id="closeAlertButton" #closeAlertButton [hidden]="true" class="close"
+                      data-dismiss="modal" aria-label="Close"></button>
 
-                <div class="modal-body" style="font-size: 75%;">
-                  Successfully saved the "{{groupName}}" group </div>
+                    <div class="modal-body" style="font-size: 75%;">
+                      Successfully saved the "{{groupName}}" group </div>
 
+                  </div>
+                </div>
               </div>
+
+              <button id="savestyle" *ngIf="saveUpdate==true" [disabled]="SaveDisable" class="btn btn-primary"
+                (click)="updateSave(60)">Save</button>
             </div>
           </div>
-        
-        <button id="savestyle"  *ngIf="saveUpdate==true"  [disabled]="SaveDisable" class="btn btn-primary"
-        (click)="updateSave(60)">Save</button>
-           </div>
         </div>
+
+      </div> <!-- COL MD 8 -->
     </div>
-
-            </div>      <!-- COL MD 8 -->
-            </div>  
-          </div>     <!-- CONTAINER -->
-        <!-- </div> -->
+  </div> <!-- CONTAINER -->
+  <!-- </div> -->
 
 
 
-        <!-- MODAL FOOTER -->
+  <!-- MODAL FOOTER -->
 
-        <!-- <div class="modal-footer" style="border: none;" *ngIf="addgroupbutton==true"> -->
+  <!-- <div class="modal-footer" style="border: none;" *ngIf="addgroupbutton==true"> -->
 
 
-          <!-- DELETE BUTTON -->
+  <!-- DELETE BUTTON -->
 
-    
-     <!-- </div> 
+
+  <!-- </div> 
 
 
      </div>

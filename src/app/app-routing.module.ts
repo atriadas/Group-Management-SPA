@@ -6,8 +6,8 @@ import { SettingPageComponent } from './setting-page/setting-page.component';
 
 
 const routes: Routes = [
-  { path: 'Settings', component: SettingPageComponent },
-  { path: 'Manage', component: ManageComponent },
+  { path: 'setting', component: SettingPageComponent },
+  { path: 'manage', component: ManageComponent },
   //{ path: 'SettingsModal', component: SettingsComponent}
 
 ];

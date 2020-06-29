@@ -49,30 +49,14 @@ export class ManageComponent implements OnInit {
   tempman: any[] = []
   tempman2: any[] = []
   tempmen: any[] = []
-  // errorflag:boolean=false
-  errorflag: boolean = false
+  errorflag:boolean=false
   errorMessage: string
   private updateSubscription: Subscription;
   j = 0
 
 
   ngOnInit() {
-    //     this.refreshToken="="
-    //    // console.log('Access_Token->',this.accessToken,'Refresh_Token->',this.refreshToken )
-    //  this.accessToken="=" 
-
-    //  localStorage.setItem("Access_Token", this.accessToken);
-    //              localStorage.setItem("Refresh_Token", this.refreshToken);
-
-
-
-    // console.log("PAGE LOADS")
-    // this.role=''
-    // this.selectedPersons=[]
-    // this.selectedPersons1=[]
-    // this.menuuid=[]
-    // this.manuuid=[]
-
+  
     this.route.queryParams//fetching query params
       .subscribe(params => {
         this.userId = params.useruuid;

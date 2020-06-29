@@ -59,9 +59,9 @@ export class Data2Service{
   items:HttpData[]=[];
   constructor(public http: HttpClient) {
   console.log("Data Service Constructor")
-    environment.backend_address = location.host //+ ":8089/spabackend"
+    environment.backend_address = location.host + ":8089/spabackend"
     console.log(environment.backend_address)
-    }
+     }
 
   getPeople(term: string = null,tid:number,auth_token): Observable<HttpData[]> {
   

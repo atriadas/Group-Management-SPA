@@ -69,7 +69,11 @@ export class Update{
 export class DataService{
   
   items:HttpData[]=[];
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {
+    console.log("Data Service Constructor")
+    environment.backend_address = location.host //+ ":8089/spabackend"
+    console.log(environment.backend_address)
+   }
   
 
   getPeople(term: string = null,tid,auth_token): Observable<HttpData[]> {
